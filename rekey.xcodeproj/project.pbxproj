@@ -13,6 +13,7 @@
 		9772EFC31FE543C700D6E9B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9772EFC11FE543C700D6E9B0 /* Main.storyboard */; };
 		9772EFCE1FE543C700D6E9B0 /* rekeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFCD1FE543C700D6E9B0 /* rekeyTests.swift */; };
 		9772EFD91FE543C700D6E9B0 /* rekeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */; };
+		97809A341FF53C2C003B9A28 /* Keycodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97809A331FF53C2C003B9A28 /* Keycodes.swift */; };
 		97EF0C1F1FE7EBFF008440E1 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97EF0C1E1FE7EBFF008440E1 /* Python.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		9772EFD41FE543C700D6E9B0 /* rekeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rekeyUITests.swift; sourceTree = "<group>"; };
 		9772EFDA1FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97809A331FF53C2C003B9A28 /* Keycodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keycodes.swift; sourceTree = "<group>"; };
 		97EF0C1E1FE7EBFF008440E1 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = ../../../../usr/local/Cellar/python3/3.6.3/Frameworks/Python.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +103,7 @@
 			children = (
 				9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */,
 				9772EFBD1FE543C700D6E9B0 /* ViewController.swift */,
+				97809A331FF53C2C003B9A28 /* Keycodes.swift */,
 				9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */,
 				9772EFC11FE543C700D6E9B0 /* Main.storyboard */,
 				9772EFC41FE543C700D6E9B0 /* Info.plist */,
@@ -272,6 +275,7 @@
 			files = (
 				9772EFBE1FE543C700D6E9B0 /* ViewController.swift in Sources */,
 				9772EFBC1FE543C700D6E9B0 /* AppDelegate.swift in Sources */,
+				97809A341FF53C2C003B9A28 /* Keycodes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
