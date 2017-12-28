@@ -98,7 +98,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        jsTextInput.isAutomaticQuoteSubstitutionEnabled=false
         jsTextInput.delegate=self
         
         // キューを生成してサブスレッドで実行
@@ -136,6 +136,10 @@ class ViewController: NSViewController, NSTextViewDelegate {
         print("starting background thread")
         // load javascript file in String
 
+        jsContext?.exceptionHandler = { context, exception in
+            print("JS Error: \(exception?.description ?? "unknown error")")
+        }
+        
         let confPath=homeDir+"/.config/rekey.js"
         if let jsSource = try? String(contentsOfFile: confPath){
             jsContext!.evaluateScript(jsSource)
