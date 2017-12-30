@@ -1,8 +1,10 @@
 //
 //  ViewController.swift
 //
-//  Created by nemoto on 2017/12/16.
+//  Created by mnemoto on 2017/12/16.
 //  Copyright © 2017年 nemoto. All rights reserved.
+//  Referenced articles:
+//    @dankogai: https://qiita.com/dankogai/items/052a3ad6f32d114a33fc
 //
 
 import Cocoa
@@ -16,8 +18,6 @@ let center = NotificationCenter.default
 extension Notification.Name {
     static let appendLog = Notification.Name("appendLog")
 }
-
-
 
 func onKeyEvent(
     proxy: CGEventTapProxy,
@@ -192,22 +192,9 @@ class ViewController: NSViewController, NSTextViewDelegate {
         isCommandPressed=event.modifierFlags.contains(NSCommandKeyMask)
     }
 
-    
-    func backgroundThread(){
-        // Do any additional setup after loading the view.
-        print("creating js engine")
-        
+    func loadConfig(){
         // get the home path directory
-        let homeDir = NSHomeDirectory()
-        
-        print("starting background thread")
-        // load javascript file in String
-
-        jsContext?.exceptionHandler = { context, exception in
-            center.post(name: .appendLog, object: "JS Error: \(exception?.description ?? "unknown error")")
-        }
-        
-        let confPath=homeDir+"/.config/rekey.js"
+        let confPath=NSHomeDirectory()+"/.config/rekey.js"
         
         if FileManager.default.fileExists(atPath: confPath){
             if let jsSource = try? String(contentsOfFile: confPath){
@@ -218,31 +205,40 @@ class ViewController: NSViewController, NSTextViewDelegate {
         } else {
             center.post(name: .appendLog, object: String(format:"user config file does not exist. %@",confPath))
         }
-
+    }
+    
+    func createEventTap(){
         let eventMask = (1<<CGEventType.flagsChanged.rawValue)|(1 << CGEventType.keyDown.rawValue) | (1 << CGEventType.keyUp.rawValue)
-        
         guard let eventTap = CGEvent.tapCreate(tap: .cgSessionEventTap,
                                                place: .headInsertEventTap,
                                                options: .defaultTap,
                                                eventsOfInterest: CGEventMask(eventMask),
                                                callback: onKeyEvent,
-                                               userInfo: nil) else {
-                                                print("failed to create event tap")
-                                                exit(1)
+                                               userInfo: nil)
+            else {
+                print("failed to create event tap")
+                exit(1)
         }
-    
-        
         let runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0)
         CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
         CGEvent.tapEnable(tap: eventTap, enable: true)
         CFRunLoopRun()
     }
     
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
+    func setUpAppIntrinsicJsObjects(){
+        jsContext?.setb1("_consoleLog") { (arg0)->Any! in
+            self.log("\(arg0 ?? "")")
         }
+        jsContext?.evaluateScript("console = { log: function(message) { _consoleLog(message) } }")
     }
-
-
+    
+    func backgroundThread(){
+        print("starting background thread")
+        jsContext?.exceptionHandler = { context, exception in
+            center.post(name: .appendLog, object: "JS Error: \(exception?.description ?? "unknown error" )")
+        }
+        setUpAppIntrinsicJsObjects()
+        loadConfig()
+        createEventTap()
+    }
 }
