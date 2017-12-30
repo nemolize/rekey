@@ -36,18 +36,18 @@
 
 /* Begin PBXFileReference section */
 		9772EFB81FE543C700D6E9B0 /* rekey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rekey.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9772EFBD1FE543C700D6E9B0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../rekey/AppDelegate.swift; sourceTree = "<group>"; };
+		9772EFBD1FE543C700D6E9B0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../rekey/ViewController.swift; sourceTree = "<group>"; };
+		9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../rekey/Assets.xcassets; sourceTree = "<group>"; };
 		9772EFC21FE543C700D6E9B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9772EFC41FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9772EFC41FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../rekey/Info.plist; sourceTree = "<group>"; };
 		9772EFC91FE543C700D6E9B0 /* rekeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9772EFCD1FE543C700D6E9B0 /* rekeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rekeyTests.swift; sourceTree = "<group>"; };
-		9772EFCF1FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9772EFCD1FE543C700D6E9B0 /* rekeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = rekeyTests.swift; path = rekeyTests/rekeyTests.swift; sourceTree = "<group>"; };
+		9772EFCF1FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = rekeyTests/Info.plist; sourceTree = "<group>"; };
 		9772EFD41FE543C700D6E9B0 /* rekeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rekeyUITests.swift; sourceTree = "<group>"; };
-		9772EFDA1FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		97809A331FF53C2C003B9A28 /* Keycodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keycodes.swift; sourceTree = "<group>"; };
+		9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = rekeyUITests.swift; path = rekeyUITests/rekeyUITests.swift; sourceTree = "<group>"; };
+		9772EFDA1FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = rekeyUITests/Info.plist; sourceTree = "<group>"; };
+		97809A331FF53C2C003B9A28 /* Keycodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keycodes.swift; path = ../rekey/Keycodes.swift; sourceTree = "<group>"; };
 		97EF0C1E1FE7EBFF008440E1 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = ../../../../usr/local/Cellar/python3/3.6.3/Frameworks/Python.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,9 +80,9 @@
 		9772EFAF1FE543C700D6E9B0 = {
 			isa = PBXGroup;
 			children = (
-				9772EFBA1FE543C700D6E9B0 /* app */,
-				9772EFCC1FE543C700D6E9B0 /* appTests */,
-				9772EFD71FE543C700D6E9B0 /* UITests */,
+				9772EFBA1FE543C700D6E9B0 /* rekey */,
+				9772EFCC1FE543C700D6E9B0 /* rekeyTests */,
+				9772EFD71FE543C700D6E9B0 /* rekeyUITests */,
 				9772EFB91FE543C700D6E9B0 /* Products */,
 				97EF0C1D1FE7EBFF008440E1 /* Frameworks */,
 			);
@@ -98,7 +98,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9772EFBA1FE543C700D6E9B0 /* app */ = {
+		9772EFBA1FE543C700D6E9B0 /* rekey */ = {
 			isa = PBXGroup;
 			children = (
 				9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */,
@@ -108,28 +108,27 @@
 				9772EFC11FE543C700D6E9B0 /* Main.storyboard */,
 				9772EFC41FE543C700D6E9B0 /* Info.plist */,
 			);
-			name = app;
-			path = osxkeyremapper;
+			path = rekey;
 			sourceTree = "<group>";
 		};
-		9772EFCC1FE543C700D6E9B0 /* appTests */ = {
+		9772EFCC1FE543C700D6E9B0 /* rekeyTests */ = {
 			isa = PBXGroup;
 			children = (
 				9772EFCD1FE543C700D6E9B0 /* rekeyTests.swift */,
 				9772EFCF1FE543C700D6E9B0 /* Info.plist */,
 			);
-			name = appTests;
-			path = osxkeyremapperTests;
+			name = rekeyTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
-		9772EFD71FE543C700D6E9B0 /* UITests */ = {
+		9772EFD71FE543C700D6E9B0 /* rekeyUITests */ = {
 			isa = PBXGroup;
 			children = (
 				9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */,
 				9772EFDA1FE543C700D6E9B0 /* Info.plist */,
 			);
-			name = UITests;
-			path = osxkeyremapperUITests;
+			name = rekeyUITests;
+			path = UITests;
 			sourceTree = "<group>";
 		};
 		97EF0C1D1FE7EBFF008440E1 /* Frameworks */ = {
@@ -417,11 +416,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/python3/3.6.3/Frameworks,
-				);
-				INFOPLIST_FILE = osxkeyremapper/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = rekey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -434,11 +430,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/python3/3.6.3/Frameworks,
-				);
-				INFOPLIST_FILE = osxkeyremapper/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = rekey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -452,9 +445,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = osxkeyremapperTests/Info.plist;
+				INFOPLIST_FILE = rekeyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.osxkeyremapperTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekeyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rekey.app/Contents/MacOS/rekey";
@@ -467,9 +460,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = osxkeyremapperTests/Info.plist;
+				INFOPLIST_FILE = rekeyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.osxkeyremapperTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekeyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rekey.app/Contents/MacOS/rekey";
@@ -481,9 +474,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = osxkeyremapperUITests/Info.plist;
+				INFOPLIST_FILE = rekeyUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.osxkeyremapperUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekeyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = osxkeyremapper;
@@ -495,9 +488,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = osxkeyremapperUITests/Info.plist;
+				INFOPLIST_FILE = rekeyUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.osxkeyremapperUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekeyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = osxkeyremapper;

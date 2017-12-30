@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/nemoto/Projects/rekey/rekey.xcodeproj">
+      location = "self:../UITests">
    </FileRef>
 </Workspace>
