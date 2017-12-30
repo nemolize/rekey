@@ -148,20 +148,24 @@ class ViewController: NSViewController, NSTextViewDelegate {
     func executeBuffer(){
         guard let jsSource=jsTextInput.string?.trimmingCharacters(in: ["\n","\t"," "]) else { return }
         guard !jsSource.isEmpty else { return }
-
-        logLabel.string? += "# > \(jsSource)\n"
+        
+        logLabel.string? += "[expression]: \(jsSource)\n"
         
         executionLock.lock()
         defer{executionLock.unlock()}
         let result = jsContext!.evaluateScript(jsSource)
-        
-        log(result!.toString())
-        if 100 < histories.count {
-            histories.removeFirst()
+        var expression = "\(result!)"
+        if result?.isString == true {
+            expression = "\"\(expression)\""
         }
-        histories.append(jsSource)
         
-        jsTextInput.string=""
+        log("=> \(expression)")
+
+        if 100 < histories.count { histories.removeFirst() }
+        histories.append(jsSource)
+
+        jsTextInput.string = ""
+        print(jsTextInput.attributedString())
         logLabel.scrollToEndOfDocument(nil)
     }
     

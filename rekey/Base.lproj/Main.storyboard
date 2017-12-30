@@ -698,7 +698,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textView editable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="bar" incrementalSearchingEnabled="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="Nv1-c5-KxO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="478" height="180"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="478" height="201"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     <size key="minSize" width="478" height="180"/>
@@ -711,8 +711,8 @@
                                             <rect key="frame" x="1" y="118" width="238" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="UmA-iY-3jY">
-                                            <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
+                                        <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="UmA-iY-3jY">
+                                            <rect key="frame" x="463" y="1" width="16" height="180"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
@@ -724,10 +724,10 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textView importsGraphics="NO" richText="NO" usesFontPanel="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="zrh-At-Cjy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="478" height="76"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="478" height="55"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <size key="minSize" width="478" height="76"/>
+                                                    <size key="minSize" width="478" height="55"/>
                                                     <size key="maxSize" width="480" height="10000000"/>
                                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </textView>
