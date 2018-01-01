@@ -3,10 +3,6 @@
 //
 //  Created by mnemoto on 2017/12/16.
 //  Copyright © 2017年 nemoto. All rights reserved.
-//  Referenced articles:
-//    @dankogai: https://qiita.com/dankogai/items/052a3ad6f32d114a33fc
-//
-
 import Cocoa
 import Foundation
 
@@ -29,50 +25,50 @@ func onKeyEvent(
     event: CGEvent,
     refcon: UnsafeMutableRawPointer?
     ) -> Unmanaged<CGEvent>?{
-
+    
     // queue processing worker thread
     DispatchQueue(label: "com.nemoto.app.processQueue").async {
         
-            if [.keyDown , .keyUp].contains(type) {
-                let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-                let isUp=type == .keyUp
-                let isRepeat = event.getIntegerValueField(CGEventField.keyboardEventAutorepeat)
-        
-                executionLock.lock()
-                defer{executionLock.unlock()}
-        
-                // call js code
-                if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
-                    if !mainFunc.isUndefined {
-                        let result = mainFunc.call(withArguments: [keyCode,
-                                                      event.flags.rawValue,
-                                                      isRepeat,
-                                                      isUp])
-                        if result?.isBoolean == true && result?.toBool() == true { return }
-                    }
+        if [.keyDown , .keyUp].contains(type) {
+            let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+            let isUp=type == .keyUp
+            let isRepeat = event.getIntegerValueField(CGEventField.keyboardEventAutorepeat)
+            
+            executionLock.lock()
+            defer{executionLock.unlock()}
+            
+            // call js code
+            if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
+                if !mainFunc.isUndefined {
+                    let result = mainFunc.call(withArguments: [keyCode,
+                                                               event.flags.rawValue,
+                                                               isRepeat,
+                                                               isUp])
+                    if result?.isBoolean == true && result?.toBool() == true { return }
                 }
             }
-            else if [.flagsChanged].contains(type){
-                let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-                let isUp=type == .keyUp
-                let isRepeat = event.getIntegerValueField(CGEventField.keyboardEventAutorepeat)
-        
-                executionLock.lock()
-                defer{executionLock.unlock()}
-                print(event.getIntegerValueField(CGEventField.eventSourceStateID))
-                // call js code
-                if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
-                    if !mainFunc.isUndefined {
-                        let result = mainFunc.call(withArguments: [keyCode,
-                                                                   event.flags.rawValue,
-                                                                   isRepeat,
-                                                                   isUp])
-                        if result?.isBoolean == true && result?.toBool() == true { return }
-                    }
+        }
+        else if [.flagsChanged].contains(type){
+            let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+            let isUp=type == .keyUp
+            let isRepeat = event.getIntegerValueField(CGEventField.keyboardEventAutorepeat)
+            
+            executionLock.lock()
+            defer{executionLock.unlock()}
+            print(event.getIntegerValueField(CGEventField.eventSourceStateID))
+            // call js code
+            if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
+                if !mainFunc.isUndefined {
+                    let result = mainFunc.call(withArguments: [keyCode,
+                                                               event.flags.rawValue,
+                                                               isRepeat,
+                                                               isUp])
+                    if result?.isBoolean == true && result?.toBool() == true { return }
                 }
             }
+        }
     }
-
+    
     // TODO return nil when emit event is implemented
     return Unmanaged.passUnretained(event)
 }
@@ -86,12 +82,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     var isShiftKeyPressed=false
     var isCommandPressed=false
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        jsTextInput.isAutomaticQuoteSubstitutionEnabled=false
-        jsTextInput.isAutomaticSpellingCorrectionEnabled=false
-        jsTextInput.isContinuousSpellCheckingEnabled=false
-       
+    private func setUpConsoleUIKeyEvent(){
         NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
             self.flagsChanged(with: $0)
             return $0
@@ -100,34 +91,41 @@ class ViewController: NSViewController, NSTextViewDelegate {
             self.keyDown(with: $0)
             return $0
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        jsTextInput.isAutomaticQuoteSubstitutionEnabled=false
+        jsTextInput.isAutomaticSpellingCorrectionEnabled=false
+        jsTextInput.isContinuousSpellCheckingEnabled=false
         
-        // キューを生成してサブスレッドで実行
+        // get console UI key event
+        setUpConsoleUIKeyEvent()
+        
+        // capture key events in background thread
         DispatchQueue(label: "com.nemoto.app.queue").async {
             self.backgroundThread()
         }
         
+        // append log notification from non UI threads to the UI thread
         center.addObserver(forName: .appendLog,
                            object: nil,
                            queue: nil,
-                           using: notified)
-    }
-    
-    /** C: 今回、通知された時に呼ばれる用のメソッド */
-    private func notified(notification: Notification) {
-        guard notification.object != nil else {
-            print("notification object is nil")
-            return
-        }
-
-            let msg="\( notification.object ?? "undefined" )"
-            DispatchQueue.main.async {
-                self.log(msg)
-            }
+                           using: { (notification) in
+                            guard notification.object != nil else {
+                                print("notification object is nil")
+                                return
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.log("\( notification.object ?? "undefined" )")
+                            }
+        })
     }
     
     func log(_ message: String?){
         if message == nil { return }
-
+        
         logLabel.string?.append("\(message!)\n")
         logLabel.scrollToEndOfDocument(nil)
     }
@@ -149,10 +147,10 @@ class ViewController: NSViewController, NSTextViewDelegate {
         }
         
         log("=> \(expression)")
-
+        
         if 100 < histories.count { histories.removeFirst() }
         histories.append(jsSource)
-
+        
         jsTextInput.string = ""
         print(jsTextInput.attributedString())
         logLabel.scrollToEndOfDocument(nil)
@@ -180,7 +178,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
         isShiftKeyPressed=event.modifierFlags.contains(NSShiftKeyMask)
         isCommandPressed=event.modifierFlags.contains(NSCommandKeyMask)
     }
-
+    
     func loadConfig(){
         // get the home path directory
         let confPath=NSHomeDirectory()+"/.config/rekey.js"
