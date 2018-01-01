@@ -200,6 +200,39 @@ class ViewController: NSViewController, NSTextViewDelegate {
             center.post(name: .appendLog, object: "\(arg0 ?? "")")
         }
         _ = jsContext?.evaluateScript("console = { log: function() { for (var i = 0; i < arguments.length; i++) { _consoleLog(arguments[i]); }} }")
+        
+        
+        func mouseMove(_ dx:CGFloat,_ dy:CGFloat){
+            func getCurrentMouseLocation()-> CGPoint {
+                return CGEvent(source:nil)!.location
+            }
+            
+            var point=getCurrentMouseLocation()
+            
+            point.x+=dx
+            point.y+=dy
+            
+            guard let moveEvent = CGEvent(
+                mouseEventSource: nil,
+                mouseType: .mouseMoved,
+                mouseCursorPosition: point,
+                mouseButton: .left
+                )
+                else {
+                    postLog("failed to post the event")
+                    return
+            }
+            moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
+        }
+        
+        jsContext?.setb2("_mouseMove"){ (dx,dy) ->Any! in
+            let ddx=dx as? Double
+            let ddy=dy as? Double
+            guard ddx != nil && ddy != nil else { postLog("bad arguments dx=\(dx), dy=\(dy)"); return nil }
+            mouseMove(CGFloat(ddx!),CGFloat(ddy!))
+            return nil
+        }
+        _ = jsContext?.evaluateScript("Mouse = { move: function(dx,dy) { _mouseMove(dx,dy) } }")
     }
     
     func backgroundThread(){
