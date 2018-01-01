@@ -29,31 +29,53 @@ func onKeyEvent(
     event: CGEvent,
     refcon: UnsafeMutableRawPointer?
     ) -> Unmanaged<CGEvent>?{
-    
-    if [.keyDown , .keyUp].contains(type) {
-        let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
 
-        let isUp=type == .keyDown
+    // queue processing worker thread
+    DispatchQueue(label: "com.nemoto.app.processQueue").async {
+
+        sleep(10)
         
-        executionLock.lock()
-        defer{executionLock.unlock()}
+            if [.keyDown , .keyUp].contains(type) {
+                let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+                let isUp=type == .keyUp
+                let isRepeat = event.getIntegerValueField(CGEventField.keyboardEventAutorepeat)
         
-        // call js code
-        if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
-            if !mainFunc.isUndefined {
-                let result = mainFunc.call(withArguments: [keyCode,
-                                              event.flags.rawValue,
-                                              isUp])
-                if result?.isBoolean == true && result?.toBool() == true {
-                    return nil
+                executionLock.lock()
+                defer{executionLock.unlock()}
+        
+                // call js code
+                if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
+                    if !mainFunc.isUndefined {
+                        let result = mainFunc.call(withArguments: [keyCode,
+                                                      event.flags.rawValue,
+                                                      isRepeat,
+                                                      isUp])
+                        if result?.isBoolean == true && result?.toBool() == true { return }
+                    }
                 }
             }
-        }
+            else if [.flagsChanged].contains(type){
+                let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+                let isUp=type == .keyUp
+                let isRepeat = event.getIntegerValueField(CGEventField.keyboardEventAutorepeat)
+        
+                executionLock.lock()
+                defer{executionLock.unlock()}
+                print(event.getIntegerValueField(CGEventField.eventSourceStateID))
+                // call js code
+                if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
+                    if !mainFunc.isUndefined {
+                        let result = mainFunc.call(withArguments: [keyCode,
+                                                                   event.flags.rawValue,
+                                                                   isRepeat,
+                                                                   isUp])
+                        if result?.isBoolean == true && result?.toBool() == true { return }
+                    }
+                }
+            }
     }
-    else if [.flagsChanged].contains(type){
-        print(String(format: "flags %@", String(event.flags.rawValue,radix:2)))
-    }
-    
+
+    // TODO return nil when emit event is implemented
     return Unmanaged.passUnretained(event)
 }
 
