@@ -36,21 +36,14 @@ func onKeyEvent(
         
         // call js code
         if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
-            if !mainFunc.isUndefined{
-            mainFunc.call(withArguments: [keyCode,isUp])
+            if !mainFunc.isUndefined {
+                mainFunc.call(withArguments: [keyCode,
+                                              event.flags,
+                                              isUp])
             }
-//            let result = mainFunc.call(withArguments: [keyCode,isUp])!
-//            center.post(name: .appendLog, object: result ?? "undefined")
         }
         
         switch(keyCode){
-        //a to z
-//        case 0:
-//            event.setIntegerValueField(.keyboardEventKeycode, value: 6)
-            //        //z to a
-            //cancel c
-            //        case 8:
-        //            return nil
         case 0: // only modifier
             if event.flags.contains(.maskCommand){
                 
@@ -204,6 +197,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
             }
         } else {
             center.post(name: .appendLog, object: String(format:"user config file does not exist. %@",confPath))
+            jsContext?.evaluateScript("function main(){}")
         }
     }
     
@@ -227,7 +221,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     
     func setUpAppIntrinsicJsObjects(){
         jsContext?.setb1("_consoleLog") { (arg0)->Any! in
-            self.log("\(arg0 ?? "")")
+            center.post(name: .appendLog, object: "\(arg0 ?? "")")
         }
         jsContext?.evaluateScript("console = { log: function(message) { _consoleLog(message) } }")
     }
