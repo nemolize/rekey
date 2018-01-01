@@ -32,8 +32,6 @@ func onKeyEvent(
 
     // queue processing worker thread
     DispatchQueue(label: "com.nemoto.app.processQueue").async {
-
-        sleep(10)
         
             if [.keyDown , .keyUp].contains(type) {
                 let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
