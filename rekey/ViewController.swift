@@ -19,6 +19,10 @@ extension Notification.Name {
     static let appendLog = Notification.Name("appendLog")
 }
 
+func postLog(_ msg : String!){
+    center.post(name: .appendLog, object: "\(msg ?? "")")
+}
+
 func onKeyEvent(
     proxy: CGEventTapProxy,
     type: CGEventType,
@@ -37,41 +41,13 @@ func onKeyEvent(
         // call js code
         if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
             if !mainFunc.isUndefined {
-                mainFunc.call(withArguments: [keyCode,
-                                              event.flags,
+                let result = mainFunc.call(withArguments: [keyCode,
+                                              event.flags.rawValue,
                                               isUp])
-            }
-        }
-        
-        switch(keyCode){
-        case 0: // only modifier
-            if event.flags.contains(.maskCommand){
-                
-                func getCurrentMouseLocation()-> CGPoint {
-                    
-                    return CGEvent(source:nil)!.location
+                if result?.isBoolean == true && result?.toBool() == true {
+                    return nil
                 }
-                
-                var point=getCurrentMouseLocation()
-                
-                point.x+=1
-                
-                guard let moveEvent = CGEvent(
-                    mouseEventSource: nil,
-                    mouseType: .mouseMoved,
-                    mouseCursorPosition: point,
-                    mouseButton: .left
-                    )
-                    else {
-                        return nil
-                }
-                moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
-                
-                return nil
             }
-            break
-        default:
-            break
         }
     }
     else if [.flagsChanged].contains(type){
@@ -197,7 +173,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
             }
         } else {
             center.post(name: .appendLog, object: String(format:"user config file does not exist. %@",confPath))
-            jsContext?.evaluateScript("function main(){}")
+            _ = jsContext?.evaluateScript("function main(){}")
         }
     }
     
@@ -223,7 +199,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
         jsContext?.setb1("_consoleLog") { (arg0)->Any! in
             center.post(name: .appendLog, object: "\(arg0 ?? "")")
         }
-        jsContext?.evaluateScript("console = { log: function(message) { _consoleLog(message) } }")
+        _ = jsContext?.evaluateScript("console = { log: function() { for (var i = 0; i < arguments.length; i++) { _consoleLog(arguments[i]); }} }")
     }
     
     func backgroundThread(){
