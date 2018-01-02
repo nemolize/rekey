@@ -79,7 +79,6 @@ class ViewController: NSViewController, NSTextViewDelegate {
     @IBOutlet var jsTextInput: NSTextView!
     @IBOutlet var logLabel: NSTextView!
     
-    var isShiftKeyPressed=false
     var isCommandPressed=false
     
     private func setUpConsoleUIKeyEvent(){
@@ -175,7 +174,6 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
     
     override func flagsChanged(with event: NSEvent) {
-        isShiftKeyPressed=event.modifierFlags.contains(NSShiftKeyMask)
         isCommandPressed=event.modifierFlags.contains(NSCommandKeyMask)
     }
     
