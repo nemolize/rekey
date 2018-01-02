@@ -175,7 +175,12 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
     
     func createEventTap(){
-        let eventMask = (1<<CGEventType.flagsChanged.rawValue)|(1 << CGEventType.keyDown.rawValue) | (1 << CGEventType.keyUp.rawValue)
+        let eventMask = [
+            CGEventType.keyDown.rawValue,
+            CGEventType.keyUp.rawValue,
+            CGEventType.flagsChanged.rawValue,
+            UInt32(NX_SYSDEFINED)
+            ].reduce(0) { prev, next in prev | (1 << next) }
         guard let eventTap = CGEvent.tapCreate(tap: .cgSessionEventTap,
                                                place: .headInsertEventTap,
                                                options: .defaultTap,
