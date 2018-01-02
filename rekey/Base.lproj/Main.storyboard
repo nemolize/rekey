@@ -697,7 +697,7 @@
                                             <rect key="frame" x="1" y="1" width="478" height="201"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <textView editable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="bar" incrementalSearchingEnabled="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="Nv1-c5-KxO">
+                                                <textView editable="NO" importsGraphics="NO" richText="NO" findStyle="bar" incrementalSearchingEnabled="YES" allowsUndo="YES" smartInsertDelete="YES" id="Nv1-c5-KxO">
                                                     <rect key="frame" x="0.0" y="0.0" width="478" height="201"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>

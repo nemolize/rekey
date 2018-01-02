@@ -5,19 +5,10 @@
 //  Copyright © 2017年 nemoto. All rights reserved.
 import Cocoa
 import Foundation
-
 import JavaScriptCore
 
 let executionLock = NSLock()
 let jsContext = JSContext()
-let center = NotificationCenter.default
-extension Notification.Name {
-    static let appendLog = Notification.Name("appendLog")
-}
-
-func postLog(_ msg : String!){
-    center.post(name: .appendLog, object: "\(msg ?? "")")
-}
 
 func onKeyEvent(
     proxy: CGEventTapProxy,
@@ -105,28 +96,18 @@ class ViewController: NSViewController, NSTextViewDelegate {
         DispatchQueue(label: "com.nemoto.app.queue").async {
             self.backgroundThread()
         }
-        
-        // append log notification from non UI threads to the UI thread
-        center.addObserver(forName: .appendLog,
-                           object: nil,
-                           queue: nil,
-                           using: { (notification) in
-                            guard notification.object != nil else {
-                                print("notification object is nil")
-                                return
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.log("\( notification.object ?? "undefined" )")
-                            }
-        })
     }
     
     func log(_ message: String?){
-        if message == nil { return }
-        
-        logLabel.string?.append("\(message!)\n")
-        logLabel.scrollToEndOfDocument(nil)
+        DispatchQueue.main.async {
+            if message == nil { return }
+            // prevent NSTextView slowness https://stackoverflow.com/a/5495287
+            let ts = self.logLabel.textStorage
+            ts?.beginEditing()
+            ts?.append(NSAttributedString(string: "\(message!)\n"))
+            ts?.endEditing()
+            self.logLabel.scrollToEndOfDocument(nil)
+        }
     }
     
     var histories: [String] = []
@@ -185,10 +166,10 @@ class ViewController: NSViewController, NSTextViewDelegate {
             if let jsSource = try? String(contentsOfFile: confPath){
                 jsContext!.evaluateScript(jsSource)
             }else{
-                center.post(name: .appendLog, object: String(format:"failed to load %@",confPath))
+                self.log(String(format:"failed to load %@",confPath))
             }
         } else {
-            center.post(name: .appendLog, object: String(format:"user config file does not exist. %@",confPath))
+            self.log(String(format:"user config file does not exist. %@",confPath))
             _ = jsContext?.evaluateScript("function main(){}")
         }
     }
@@ -213,7 +194,9 @@ class ViewController: NSViewController, NSTextViewDelegate {
     
     func setUpAppIntrinsicJsObjects(){
         jsContext?.setb1("_consoleLog") { (arg0)->Any! in
-            center.post(name: .appendLog, object: "\(arg0 ?? "")")
+            DispatchQueue.main.async {
+                self.log("\( arg0 ?? "undefined" )")
+            }
         }
         _ = jsContext?.evaluateScript("console = { log: function() { for (var i = 0; i < arguments.length; i++) { _consoleLog(arguments[i]); }} }")
         
@@ -235,7 +218,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
                 mouseButton: .left
                 )
                 else {
-                    postLog("failed to post the event")
+                    log("failed to post the event")
                     return
             }
             moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
@@ -244,7 +227,11 @@ class ViewController: NSViewController, NSTextViewDelegate {
         jsContext?.setb2("_mouseMove"){ (dx,dy) ->Any! in
             let ddx=dx as? Double
             let ddy=dy as? Double
-            guard ddx != nil && ddy != nil else { postLog("bad arguments dx=\(dx), dy=\(dy)"); return nil }
+
+            guard ddx != nil && ddy != nil else {
+                _ = jsContext?.evaluateScript("throw \"bad arguments dx=\(dx ?? "undefined"), dy=\(dy ?? "undefined")\";")
+                return nil
+            }
             mouseMove(CGFloat(ddx!),CGFloat(ddy!))
             return nil
         }
@@ -254,7 +241,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     func backgroundThread(){
         print("starting background thread")
         jsContext?.exceptionHandler = { context, exception in
-            center.post(name: .appendLog, object: "JS Error: \(exception?.description ?? "unknown error" )")
+            self.log("JS Error: \(exception?.description ?? "unknown error" )")
         }
         setUpAppIntrinsicJsObjects()
         loadConfig()
