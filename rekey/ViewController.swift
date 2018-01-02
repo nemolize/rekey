@@ -20,6 +20,30 @@ func onKeyEvent(
     // queue processing worker thread
     DispatchQueue(label: "com.nemoto.app.processQueue").async {
         
+        // syskey
+        if type.rawValue == UInt32(NX_SYSDEFINED){
+            if let nsEvent = NSEvent(cgEvent: event) , nsEvent.subtype.rawValue == 8 {
+                let keyCode = (nsEvent.data1 & 0xffff0000) >> 16
+                let isUp = ((nsEvent.data1 & 0xff00) >> 8) != 0xa
+                let isRepeat = event.getIntegerValueField(CGEventField.keyboardEventAutorepeat)
+                
+                executionLock.lock()
+                defer{executionLock.unlock()}
+                
+                // call js code
+                if let mainFunc = jsContext?.objectForKeyedSubscript("onSysKey"){
+                    if !mainFunc.isUndefined {
+                        let result = mainFunc.call(withArguments: [keyCode,
+                                                                   event.flags.rawValue,
+                                                                   isRepeat,
+                                                                   isUp,
+                                                                   true])
+                        if result?.isBoolean == true && result?.toBool() == true { return }
+                    }
+                }
+            }
+        }
+        
         if [.keyDown , .keyUp].contains(type) {
             let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
             let isUp=type == .keyUp
@@ -29,12 +53,13 @@ func onKeyEvent(
             defer{executionLock.unlock()}
             
             // call js code
-            if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
+            if let mainFunc = jsContext?.objectForKeyedSubscript("onKey"){
                 if !mainFunc.isUndefined {
                     let result = mainFunc.call(withArguments: [keyCode,
                                                                event.flags.rawValue,
                                                                isRepeat,
-                                                               isUp])
+                                                               isUp,
+                                                               false])
                     if result?.isBoolean == true && result?.toBool() == true { return }
                 }
             }
@@ -46,14 +71,14 @@ func onKeyEvent(
             
             executionLock.lock()
             defer{executionLock.unlock()}
-            print(event.getIntegerValueField(CGEventField.eventSourceStateID))
             // call js code
-            if let mainFunc = jsContext?.objectForKeyedSubscript("main"){
+            if let mainFunc = jsContext?.objectForKeyedSubscript("onFlagsChanged"){
                 if !mainFunc.isUndefined {
                     let result = mainFunc.call(withArguments: [keyCode,
                                                                event.flags.rawValue,
                                                                isRepeat,
-                                                               isUp])
+                                                               isUp,
+                                                               false])
                     if result?.isBoolean == true && result?.toBool() == true { return }
                 }
             }
@@ -170,12 +195,17 @@ class ViewController: NSViewController, NSTextViewDelegate {
             }
         } else {
             self.log(String(format:"user config file does not exist. %@",confPath))
-            _ = jsContext?.evaluateScript("function main(){}")
         }
     }
     
     func createEventTap(){
-        let eventMask = (1<<CGEventType.flagsChanged.rawValue)|(1 << CGEventType.keyDown.rawValue) | (1 << CGEventType.keyUp.rawValue)
+        let eventMask = [
+            CGEventType.keyDown.rawValue,
+            CGEventType.keyUp.rawValue,
+            CGEventType.flagsChanged.rawValue,
+            UInt32(NX_SYSDEFINED)
+            ].reduce(0) { prev, next in prev | (1 << next) }
+        
         guard let eventTap = CGEvent.tapCreate(tap: .cgSessionEventTap,
                                                place: .headInsertEventTap,
                                                options: .defaultTap,
