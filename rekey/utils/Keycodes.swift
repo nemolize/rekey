@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Keycode {
+struct Keycodes {
     static let Enter                 : UInt16 = 0x24
     
     static let tab                       : UInt16 = 0x30

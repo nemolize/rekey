@@ -9,5 +9,5 @@
 import Foundation
 
 struct Constants {
-    public static let magicValue: Int64=0xfedcba
+    static let magicValue: Int64=0xfedcba
 }

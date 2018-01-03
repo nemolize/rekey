@@ -185,9 +185,9 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
     
     override func keyDown(with event: NSEvent) {
-        if isCommandPressed && event.keyCode == Keycode.Enter {
+        if isCommandPressed && event.keyCode == Keycodes.Enter {
             executeBuffer()
-        }else if event.keyCode == Keycode.upArrow {
+        }else if event.keyCode == Keycodes.upArrow {
             let range=jsTextInput.selectedRange()
             if range.location==0 && range.length==0{
                 loadHistory()
