@@ -14,6 +14,8 @@
 		9772EFCE1FE543C700D6E9B0 /* rekeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFCD1FE543C700D6E9B0 /* rekeyTests.swift */; };
 		9772EFD91FE543C700D6E9B0 /* rekeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */; };
 		97809A341FF53C2C003B9A28 /* Keycodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97809A331FF53C2C003B9A28 /* Keycodes.swift */; };
+		A4647AD01FFD0D24008227AA /* Intrinsics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4647ACF1FFD0D24008227AA /* Intrinsics.swift */; };
+		A4647AD21FFD0DEE008227AA /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4647AD11FFD0DEE008227AA /* Utils.swift */; };
 		FEF7FF7B1FF7E1A500A4AFF6 /* js-bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF7FF791FF7E1A500A4AFF6 /* js-bridge.swift */; };
 		FEF7FF7C1FF7E1A500A4AFF6 /* jsc.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF7FF7A1FF7E1A500A4AFF6 /* jsc.m */; };
 /* End PBXBuildFile section */
@@ -49,6 +51,8 @@
 		9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = rekeyUITests.swift; path = rekeyUITests/rekeyUITests.swift; sourceTree = "<group>"; };
 		9772EFDA1FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = rekeyUITests/Info.plist; sourceTree = "<group>"; };
 		97809A331FF53C2C003B9A28 /* Keycodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keycodes.swift; path = ../rekey/Keycodes.swift; sourceTree = "<group>"; };
+		A4647ACF1FFD0D24008227AA /* Intrinsics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intrinsics.swift; sourceTree = "<group>"; };
+		A4647AD11FFD0DEE008227AA /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		FEF7FF781FF7E1A500A4AFF6 /* js-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "js-Bridging-Header.h"; sourceTree = "<group>"; };
 		FEF7FF791FF7E1A500A4AFF6 /* js-bridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "js-bridge.swift"; sourceTree = "<group>"; };
 		FEF7FF7A1FF7E1A500A4AFF6 /* jsc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jsc.m; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 				FEF7FF771FF7E1A500A4AFF6 /* js-bridge */,
 				9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */,
 				9772EFBD1FE543C700D6E9B0 /* ViewController.swift */,
+				A4647ACF1FFD0D24008227AA /* Intrinsics.swift */,
+				A4647AD11FFD0DEE008227AA /* Utils.swift */,
 				97809A331FF53C2C003B9A28 /* Keycodes.swift */,
 				9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */,
 				9772EFC11FE543C700D6E9B0 /* Main.storyboard */,
@@ -286,7 +292,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9772EFBE1FE543C700D6E9B0 /* ViewController.swift in Sources */,
+				A4647AD01FFD0D24008227AA /* Intrinsics.swift in Sources */,
 				FEF7FF7B1FF7E1A500A4AFF6 /* js-bridge.swift in Sources */,
+				A4647AD21FFD0DEE008227AA /* Utils.swift in Sources */,
 				9772EFBC1FE543C700D6E9B0 /* AppDelegate.swift in Sources */,
 				97809A341FF53C2C003B9A28 /* Keycodes.swift in Sources */,
 				FEF7FF7C1FF7E1A500A4AFF6 /* jsc.m in Sources */,

@@ -120,6 +120,19 @@ class ViewController: NSViewController, NSTextViewDelegate {
         DispatchQueue(label: "com.nemoto.app.queue").async {
             self.backgroundThread()
         }
+        
+        // append log notification from non UI threads to the UI thread
+        NotificationCenter.default.addObserver(
+            forName: .appendLog,
+            object: nil,
+            queue: nil,
+            using: { notification in
+                guard notification.object != nil else { print("notification object is nil"); return }
+                self.log("\( notification.object ?? "undefined" )")
+        })
+
+        let intrinsics=Intrinsics()
+        intrinsics.setUpAppIntrinsicJsObjects()
     }
     
     func log(_ message: String?){
@@ -220,59 +233,12 @@ class ViewController: NSViewController, NSTextViewDelegate {
         CGEvent.tapEnable(tap: eventTap, enable: true)
         CFRunLoopRun()
     }
-    
-    func setUpAppIntrinsicJsObjects(){
-        jsContext?.setb1("_consoleLog") { (arg0)->Any! in
-            DispatchQueue.main.async {
-                self.log("\( arg0 ?? "undefined" )")
-            }
-        }
-        _ = jsContext?.evaluateScript("console = { log: function() { for (var i = 0; i < arguments.length; i++) { _consoleLog(arguments[i]); }} }")
         
-        
-        func mouseMove(_ dx:CGFloat,_ dy:CGFloat){
-            func getCurrentMouseLocation()-> CGPoint {
-                return CGEvent(source:nil)!.location
-            }
-            
-            var point=getCurrentMouseLocation()
-            
-            point.x+=dx
-            point.y+=dy
-            
-            guard let moveEvent = CGEvent(
-                mouseEventSource: nil,
-                mouseType: .mouseMoved,
-                mouseCursorPosition: point,
-                mouseButton: .left
-                )
-                else {
-                    log("failed to post the event")
-                    return
-            }
-            moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
-        }
-        
-        jsContext?.setb2("_mouseMove"){ (dx,dy) ->Any! in
-            let ddx=dx as? Double
-            let ddy=dy as? Double
-
-            guard ddx != nil && ddy != nil else {
-                _ = jsContext?.evaluateScript("throw \"bad arguments dx=\(dx ?? "undefined"), dy=\(dy ?? "undefined")\";")
-                return nil
-            }
-            mouseMove(CGFloat(ddx!),CGFloat(ddy!))
-            return nil
-        }
-        _ = jsContext?.evaluateScript("Mouse = { move: function(dx,dy) { _mouseMove(dx,dy) } }")
-    }
-    
     func backgroundThread(){
         print("starting background thread")
         jsContext?.exceptionHandler = { context, exception in
             self.log("JS Error: \(exception?.description ?? "unknown error" )")
         }
-        setUpAppIntrinsicJsObjects()
         loadConfig()
         createEventTap()
     }
