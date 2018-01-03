@@ -17,6 +17,52 @@ class Intrinsics {
         _ = jsContext?.evaluateScript("console = { log: function() { for (var i = 0; i < arguments.length; i++) { _consoleLog(arguments[i]); }} }")
     }
     
+    private func setUpKey(){
+        
+//        let evCmdDown=CGEvent(keyboardEventSource: evSrc,virtualKey: 0x37, keyDown: true)
+//        evCmdDown?.flags = CGEventFlags.maskCommand
+//        evs.append(evCmdDown!)
+//        
+//        let evCmdUp=CGEvent(keyboardEventSource: evSrc,virtualKey: 0x37, keyDown: false)
+//        evs.append(evCmdUp!)
+        
+        jsContext?.setb1("_emitKeyDownUpEvent") { (cgKeyCode)->Any! in
+            
+            var evs=[CGEvent]()
+            
+            let evSrc=CGEventSource(stateID: CGEventSourceStateID.privateState)
+            evSrc?.userData=Constants.magicValue
+            
+            if let down = CGEvent(keyboardEventSource: evSrc,virtualKey: cgKeyCode as! UInt16, keyDown: true) {
+                evs.append(down)
+            }
+            
+            for ev in evs {
+                ev.post(tap: CGEventTapLocation.cghidEventTap)
+            }
+            return nil
+        }
+        jsContext?.setb2("_emitKeyEvent") { (cgKeyCode,isUp)->Any! in
+
+            guard let evSrc=CGEventSource(stateID: CGEventSourceStateID.privateState) else {
+                postLog("failed to create CGEventSource")
+                return nil
+            }
+            evSrc.userData=Constants.magicValue
+            
+            if let ev = CGEvent(
+                keyboardEventSource: evSrc,
+                virtualKey: cgKeyCode as! UInt16,
+                keyDown: !(isUp as! Bool)) {
+                ev.post(tap: CGEventTapLocation.cghidEventTap)
+            }
+            return nil
+        }
+        _ = jsContext?.evaluateScript("Key = {}")
+        _ = jsContext?.evaluateScript("Key.downUp = function(keyCode) { _emitKeyDownUpEvent(keyCode) }")
+        _ = jsContext?.evaluateScript("Key.emit = function(keyCode,isUp) { _emitKeyEvent(keyCode, isUp) }")
+    }
+    
     private func setUpMouse(){
         func mouseMove(_ dx:CGFloat,_ dy:CGFloat){
             func getCurrentMouseLocation()-> CGPoint {
@@ -55,6 +101,7 @@ class Intrinsics {
     
     func setUpAppIntrinsicJsObjects(){
         setUpConsole()
+        setUpKey()
         setUpMouse()
     }
     

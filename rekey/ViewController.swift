@@ -17,6 +17,10 @@ func onKeyEvent(
     refcon: UnsafeMutableRawPointer?
     ) -> Unmanaged<CGEvent>?{
     
+    if (event.getIntegerValueField(CGEventField.eventSourceUserData)==Constants.magicValue) {
+        return Unmanaged.passUnretained(event)
+    }
+    
     // queue processing worker thread
     DispatchQueue(label: "com.nemoto.app.processQueue").async {
         
