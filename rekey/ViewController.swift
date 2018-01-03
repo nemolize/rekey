@@ -91,7 +91,6 @@ func onKeyEvent(
 
 
 class ViewController: NSViewController, NSTextViewDelegate {
-    @IBOutlet weak var label: NSTextField!
     @IBOutlet var jsTextInput: NSTextView!
     @IBOutlet var logLabel: NSTextView!
     
