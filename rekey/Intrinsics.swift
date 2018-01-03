@@ -18,14 +18,6 @@ class Intrinsics {
     }
     
     private func setUpKey(){
-        
-//        let evCmdDown=CGEvent(keyboardEventSource: evSrc,virtualKey: 0x37, keyDown: true)
-//        evCmdDown?.flags = CGEventFlags.maskCommand
-//        evs.append(evCmdDown!)
-//        
-//        let evCmdUp=CGEvent(keyboardEventSource: evSrc,virtualKey: 0x37, keyDown: false)
-//        evs.append(evCmdUp!)
-        
         jsContext?.setb1("_emitKeyDownUpEvent") { (cgKeyCode)->Any! in
             
             var evs=[CGEvent]()
