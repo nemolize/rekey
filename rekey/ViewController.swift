@@ -75,6 +75,9 @@ func onKeyEvent(
             
             executionLock.lock()
             defer{executionLock.unlock()}
+            
+            jsContext?.evaluateScript("var flags=\(event.flags.rawValue)")
+            
             // call js code
             if let mainFunc = jsContext?.objectForKeyedSubscript("onFlagsChanged"){
                 if !mainFunc.isUndefined {
@@ -87,6 +90,10 @@ func onKeyEvent(
                 }
             }
         }
+    }
+
+    if [.keyDown , .keyUp].contains(type){
+        return nil
     }
     
     // TODO return nil when emit event is implemented

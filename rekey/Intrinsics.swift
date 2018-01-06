@@ -13,19 +13,12 @@ class Intrinsics {
     private func setUpConsole(){
         jsContext?.setb1("_consoleLog") { (arg0)->Any! in
             postLog("\( arg0 ?? "undefined" )")
+            return nil
         }
         _ = jsContext?.evaluateScript("console = { log: function() { for (var i = 0; i < arguments.length; i++) { _consoleLog(arguments[i]); }} }")
     }
     
     private func setUpKey(){
-        
-//        let evCmdDown=CGEvent(keyboardEventSource: evSrc,virtualKey: 0x37, keyDown: true)
-//        evCmdDown?.flags = CGEventFlags.maskCommand
-//        evs.append(evCmdDown!)
-//        
-//        let evCmdUp=CGEvent(keyboardEventSource: evSrc,virtualKey: 0x37, keyDown: false)
-//        evs.append(evCmdUp!)
-        
         jsContext?.setb1("_emitKeyDownUpEvent") { (cgKeyCode)->Any! in
             
             var evs=[CGEvent]()
@@ -50,10 +43,19 @@ class Intrinsics {
             }
             evSrc.userData=Constants.magicValue
             
+            var flags: UInt64 = 256
+            if let flagsJsValue = jsContext?.fetch("flags") {
+                if(!flagsJsValue.isUndefined){
+                    flags=UInt64(flagsJsValue.toUInt32())
+                }
+            }
             if let ev = CGEvent(
                 keyboardEventSource: evSrc,
                 virtualKey: cgKeyCode as! UInt16,
-                keyDown: !(isUp as! Bool)) {
+                keyDown: !(isUp as! Bool)
+                )
+            {
+                ev.flags = CGEventFlags(rawValue:flags)
                 ev.post(tap: CGEventTapLocation.cghidEventTap)
             }
             return nil
@@ -103,6 +105,8 @@ class Intrinsics {
         setUpConsole()
         setUpKey()
         setUpMouse()
+
+        _ = jsContext?.evaluateScript("onKey = function(key, flags, isRepeat, isUp, isSysKey){ Key.emit( key,isUp)}")
     }
     
     
