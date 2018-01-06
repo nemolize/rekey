@@ -76,7 +76,7 @@ func onKeyEvent(
             executionLock.lock()
             defer{executionLock.unlock()}
             
-            jsContext?.evaluateScript("var flags=\(event.flags.rawValue)")
+            _ = jsContext?.evaluateScript("var flags=\(event.flags.rawValue)")
             
             // call js code
             if let mainFunc = jsContext?.objectForKeyedSubscript("onFlagsChanged"){
