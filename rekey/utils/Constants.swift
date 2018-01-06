@@ -10,4 +10,6 @@ import Foundation
 
 struct Constants {
     static let magicValue: Int64=0xfedcba
+    static let captureEventQueueName = "rekey.app.capture.eventtap"
+    static let processQueueName = "rekey.app.queue.process"
 }

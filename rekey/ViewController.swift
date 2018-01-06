@@ -22,7 +22,7 @@ func onKeyEvent(
     }
     
     // queue processing worker thread
-    DispatchQueue(label: "com.nemoto.app.processQueue").async {
+    DispatchQueue(label: Constants.processQueueName).async {
         
         // syskey
         if type.rawValue == UInt32(NX_SYSDEFINED){
@@ -120,6 +120,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // disable automatic replacements
         jsTextInput.isAutomaticQuoteSubstitutionEnabled=false
         jsTextInput.isAutomaticSpellingCorrectionEnabled=false
         jsTextInput.isContinuousSpellCheckingEnabled=false
@@ -128,7 +129,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
         setUpConsoleUIKeyEvent()
         
         // capture key events in background thread
-        DispatchQueue(label: "com.nemoto.app.queue").async {
+        DispatchQueue(label: Constants.captureEventQueueName).async {
             self.backgroundThread()
         }
         
