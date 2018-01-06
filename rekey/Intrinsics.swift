@@ -19,50 +19,82 @@ class Intrinsics {
     }
     
     private func setUpKey(){
-        jsContext?.setb1("_emitKeyDownUpEvent") { (cgKeyCode)->Any! in
-            
-            var evs=[CGEvent]()
-            
-            let evSrc=CGEventSource(stateID: CGEventSourceStateID.privateState)
-            evSrc?.userData=Constants.magicValue
-            
-            if let down = CGEvent(keyboardEventSource: evSrc,virtualKey: cgKeyCode as! UInt16, keyDown: true) {
-                evs.append(down)
-            }
-            
-            for ev in evs {
-                ev.post(tap: CGEventTapLocation.cghidEventTap)
-            }
-            return nil
-        }
-        jsContext?.setb2("_emitKeyEvent") { (cgKeyCode,isUp)->Any! in
+        jsContext?.setb2("_emitKeyEvent") { (arg0,arg1)->Any! in
 
+            guard let cgKeyCode = arg0 as! UInt16? else {
+                return jsContext?.evaluateScript("throw 'invalid arguments'")
+            }
+            
             guard let evSrc=CGEventSource(stateID: CGEventSourceStateID.privateState) else {
                 postLog("failed to create CGEventSource")
                 return nil
             }
             evSrc.userData=Constants.magicValue
-            
-            var flags: UInt64 = 256
-            if let flagsJsValue = jsContext?.fetch("flags") {
-                if(!flagsJsValue.isUndefined){
-                    flags=UInt64(flagsJsValue.toUInt32())
+
+            func getValue<T>(_ target: Any!) -> T? {
+                guard target is T? else {
+                    return nil
                 }
+                return target as! T?
             }
-            if let ev = CGEvent(
-                keyboardEventSource: evSrc,
-                virtualKey: cgKeyCode as! UInt16,
-                keyDown: !(isUp as! Bool)
-                )
-            {
-                ev.flags = CGEventFlags(rawValue:flags)
-                ev.post(tap: CGEventTapLocation.cghidEventTap)
+            
+            func getFlagsFromOptionsDict(_ options: NSDictionary?) -> CGEventFlags? {
+                guard let flags: NSNumber = getValue(options?.value(forKey: "flags")) else {
+                    return nil
+                }
+                return CGEventFlags(rawValue: flags.uint64Value)
+            }
+
+            if let options : NSDictionary = getValue(arg1) {
+                
+                // emit single if "isUp" is not specified
+                if let isUp : Bool = getValue(options.value(forKey: "isUp")){
+
+                    if let ev = CGEvent(
+                        keyboardEventSource: evSrc,
+                        virtualKey: cgKeyCode,
+                        keyDown: !isUp
+                        )
+                    {
+                        ev.flags = getFlagsFromOptionsDict(options) ?? modifierFlags
+                        ev.post(tap: CGEventTapLocation.cghidEventTap)
+                    }
+                } else { // emit down , up if "isUp" is not specified
+                    if let ev = CGEvent(
+                        keyboardEventSource: evSrc,
+                        virtualKey: cgKeyCode,
+                        keyDown: true
+                        )
+                    {
+                        ev.flags = getFlagsFromOptionsDict(options) ?? modifierFlags
+                        ev.post(tap: CGEventTapLocation.cghidEventTap)
+                        ev.type=CGEventType.keyUp
+                        ev.post(tap: CGEventTapLocation.cghidEventTap)
+                    }
+                }
+            } else {  // emit down , up with current modifier flags if options is not specified
+                if let ev = CGEvent(
+                    keyboardEventSource: evSrc,
+                    virtualKey: cgKeyCode,
+                    keyDown: true
+                    )
+                {
+                    ev.flags = modifierFlags
+                    ev.post(tap: CGEventTapLocation.cghidEventTap)
+                    ev.type=CGEventType.keyUp
+                    ev.post(tap: CGEventTapLocation.cghidEventTap)
+                }
             }
             return nil
         }
         _ = jsContext?.evaluateScript("Key = {}")
-        _ = jsContext?.evaluateScript("Key.downUp = function(keyCode) { _emitKeyDownUpEvent(keyCode) }")
-        _ = jsContext?.evaluateScript("Key.emit = function(keyCode,isUp) { _emitKeyEvent(keyCode, isUp) }")
+        _ = jsContext?.evaluateScript("Key.emit = function(keyCode,options) { _emitKeyEvent(keyCode, options) }")
+    }
+
+    private func setUpModifier(){
+        jsContext?.setb0("getModifierFlags") { ()->Any! in
+            return modifierFlags.rawValue
+        }
     }
     
     private func setUpMouse(){
@@ -104,9 +136,10 @@ class Intrinsics {
     func setUpAppIntrinsicJsObjects(){
         setUpConsole()
         setUpKey()
+        setUpModifier()
         setUpMouse()
 
-        _ = jsContext?.evaluateScript("onKey = function(key, flags, isRepeat, isUp, isSysKey){ Key.emit( key,isUp)}")
+        _ = jsContext?.evaluateScript("onKey = function(key, flags, isRepeat, isUp, isSysKey){ Key.emit( key,{isUp: isUp}) }")
     }
     
     

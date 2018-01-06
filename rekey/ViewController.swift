@@ -9,6 +9,7 @@ import JavaScriptCore
 
 let executionLock = NSLock()
 let jsContext = JSContext()
+var modifierFlags: CGEventFlags = CGEventFlags(rawValue: 256)
 
 func onKeyEvent(
     proxy: CGEventTapProxy,
@@ -68,7 +69,9 @@ func onKeyEvent(
                 }
             }
         }
-        else if [.flagsChanged].contains(type){
+        else if [.flagsChanged].contains(type) // on flags changed
+        {
+            modifierFlags = event.flags
             let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
             let isUp=type == .keyUp
             let isRepeat = event.getIntegerValueField(CGEventField.keyboardEventAutorepeat)
@@ -181,7 +184,6 @@ class ViewController: NSViewController, NSTextViewDelegate {
         histories.append(jsSource)
         
         jsTextInput.string = ""
-        print(jsTextInput.attributedString())
         logLabel.scrollToEndOfDocument(nil)
     }
     
