@@ -211,7 +211,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     
     func loadConfig(){
         // get the home path directory
-        let confPath=NSHomeDirectory()+"/.config/rekey.js"
+        let confPath = NSHomeDirectory()+Constants.configFilePathUnderHomeDirectory
         
         if FileManager.default.fileExists(atPath: confPath){
             if let jsSource = try? String(contentsOfFile: confPath){
@@ -251,7 +251,22 @@ class ViewController: NSViewController, NSTextViewDelegate {
     func backgroundThread(){
         print("starting background thread")
         jsContext?.exceptionHandler = { context, exception in
-            self.log("JS Error: \(exception?.description ?? "unknown error" )")
+            // type of String
+            guard let stacktrace = exception?.objectForKeyedSubscript("stack").toString() else {
+                self.log("JS Error: \(exception.debugDescription)")
+                return
+            }
+            // type of Number
+            guard let lineNumber = exception?.objectForKeyedSubscript("line")?.toUInt32() else {
+                self.log("JS Error: \(exception.debugDescription)")
+                return
+            }
+            // type of Number
+            guard let column = exception?.objectForKeyedSubscript("column")?.toUInt32() else {
+                self.log("JS Error: \(exception.debugDescription)")
+                return
+            }
+            self.log("JS Error: \(column):\(lineNumber) \(stacktrace)")
         }
         loadConfig()
         createEventTap()

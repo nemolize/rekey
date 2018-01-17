@@ -12,4 +12,5 @@ struct Constants {
     static let magicValue: Int64=0xfedcba
     static let captureEventQueueName = "rekey.app.capture.eventtap"
     static let processQueueName = "rekey.app.queue.process"
+    static let configFilePathUnderHomeDirectory = "/.config/rekey/onstart.js"
 }
