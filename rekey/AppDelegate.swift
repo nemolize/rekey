@@ -16,22 +16,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
 
+        guard let path = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "www") else {
+            print("index.html is missing")
+            return
+        }
+
         DispatchQueue(label: Constants.httpServerQueueName).async {
             let server = HttpServer()
-            server["/"] = scopes {
-                html {
-                    body {
-                        div {
-                            inner = "osiert"
-                        }
-                        center {
-                            img {
-                                src = "https://swift.org/assets/images/swift.svg"
-                            }
-                        }
-                    }
-                }
-            }
+
+            server["/"] = shareFile(path)
             server["/files/:path"] = directoryBrowser("/")
 
             let semaphore = DispatchSemaphore(value: 0)
