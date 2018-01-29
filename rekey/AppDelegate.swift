@@ -24,7 +24,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         DispatchQueue(label: Constants.httpServerQueueName).async {
             let server = HttpServer()
 
-            server["/"] = shareFile(path)
+            server.GET["/"] = shareFile(path)
+            server.POST["/"] = { r in
+                let jsSource = String(bytes: r.body, encoding: String.Encoding.utf8)
+                return HttpResponse.raw(200, "OK", [:], { try $0.write([UInt8]("test".utf8)) })
+            }
+
+            server["/static/:path"] = shareFilesFromDirectory("\(Bundle.main.resourcePath!)/www/")
             server["/files/:path"] = directoryBrowser("/")
 
             let semaphore = DispatchSemaphore(value: 0)

@@ -6,11 +6,22 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="/static/vendors/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 
 <pre id="log"></pre>
-<input type="text" placeholder="input js code"/>
+<input type="text" placeholder="input js code" id="js-input"/>
+
+<script>
+    $("#js-input").on("keydown", e => {
+        if (event.which == 13 || event.keyCode == 13) {
+            console.log("fire   ")
+            return false;
+        }
+        return true;
+    })
+</script>
 
 </body>
 </html>
