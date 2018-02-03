@@ -12,16 +12,20 @@
 <body>
 
 <pre id="log"></pre>
-<input type="text" placeholder="input js code" id="js-input"/>
+<textarea type="text" placeholder="input js code" id="js-input"></textarea>
 
 <script>
-    $("#js-input").on("keydown", e => {
-        if (event.which == 13 || event.keyCode == 13) {
-            console.log("fire   ")
-            return false;
-        }
-        return true;
-    })
+    $(()=>{
+        $("#js-input").on("keydown" , e => {
+            if (e.metaKey && (event.which == 13 || event.keyCode == 13) ){
+                const jsSrc = $('#js-input').val();
+                const compiledJs = Babel.transform(jsSrc, {presets: ['es2015']}).code;
+                console.log(compiledJs);
+                return false;
+            }
+            return true;
+        });
+    });
 </script>
 
 </body>
