@@ -10,6 +10,7 @@ import Foundation
 
 extension Notification.Name {
     static let appendLog = Notification.Name("appendLog")
+    static let executeJs = Notification.Name("executeJs")
 }
 
 func postLog(_ msg : String!){
