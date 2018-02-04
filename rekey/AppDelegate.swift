@@ -55,7 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 return HttpResponse.raw(200, "OK", [:], { try $0.write([UInt8]("test".utf8)) })
             }
 
-            server["/static/:path"] = shareFilesFromDirectory("\(Bundle.main.resourcePath!)/www/")
+            server["/static/:path"] = shareFilesFromDirectory("\(Bundle.main.resourcePath!)/www/static/")
 
             let semaphore = DispatchSemaphore(value: 0)
             do {
