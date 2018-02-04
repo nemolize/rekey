@@ -13,6 +13,12 @@ extension Notification.Name {
     static let executeJs = Notification.Name("executeJs")
 }
 
-func postLog(_ msg : String!){
+func postLog(_ msg: String!) {
     NotificationCenter.default.post(name: .appendLog, object: "\(msg ?? "")")
+}
+
+extension NotificationCenter {
+    static func postExecuteJS(_ jsSrc: String) {
+        NotificationCenter.default.post(name: .executeJs, object: jsSrc)
+    }
 }
