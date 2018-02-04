@@ -56,7 +56,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             server["/static/:path"] = shareFilesFromDirectory("\(Bundle.main.resourcePath!)/www/")
-            server["/files/:path"] = directoryBrowser("/")
 
             let semaphore = DispatchSemaphore(value: 0)
             do {
