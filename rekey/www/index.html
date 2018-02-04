@@ -15,12 +15,19 @@
 <textarea type="text" placeholder="input js code" id="js-input"></textarea>
 
 <script>
-    $(()=>{
-        $("#js-input").on("keydown" , e => {
-            if (e.metaKey && (event.which == 13 || event.keyCode == 13) ){
+    $(() => {
+        $("#js-input").on("keydown", e => {
+            if (e.metaKey && (event.which == 13 || event.keyCode == 13)) {
                 const jsSrc = $('#js-input').val();
                 const compiledJs = Babel.transform(jsSrc, {presets: ['es2015']}).code;
-                console.log(compiledJs);
+                fetch('/', {
+                        method: 'POST',
+                        body: compiledJs,
+                        headers: new Headers({
+                            'Content-Type': 'application/javascript'
+                        })
+                    }
+                ).then(resp => resp.text()).then(text => console.debug(text));
                 return false;
             }
             return true;
