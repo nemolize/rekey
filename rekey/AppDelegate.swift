@@ -26,12 +26,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.backgroundThread()
         }
 
-
-        guard let path = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "www") else {
-            print("index.html is missing")
-            return
-        }
-
         // append log notification from non UI threads to the UI thread
         NotificationCenter.default.addObserver(
                 forName: .executeJs,
@@ -45,14 +39,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self.executeBuffer(jsSource:jsSource)
                 })
 
+        func getBytes(url: URL) throws -> [UInt8] { return try [UInt8](Data(contentsOf: url)) }
+
         DispatchQueue(label: Constants.httpServerQueueName).async {
             let server = HttpServer()
 
-            server.GET["/"] = shareFile(path)
+            server.GET["/"] = shareFile(Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "www")!)
+            server.GET["/favicon.ico"] = { r in
+                guard let faviconInternalUrl = Bundle.main.url(forResource: "favicon", withExtension: "ico", subdirectory: "www") else { return .notFound }
+                return HttpResponse.raw(200, "OK", ["Content-Type": "image/x-icon"], { try $0.write(getBytes(url: faviconInternalUrl)) })
+            }
+
             server.POST["/"] = { r in
                 let jsSource = String(bytes: r.body, encoding: String.Encoding.utf8)
                 postLog(jsSource)
-                return HttpResponse.raw(200, "OK", [:], { try $0.write([UInt8]("test".utf8)) })
+                return HttpResponse.raw(200, "OK", ["Content-Type":"application/json"], { try $0.write([UInt8]("{\"result\":\"ok\"}".utf8)) })
             }
 
             server["/static/:path"] = shareFilesFromDirectory("\(Bundle.main.resourcePath!)/www/static/")
