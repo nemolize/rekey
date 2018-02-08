@@ -40,5 +40,9 @@ func onKeyEvent(
         }
     }
 
+    if (type == CGEventType.flagsChanged) {
+        return Unmanaged.passUnretained(event)
+    }
+
     return nil
 }
