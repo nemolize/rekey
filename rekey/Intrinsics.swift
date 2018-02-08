@@ -95,7 +95,7 @@ class Intrinsics {
         jsContext?.setb0("getModifierFlags") { ()->Any! in
             return modifierFlags.rawValue
         }
-        jsContext?.evaluateScript("var _flags;")
+        _ = jsContext?.evaluateScript("var _flags=256;")
     }
     
     private func setUpMouse(){
