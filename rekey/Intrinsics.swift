@@ -56,7 +56,7 @@ class Intrinsics {
                         keyDown: !isUp
                         )
                     {
-                        ev.flags = getFlagsFromOptionsDict(options) ?? modifierFlags
+                        ev.flags = getFlagsFromOptionsDict(options) ?? CGEventFlags(rawValue: jsContext?.fetch("_flags").toNumber() as! UInt64)
                         ev.post(tap: CGEventTapLocation.cghidEventTap)
                     }
                 } else { // emit down , up if "isUp" is not specified
@@ -66,7 +66,7 @@ class Intrinsics {
                         keyDown: true
                         )
                     {
-                        ev.flags = getFlagsFromOptionsDict(options) ?? modifierFlags
+                        ev.flags = getFlagsFromOptionsDict(options) ?? CGEventFlags(rawValue: jsContext?.fetch("_flags").toNumber() as! UInt64)
                         ev.post(tap: CGEventTapLocation.cghidEventTap)
                         ev.type=CGEventType.keyUp
                         ev.post(tap: CGEventTapLocation.cghidEventTap)
@@ -79,7 +79,7 @@ class Intrinsics {
                     keyDown: true
                     )
                 {
-                    ev.flags = modifierFlags
+                    ev.flags = CGEventFlags(rawValue: jsContext?.fetch("_flags").toNumber() as! UInt64)
                     ev.post(tap: CGEventTapLocation.cghidEventTap)
                     ev.type=CGEventType.keyUp
                     ev.post(tap: CGEventTapLocation.cghidEventTap)
@@ -95,6 +95,7 @@ class Intrinsics {
         jsContext?.setb0("getModifierFlags") { ()->Any! in
             return modifierFlags.rawValue
         }
+        jsContext?.evaluateScript("var _flags;")
     }
     
     private func setUpMouse(){
@@ -139,6 +140,7 @@ class Intrinsics {
         setUpModifier()
         setUpMouse()
 
+        _ = jsContext?.evaluateScript("onFlagsChanged = function(key, flags, isRepeat, isUp, isSysKey){ _flags=flags; }")
         _ = jsContext?.evaluateScript("onKey = function(key, flags, isRepeat, isUp, isSysKey){ Key.emit( key,{isUp: isUp}) }")
     }
     
