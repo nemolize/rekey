@@ -16,8 +16,21 @@ var modifierFlags: CGEventFlags = CGEventFlags(rawValue: 256)
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private func trustThisApplication() {
+        let opts = NSDictionary(
+                object: kCFBooleanTrue,
+                forKey: kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString
+        ) as CFDictionary
+
+        guard AXIsProcessTrustedWithOptions(opts) else {
+            exit(1)
+        }
+    }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+
+        trustThisApplication()
+
         let intrinsics=Intrinsics()
         intrinsics.setUpAppIntrinsicJsObjects()
 
@@ -52,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             server.POST["/"] = { r in
                 let jsSource = String(bytes: r.body, encoding: String.Encoding.utf8)
-                postLog(jsSource)
+                NotificationCenter.postExecuteJS(jsSource!)
                 return HttpResponse.raw(200, "OK", ["Content-Type":"application/json"], { try $0.write([UInt8]("{\"result\":\"ok\"}".utf8)) })
             }
 
@@ -139,7 +152,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             UInt32(NX_SYSDEFINED)
         ].reduce(0) { prev, next in prev | (1 << next) }
 
-        guard let eventTap = CGEvent.tapCreate(tap: .cgSessionEventTap,
+        guard let eventTap = CGEvent.tapCreate(
+                tap: .cghidEventTap,
                 place: .headInsertEventTap,
                 options: .defaultTap,
                 eventsOfInterest: CGEventMask(eventMask),
