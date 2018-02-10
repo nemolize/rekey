@@ -11,7 +11,6 @@ import Swifter
 
 let executionLock = NSLock()
 let jsContext = JSContext()
-var modifierFlags: CGEventFlags = CGEventFlags(rawValue: 256)
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {

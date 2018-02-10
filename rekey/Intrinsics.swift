@@ -2,14 +2,19 @@
 //  Intrinsics.swift
 //  rekey
 //
-//  Created by nemopvt on 2018/01/03.
+//  Created by nemoto on 2018/01/03.
 //  Copyright © 2018年 nemoto. All rights reserved.
 //
 
 import Foundation
 
 class Intrinsics {
-    
+
+    private func getValue<T>(_ target: Any!) -> T? {
+        guard target is T? else { return nil }
+        return target as! T?
+    }
+
     private func setUpConsole(){
         jsContext?.setb1("_consoleLog") { (arg0)->Any! in
             postLog("\( arg0 ?? "undefined" )")
@@ -30,25 +35,18 @@ class Intrinsics {
                 return nil
             }
             evSrc.userData=Constants.magicValue
-
-            func getValue<T>(_ target: Any!) -> T? {
-                guard target is T? else {
-                    return nil
-                }
-                return target as! T?
-            }
             
             func getFlagsFromOptionsDict(_ options: NSDictionary?) -> CGEventFlags? {
-                guard let flags: NSNumber = getValue(options?.value(forKey: "flags")) else {
+                guard let flags: NSNumber = self.getValue(options?.value(forKey: "flags")) else {
                     return nil
                 }
                 return CGEventFlags(rawValue: flags.uint64Value)
             }
 
-            if let options : NSDictionary = getValue(arg1) {
+            if let options : NSDictionary = self.getValue(arg1) {
                 
                 // emit single if "isUp" is not specified
-                if let isUp : Bool = getValue(options.value(forKey: "isUp")){
+                if let isUp : Bool = self.getValue(options.value(forKey: "isUp")){
 
                     if let ev = CGEvent(
                         keyboardEventSource: evSrc,
@@ -56,7 +54,8 @@ class Intrinsics {
                         keyDown: !isUp
                         )
                     {
-                        ev.flags = getFlagsFromOptionsDict(options) ?? CGEventFlags(rawValue: jsContext?.fetch("_flags").toNumber() as! UInt64)
+                        ev.flags = getFlagsFromOptionsDict(options) ??
+                                CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName).toNumber() as! UInt64)
                         ev.post(tap: CGEventTapLocation.cghidEventTap)
                     }
                 } else { // emit down , up if "isUp" is not specified
@@ -66,7 +65,8 @@ class Intrinsics {
                         keyDown: true
                         )
                     {
-                        ev.flags = getFlagsFromOptionsDict(options) ?? CGEventFlags(rawValue: jsContext?.fetch("_flags").toNumber() as! UInt64)
+                        ev.flags = getFlagsFromOptionsDict(options)
+                                ?? CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName).toNumber() as! UInt64)
                         ev.post(tap: CGEventTapLocation.cghidEventTap)
                         ev.type=CGEventType.keyUp
                         ev.post(tap: CGEventTapLocation.cghidEventTap)
@@ -79,7 +79,7 @@ class Intrinsics {
                     keyDown: true
                     )
                 {
-                    ev.flags = CGEventFlags(rawValue: jsContext?.fetch("_flags").toNumber() as! UInt64)
+                    ev.flags = CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName).toNumber() as! UInt64)
                     ev.post(tap: CGEventTapLocation.cghidEventTap)
                     ev.type=CGEventType.keyUp
                     ev.post(tap: CGEventTapLocation.cghidEventTap)
@@ -92,10 +92,32 @@ class Intrinsics {
     }
 
     private func setUpModifier(){
-        jsContext?.setb0("getModifierFlags") { ()->Any! in
-            return modifierFlags.rawValue
+        _ = jsContext?.evaluateScript("getModifierFlags = function() { return \(Constants.flagsJsVarName)}")
+        jsContext?.setb1(Constants.emitFlagsChangeJsFunctionNameInternal) { arg1->Any! in
+
+            guard let options: NSDictionary = self.getValue(arg1) else {
+                _ = jsContext?.evaluateScript("throw Error('argument must be an object')")
+                return nil
+            }
+
+            let flags = options["flags"]
+            jsContext?.store(Constants.flagsJsVarName, flags)
+
+            guard let evSrc=CGEventSource(stateID: CGEventSourceStateID.privateState) else {
+                _ = jsContext?.evaluateScript("throw Error('failed to create CGEventSource')")
+                return nil
+            }
+            evSrc.userData=Constants.magicValue
+
+            if let ev = CGEvent(source: evSrc) {
+                ev.flags = CGEventFlags(rawValue: flags as! UInt64)
+                ev.type = CGEventType.flagsChanged
+                ev.post(tap: CGEventTapLocation.cghidEventTap)
+            }
+            return nil
         }
-        _ = jsContext?.evaluateScript("var _flags=256;")
+        _ = jsContext?.evaluateScript("Key.\(Constants.emitFlagsChangeJsFunctionName)=\(Constants.emitFlagsChangeJsFunctionNameInternal)")
+        _ = jsContext?.evaluateScript("var \(Constants.flagsJsVarName)=256;")
     }
     
     private func setUpMouse(){
@@ -140,7 +162,7 @@ class Intrinsics {
         setUpModifier()
         setUpMouse()
 
-        _ = jsContext?.evaluateScript("onFlagsChanged = function(key, flags, isRepeat, isUp, isSysKey){ _flags=flags; }")
+        _ = jsContext?.evaluateScript("onFlagsChanged = function(key, flags, isRepeat, isUp, isSysKey){ \(Constants.emitFlagsChangeJsFunctionNameInternal)({flags: flags}) }")
         _ = jsContext?.evaluateScript("onKey = function(key, flags, isRepeat, isUp, isSysKey){ Key.emit( key,{isUp: isUp}) }")
     }
     

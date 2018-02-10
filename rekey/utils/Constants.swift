@@ -14,4 +14,7 @@ struct Constants {
     static let captureEventQueueName = "rekey.app.capture.eventtap"
     static let processQueueName = "rekey.app.queue.process"
     static let configFilePathUnderHomeDirectory = "/.config/rekey/onstart.js"
+    static let flagsJsVarName = "_rekey_internal_flags_"
+    static let emitFlagsChangeJsFunctionName="emitFlagsChange"
+    static let emitFlagsChangeJsFunctionNameInternal="_rekey_internal_emitFlagsChange_"
 }

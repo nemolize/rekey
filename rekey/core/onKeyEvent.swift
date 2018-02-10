@@ -32,17 +32,11 @@ func onKeyEvent(
             _ = jsContext?.fetch("onKey").call(withArguments: [keyCode, event.flags.rawValue, isRepeat, isUp, false])
             break;
         case CGEventType.flagsChanged.rawValue:
-            modifierFlags = event.flags
             _ = jsContext?.fetch("onFlagsChanged").call(withArguments: [keyCode, event.flags.rawValue, isRepeat, isUp, false])
             break;
         default:
             print("unknown type \(type)")
         }
     }
-
-    if (type == CGEventType.flagsChanged) {
-        return Unmanaged.passUnretained(event)
-    }
-
     return nil
 }
