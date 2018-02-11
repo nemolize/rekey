@@ -1,5 +1,5 @@
 //
-//  Intrinsics.swift
+//  intrinsics.swift
 //  rekey
 //
 //  Created by nemoto on 2018/01/03.
@@ -10,7 +10,7 @@ import Foundation
 
 class Intrinsics {
 
-    private func getValue<T>(_ target: Any!) -> T? {
+    func getValue<T>(_ target: Any!) -> T? {
         guard target is T? else { return nil }
         return target as! T?
     }
@@ -118,42 +118,6 @@ class Intrinsics {
         }
         _ = jsContext?.evaluateScript("Key.\(Constants.emitFlagsChangeJsFunctionName)=\(Constants.emitFlagsChangeJsFunctionNameInternal)")
         _ = jsContext?.evaluateScript("var \(Constants.flagsJsVarName)=256;")
-    }
-    
-    private func setUpMouse(){
-        func mouseMove(_ dx:CGFloat,_ dy:CGFloat){
-            func getCurrentMouseLocation()-> CGPoint {
-                return CGEvent(source:nil)!.location
-            }
-            
-            var point=getCurrentMouseLocation()
-            
-            point.x+=dx
-            point.y+=dy
-            
-            guard let moveEvent = CGEvent(
-                mouseEventSource: nil,
-                mouseType: .mouseMoved,
-                mouseCursorPosition: point,
-                mouseButton: .left
-                )
-                else { postLog("failed to post the event"); return }
-            moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
-        }
-        
-        jsContext?.setb2("_mouseMove"){ (dx,dy) ->Any! in
-            let ddx=dx as? Double
-            let ddy=dy as? Double
-            
-            guard ddx != nil && ddy != nil else {
-                _ = jsContext?.evaluateScript("throw \"bad arguments dx=\(dx ?? "undefined"), dy=\(dy ?? "undefined")\";")
-                return nil
-            }
-            mouseMove(CGFloat(ddx!),CGFloat(ddy!))
-            return nil
-        }
-        _ = jsContext?.evaluateScript("Mouse = { move: function(dx,dy) { _mouseMove(dx,dy) } }")
-        
     }
     
     func setUpAppIntrinsicJsObjects(){
