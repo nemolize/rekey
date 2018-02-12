@@ -1,5 +1,9 @@
 import Cocoa
 
+func getCurrentModifierFlags() -> CGEventFlags {
+    return CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName).toNumber() as! UInt64)
+}
+
 func onKeyEvent(
         proxy: CGEventTapProxy,
         type: CGEventType,

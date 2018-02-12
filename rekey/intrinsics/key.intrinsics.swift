@@ -8,9 +8,7 @@ extension Intrinsics {
         makeJsObj("Key", JsNames.emit, { name in
             jsContext?.setb2(name) { (arg0, arg1) -> Any! in
 
-                guard let cgKeyCode = arg0 as! UInt16? else {
-                    return jsContext?.evaluateScript("throw 'invalid arguments'")
-                }
+                guard let cgKeyCode = arg0 as! UInt16? else { return jsContext?.evaluateScript("throw 'invalid arguments'") }
 
                 guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.privateState) else {
                     postLog("failed to create CGEventSource");
@@ -26,39 +24,23 @@ extension Intrinsics {
                 }
 
                 if let options: NSDictionary = self.getValue(arg1) {
-
                     // emit single if "isUp" is not specified
                     if let isUp: Bool = self.getValue(options.value(forKey: "isUp")) {
-
-                        if let ev = CGEvent(
-                                keyboardEventSource: evSrc,
-                                virtualKey: cgKeyCode,
-                                keyDown: !isUp
-                        ) {
-                            ev.flags = getFlagsFromOptionsDict(options) ??
-                                    CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName).toNumber() as! UInt64)
+                        if let ev = CGEvent(keyboardEventSource: evSrc, virtualKey: cgKeyCode, keyDown: !isUp) {
+                            ev.flags = getFlagsFromOptionsDict(options) ?? getCurrentModifierFlags()
                             ev.post(tap: CGEventTapLocation.cghidEventTap)
                         }
                     } else { // emit down , up if "isUp" is not specified
-                        if let ev = CGEvent(
-                                keyboardEventSource: evSrc,
-                                virtualKey: cgKeyCode,
-                                keyDown: true
-                        ) {
-                            ev.flags = getFlagsFromOptionsDict(options)
-                                    ?? CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName).toNumber() as! UInt64)
+                        if let ev = CGEvent(keyboardEventSource: evSrc, virtualKey: cgKeyCode, keyDown: true) {
+                            ev.flags = getFlagsFromOptionsDict(options) ?? getCurrentModifierFlags()
                             ev.post(tap: CGEventTapLocation.cghidEventTap)
                             ev.type = CGEventType.keyUp
                             ev.post(tap: CGEventTapLocation.cghidEventTap)
                         }
                     }
                 } else {  // emit down , up with current modifier flags if options is not specified
-                    if let ev = CGEvent(
-                            keyboardEventSource: evSrc,
-                            virtualKey: cgKeyCode,
-                            keyDown: true
-                    ) {
-                        ev.flags = CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName).toNumber() as! UInt64)
+                    if let ev = CGEvent(keyboardEventSource: evSrc, virtualKey: cgKeyCode, keyDown: true) {
+                        ev.flags = getCurrentModifierFlags()
                         ev.post(tap: CGEventTapLocation.cghidEventTap)
                         ev.type = CGEventType.keyUp
                         ev.post(tap: CGEventTapLocation.cghidEventTap)
