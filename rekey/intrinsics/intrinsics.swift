@@ -16,7 +16,7 @@ class Intrinsics {
     }
 
     func makeJsObj(_ targetScope: String! = nil, _ targetObjectName: String, _ innerFunc: (String) -> Void) {
-        innerFunc(targetObjectName)
+        innerFunc(targetObjectName.appJsIntrinsicName)
         let prefix = targetScope != nil ? "\(targetScope!)." : ""
         _ = jsContext?.evaluateScript("\(prefix)\(targetObjectName)=\(targetObjectName.appJsIntrinsicName)")
     }
@@ -36,7 +36,7 @@ class Intrinsics {
 
     private func setUpSystemFuncs() {
         makeJsObj(nil, JsNames.Reload, { name in
-            jsContext?.setb0(name.appJsIntrinsicName, {
+            jsContext?.setb0(name, {
                 NotificationCenter.postReload();
                 return nil
             })
@@ -46,7 +46,7 @@ class Intrinsics {
     private func setUpKey() {
         _ = jsContext?.evaluateScript("Key = {}")
         makeJsObj("Key", JsNames.emit, { name in
-            jsContext?.setb2(name.appJsIntrinsicName) { (arg0, arg1) -> Any! in
+            jsContext?.setb2(name) { (arg0, arg1) -> Any! in
 
                 guard let cgKeyCode = arg0 as! UInt16? else {
                     return jsContext?.evaluateScript("throw 'invalid arguments'")

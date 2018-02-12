@@ -138,11 +138,11 @@ extension Intrinsics {
         _ = jsContext?.evaluateScript("var Mouse = {}")
 
         makeJsObj("Mouse", JsNames.getPosition, { name in
-            jsContext?.setb0(JsNames.getPosition.appJsIntrinsicName, { return mouse.getPosition() })
+            jsContext?.setb0(name, { return mouse.getPosition() })
         })
 
         makeJsObj("Mouse", JsNames.setAttenuation, { name in
-            jsContext?.setb1(name.appJsIntrinsicName, { (arg: Any!) in
+            jsContext?.setb1(name, { (arg: Any!) in
                 guard let attenuation: CGFloat = self.getValue(arg) else {
                     _ = jsContext?.evaluateScript("throw new Error('arg \(arg) is not a number')")
                     return nil
@@ -152,7 +152,7 @@ extension Intrinsics {
         })
 
         makeJsObj("Mouse", JsNames.setForce, { name in
-            jsContext?.setb1(name.appJsIntrinsicName, { (arg: Any!) in
+            jsContext?.setb1(name, { (arg: Any!) in
                 guard let option: NSDictionary = self.getValue(arg) else {
                     _ = jsContext?.evaluateScript("throw new Error('arg \(arg) is not a number')")
                     return nil
@@ -165,7 +165,7 @@ extension Intrinsics {
         })
 
         makeJsObj("Mouse", JsNames.setVelocity, { name in
-            jsContext?.setb1(name.appJsIntrinsicName, { (arg: Any!) in
+            jsContext?.setb1(name, { (arg: Any!) in
                 guard let option: NSDictionary = self.getValue(arg) else {
                     _ = jsContext?.evaluateScript("throw new Error('arg \(arg) is not an object')")
                     return nil
