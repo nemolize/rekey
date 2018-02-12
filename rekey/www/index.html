@@ -14,6 +14,8 @@
 <pre id="log"></pre>
 <textarea placeholder="input  js code" id="js-input"></textarea>
 
+<button type="button" id="btn-reload">Reload</button>
+
 <script>
     $(() => {
         $("#js-input").on("keydown", e => {
@@ -32,6 +34,12 @@
             }
             return true;
         });
+
+        $("#btn-reload").click(() => {
+            fetch('/reload', {method: 'POST'})
+                .then(resp => resp.text())
+                .then(text => console.debug(text));
+        })
     });
 </script>
 

@@ -10,7 +10,7 @@ import Pods_rekey
 import Swifter
 
 let executionLock = NSLock()
-let jsContext = JSContext()
+var jsContext = JSContext()
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -29,43 +29,52 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         trustThisApplication()
+        Intrinsics().setUpAppIntrinsicJsObjects()
 
-        let intrinsics=Intrinsics()
-        intrinsics.setUpAppIntrinsicJsObjects()
+        self.startEventCaptureThread()
+        setUpObservers()
+        setUpWebServer()
+    }
 
-        // capture key events in background thread
-        DispatchQueue(label: Constants.captureEventQueueName).async {
-            self.backgroundThread()
-        }
-
+    private func setUpObservers() {
         // append log notification from non UI threads to the UI thread
-        NotificationCenter.default.addObserver(
-                forName: .executeJs,
-                object: nil,
-                queue: nil,
-                using: { notification in
-                    guard let jsSource = notification.object as? String else {
-                        print("notification object is nil");
-                        return
-                    }
-                    self.executeBuffer(jsSource:jsSource)
-                })
+        NotificationCenter.default.addObserver(forName: .executeJs, object: nil, queue: nil, using: { notification in
+            guard let jsSource = notification.object as? String else {
+                print("notification object is nil");
+                return
+            }
+            self.executeBuffer(jsSource: jsSource)
+        })
+        NotificationCenter.default.addObserver(forName: .reload, object: nil, queue: nil, using: { notification in
+            self.reload()
+        })
+    }
 
-        func getBytes(url: URL) throws -> [UInt8] { return try [UInt8](Data(contentsOf: url)) }
+    func applicationWillTerminate(_ aNotification: Notification) {
+        // Insert code here to tear down your application
+    }
 
+    private func getBytes(url: URL) throws -> [UInt8] { return try [UInt8](Data(contentsOf: url)) }
+
+    func setUpWebServer() {
         DispatchQueue(label: Constants.httpServerQueueName).async {
             let server = HttpServer()
 
             server.GET["/"] = shareFile(Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "www")!)
             server.GET["/favicon.ico"] = { r in
                 guard let faviconInternalUrl = Bundle.main.url(forResource: "favicon", withExtension: "ico", subdirectory: "www") else { return .notFound }
-                return HttpResponse.raw(200, "OK", ["Content-Type": "image/x-icon"], { try $0.write(getBytes(url: faviconInternalUrl)) })
+                return HttpResponse.raw(200, "OK", ["Content-Type": "image/x-icon"], { try $0.write(self.getBytes(url: faviconInternalUrl)) })
             }
 
             server.POST["/"] = { r in
                 let jsSource = String(bytes: r.body, encoding: String.Encoding.utf8)
                 NotificationCenter.postExecuteJS(jsSource!)
-                return HttpResponse.raw(200, "OK", ["Content-Type":"application/json"], { try $0.write([UInt8]("{\"result\":\"ok\"}".utf8)) })
+                return HttpResponse.raw(200, "OK", ["Content-Type": "application/json"], { try $0.write([UInt8]("{\"result\":\"ok\"}".utf8)) })
+            }
+
+            server.POST["/reload"] = { r in
+                self.reload()
+                return HttpResponse.raw(200, "OK", ["Content-Type": "application/json"], { try $0.write([UInt8]("{\"result\":\"ok\"}".utf8)) })
             }
 
             server["/static/:path"] = shareFilesFromDirectory("\(Bundle.main.resourcePath!)/www/static/")
@@ -80,36 +89,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 semaphore.signal()
             }
         }
-
-
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    func reload() {
+        jsContext = JSContext()
+        Intrinsics().setUpAppIntrinsicJsObjects()
+        self.loadConfig()
+        postLog("config reloaded")
     }
 
-    func backgroundThread(){
-        print("starting background thread")
-        jsContext?.exceptionHandler = { context, exception in
-            // type of String
-            guard let stacktrace = exception?.objectForKeyedSubscript("stack").toString() else {
-                postLog("JS Error: \(exception.debugDescription)")
-                return
+    func startEventCaptureThread() {
+        DispatchQueue(label: Constants.captureEventQueueName).async {
+            print("starting background thread")
+            jsContext?.exceptionHandler = { context, exception in
+                // type of String
+                guard let stacktrace = exception?.objectForKeyedSubscript("stack").toString() else {
+                    postLog("JS Error: \(exception.debugDescription)")
+                    return
+                }
+                // type of Number
+                guard let lineNumber = exception?.objectForKeyedSubscript("line")?.toUInt32() else {
+                    postLog("JS Error: \(exception.debugDescription)")
+                    return
+                }
+                // type of Number
+                guard let column = exception?.objectForKeyedSubscript("column")?.toUInt32() else {
+                    postLog("JS Error: \(exception.debugDescription)")
+                    return
+                }
+                postLog("JS Error: \(column):\(lineNumber) \(stacktrace)")
             }
-            // type of Number
-            guard let lineNumber = exception?.objectForKeyedSubscript("line")?.toUInt32() else {
-                postLog("JS Error: \(exception.debugDescription)")
-                return
-            }
-            // type of Number
-            guard let column = exception?.objectForKeyedSubscript("column")?.toUInt32() else {
-                postLog("JS Error: \(exception.debugDescription)")
-                return
-            }
-            postLog("JS Error: \(column):\(lineNumber) \(stacktrace)")
+            self.loadConfig()
+            self.createEventTap()
         }
-        loadConfig()
-        createEventTap()
     }
 
     func executeBuffer(jsSource: String) {
@@ -118,7 +130,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         postLog("[expression]: \(jsSource)\n")
 
         executionLock.lock()
-        defer{executionLock.unlock()}
+        defer{ executionLock.unlock() }
         let result = jsContext!.evaluateScript(jsSource)
         var expression = "\(result!)"
         if result?.isString == true {
@@ -128,22 +140,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         postLog("=> \(expression)")
     }
 
-    func loadConfig(){
+    private func loadConfig() {
         // get the home path directory
-        let confPath = NSHomeDirectory()+Constants.configFilePathUnderHomeDirectory
+        let confPath = NSHomeDirectory() + Constants.configFilePathUnderHomeDirectory
 
-        if FileManager.default.fileExists(atPath: confPath){
-            if let jsSource = try? String(contentsOfFile: confPath){
+        if FileManager.default.fileExists(atPath: confPath) {
+            if let jsSource = try? String(contentsOfFile: confPath) {
                 jsContext!.evaluateScript(jsSource)
-            }else{
-                postLog(String(format:"failed to load %@",confPath))
+            } else {
+                postLog(String(format: "failed to load %@", confPath))
             }
         } else {
-            postLog(String(format:"user config file does not exist. %@",confPath))
+            postLog(String(format: "user config file does not exist. %@", confPath))
         }
     }
 
-    func createEventTap(){
+    private func createEventTap() {
         let eventMask = [
             CGEventType.keyDown.rawValue,
             CGEventType.keyUp.rawValue,
