@@ -27,3 +27,9 @@ extension NotificationCenter {
         NotificationCenter.default.post(name: .reload, object: nil)
     }
 }
+
+extension JSContext {
+    func throwError(message: String) {
+        self.evaluateScript("throw Error(\"\(message)\")")
+    }
+}
