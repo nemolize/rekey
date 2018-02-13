@@ -18,7 +18,6 @@ extension Intrinsics {
                     return nil
                 }
                 evSrc.userData = Constants.magicValue
-                evSrc.keyboardType = 37
 
                 func getFlagsFromOptionsDict(_ options: NSDictionary?) -> CGEventFlags? {
                     guard let flags: NSNumber = self.getValue(options?.value(forKey: "flags")) else {
@@ -28,12 +27,12 @@ extension Intrinsics {
                 }
 
                 if let options: NSDictionary = self.getValue(arg1) {
+                    if let keyboardType: NSNumber = self.getValue(options.value(forKey: "keyboardType")) {
+                        evSrc.keyboardType = CGEventSourceKeyboardType(keyboardType)
+                    }
                     // emit single if "isUp" is not specified
                     if let isUp: Bool = self.getValue(options.value(forKey: "isUp")) {
                         if let ev = CGEvent(keyboardEventSource: evSrc, virtualKey: cgKeyCode, keyDown: !isUp) {
-                            if let keyboardType: NSNumber = self.getValue(options.value(forKey: "keyboardType")) {
-                                evSrc.keyboardType = CGEventSourceKeyboardType(keyboardType)
-                            }
                             ev.flags = getFlagsFromOptionsDict(options) ?? getCurrentModifierFlags()
                             ev.post(tap: CGEventTapLocation.cghidEventTap)
                         }

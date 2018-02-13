@@ -78,8 +78,8 @@ class Intrinsics {
         setUpModifier()
         setUpMouse()
 
-        _ = jsContext?.evaluateScript("\(JsNames.onFlagsChanged) = function(key, flags, isRepeat, isUp, isSysKey){ \(Constants.emitFlagsChangeJsFunctionNameInternal)({flags: flags}) }")
-        _ = jsContext?.evaluateScript("\(JsNames.onKey) = function(key, flags, isRepeat, isUp, isSysKey){ Key.\(JsNames.emit)( key,{isUp: isUp}) }")
+        _ = jsContext?.evaluateScript("\(JsNames.onFlagsChanged) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ \(Constants.emitFlagsChangeJsFunctionNameInternal)({ flags: flags, keyboardType: keyboardType}) }")
+        _ = jsContext?.evaluateScript("\(JsNames.onKey) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ Key.\(JsNames.emit)( key, { isUp: isUp, keyboardType: keyboardType}) }")
     }
 
 
