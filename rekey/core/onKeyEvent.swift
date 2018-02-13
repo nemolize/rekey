@@ -29,14 +29,14 @@ func onKeyEvent(
             if let nsEvent = NSEvent(cgEvent: event), nsEvent.subtype.rawValue == 8 {
                 let keyCode = (nsEvent.data1 & 0xffff0000) >> 16
                 let isUp = ((nsEvent.data1 & 0xff00) >> 8) != 0xa
-                _ = jsContext?.fetch("onSysKey").call(withArguments: [keyCode, event.flags.rawValue, isRepeat, isUp, true])
+                _ = jsContext?.fetch(JsNames.onSysKey).call(withArguments: [keyCode, event.flags.rawValue, isRepeat, isUp, true])
             }
             break;
         case CGEventType.keyDown.rawValue, CGEventType.keyUp.rawValue:
-            _ = jsContext?.fetch("onKey").call(withArguments: [keyCode, event.flags.rawValue, isRepeat, isUp, false])
+            _ = jsContext?.fetch(JsNames.onKey).call(withArguments: [keyCode, event.flags.rawValue, isRepeat, isUp, false])
             break;
         case CGEventType.flagsChanged.rawValue:
-            _ = jsContext?.fetch("onFlagsChanged").call(withArguments: [keyCode, event.flags.rawValue, isRepeat, isUp, false])
+            _ = jsContext?.fetch(JsNames.onFlagsChanged).call(withArguments: [keyCode, event.flags.rawValue, isRepeat, isUp, false])
             break;
         default:
             print("unknown type \(type)")
