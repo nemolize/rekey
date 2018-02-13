@@ -47,16 +47,14 @@ class Intrinsics {
         jsContext?.setb1(Constants.emitFlagsChangeJsFunctionNameInternal) { arg1 -> Any! in
 
             guard let options: NSDictionary = self.getValue(arg1) else {
-                _ = jsContext?.evaluateScript("throw Error('argument must be an object')")
-                return nil
+                return jsContext?.throwError("argument must be an object")
             }
 
             let flags = options["flags"]
             jsContext?.store(Constants.flagsJsVarName, flags)
 
             guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.privateState) else {
-                _ = jsContext?.evaluateScript("throw Error('failed to create CGEventSource')")
-                return nil
+                return jsContext?.throwError("failed to create CGEventSource")
             }
             evSrc.userData = Constants.magicValue
 

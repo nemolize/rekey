@@ -11,11 +11,10 @@ extension Intrinsics {
         makeJsObj("Key", JsNames.emit, { name in
             jsContext?.setb2(name) { (arg0, arg1) -> Any! in
 
-                guard let cgKeyCode = arg0 as! UInt16? else { return jsContext?.evaluateScript("throw 'invalid arguments'") }
+                guard let cgKeyCode = arg0 as! UInt16? else { return jsContext?.throwError("invalid arguments") }
 
                 guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.privateState) else {
-                    postLog("failed to create CGEventSource");
-                    return nil
+                    return jsContext?.throwError("failed to create CGEventSource")
                 }
                 evSrc.userData = Constants.magicValue
 
@@ -26,8 +25,7 @@ extension Intrinsics {
                 }
 
                 guard let ev = CGEvent(keyboardEventSource: evSrc, virtualKey: cgKeyCode, keyDown: true) else {
-                    jsContext?.throwError(message: "Failed to instantiate CGEvent")
-                    return nil
+                    return jsContext?.throwError("Failed to instantiate CGEvent")
                 }
 
                 if let flagsInOption = options?.value(forKey: "flags") as? UInt64 {

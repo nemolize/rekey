@@ -29,7 +29,7 @@ extension NotificationCenter {
 }
 
 extension JSContext {
-    func throwError(message: String) {
-        self.evaluateScript("throw Error(\"\(message)\")")
+    func throwError(_ message: String) {
+        _ = self.evaluateScript("throw new Error(\"\(message)\")")
     }
 }
