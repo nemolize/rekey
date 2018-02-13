@@ -5,43 +5,19 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Rekey</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
     <script src="/static/vendors/jquery-3.3.1.min.js"></script>
     <script src="/static/vendors/babel.min.js"></script>
+    <script src="/static/main.js"></script>
 </head>
 <body>
 
-<pre id="log"></pre>
 <textarea placeholder="input  js code" id="js-input"></textarea>
 
 <button type="button" id="btn-reload">Reload</button>
 
-<script>
-    $(() => {
-        $("#js-input").on("keydown", e => {
-            if (e.metaKey && (event.which == 13 || event.keyCode == 13)) {
-                const jsSrc = $('#js-input').val();
-                const compiledJs = Babel.transform(jsSrc, {presets: ['es2015']}).code;
-                fetch('/', {
-                        method: 'POST',
-                        body: compiledJs,
-                        headers: new Headers({
-                            'Content-Type': 'application/javascript'
-                        })
-                    }
-                ).then(resp => resp.text()).then(text => console.debug(text));
-                return false;
-            }
-            return true;
-        });
-
-        $("#btn-reload").click(() => {
-            fetch('/reload', {method: 'POST'})
-                .then(resp => resp.text())
-                .then(text => console.debug(text));
-        })
-    });
-</script>
+<ul id="logs"></ul>
 
 </body>
 </html>
