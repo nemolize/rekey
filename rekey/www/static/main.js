@@ -2,7 +2,9 @@ $(() => {
     $("#js-input").on('keydown', e => {
         if (e.metaKey && (event.which === 13 || event.keyCode === 13)) {
             try {
-                const jsSrc = $('#js-input').val();
+                const jsInput = $('#js-input');
+                const jsSrc = jsInput.val();
+                jsInput.val(null);
                 const compiledJs = Babel.transform(jsSrc, {presets: ['es2015']}).code;
                 fetch('/', {
                         method: 'POST',

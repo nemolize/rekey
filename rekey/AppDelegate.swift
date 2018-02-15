@@ -117,7 +117,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     postLog("JS Error: \(exception.debugDescription)")
                     return
                 }
-                postLog("JS Error: \(column):\(lineNumber) \(stacktrace) : \(exception.debugDescription)")
+                postLog("JS Error: \(column):\(lineNumber) \(stacktrace) : \(exception?.debugDescription ?? "")")
             }
             self.loadConfig()
             self.createEventTap()
