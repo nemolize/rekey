@@ -141,6 +141,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func loadConfig() {
+
+        enum RekeyError: Error {
+            case fileLoadError(String)
+            case filePathError
+        }
+
+        // load babel module
+        do {
+            postLog("loading babel")
+            guard let babelPath = Bundle.main.path(forResource: "babel.min", ofType: "js", inDirectory: "www/static/vendors") else {
+                throw RekeyError.filePathError
+            }
+            guard let jsSource = try? String(contentsOfFile: babelPath) else { throw RekeyError.fileLoadError(babelPath) }
+            jsContext!.evaluateScript(jsSource)
+        } catch {
+            postLog("\(error)")
+        }
+
+
         // get the home path directory
         let confPath = NSHomeDirectory() + Constants.configFilePathUnderHomeDirectory
 
