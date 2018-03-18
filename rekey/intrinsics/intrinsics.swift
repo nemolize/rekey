@@ -8,10 +8,6 @@
 
 import Foundation
 
-struct JsNames {
-    static let Reload = "reload"
-}
-
 class Intrinsics {
     func makeJsObj(_ targetScope: String! = nil, _ targetObjectName: String, _ innerFunc: (String) -> Void) {
         innerFunc(targetObjectName.appJsIntrinsicName)
@@ -33,7 +29,7 @@ class Intrinsics {
     }
 
     private func setUpSystemFuncs() {
-        makeJsObj(nil, JsNames.Reload, { name in
+        makeJsObj(nil, JsNames.System.Reload.rawValue, { name in
             jsContext?.setb0(name, {
                 NotificationCenter.postReload();
                 return nil
@@ -76,10 +72,8 @@ class Intrinsics {
         setUpModifier()
         setUpMouse()
 
-        _ = jsContext?.evaluateScript("\(JsNames.onFlagsChanged) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ \(Constants.emitFlagsChangeJsFunctionNameInternal)({ flags: flags, keyboardType: keyboardType}) }")
-        _ = jsContext?.evaluateScript("\(JsNames.onKey) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ Key.\(JsNames.emit)( key, { isUp: isUp, keyboardType: keyboardType}) }")
+        _ = jsContext?.evaluateScript("\(JsNames.Key.onFlagsChanged) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ \(Constants.emitFlagsChangeJsFunctionNameInternal)({ flags: flags, keyboardType: keyboardType}) }")
+        _ = jsContext?.evaluateScript("\(JsNames.Key.onKey) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ Key.\(JsNames.Key.emit.rawValue)( key, { isUp: isUp, keyboardType: keyboardType}) }")
     }
-
-
 }
 

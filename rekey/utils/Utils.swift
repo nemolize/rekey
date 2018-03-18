@@ -11,6 +11,7 @@ import Foundation
 extension Notification.Name {
     static let appendLog = Notification.Name("appendLog")
     static let executeJs = Notification.Name("executeJs")
+    static let compileAndExecuteJs = Notification.Name("compileAndExecuteJs")
     static let reload = Notification.Name("reload")
 }
 
@@ -20,7 +21,7 @@ func postLog(_ msg: String!) {
 
 extension NotificationCenter {
     static func postExecuteJS(_ jsSrc: String) {
-        NotificationCenter.default.post(name: .executeJs, object: jsSrc)
+        NotificationCenter.default.post(name: .compileAndExecuteJs, object: jsSrc)
     }
 
     static func postReload() {

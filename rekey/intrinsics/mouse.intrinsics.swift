@@ -114,14 +114,6 @@ class Mouse {
     }
 }
 
-extension String {
-    var appJsIntrinsicName: String {
-        get {
-            return "_rekey_internal_\(self)_"
-        }
-    }
-}
-
 extension Intrinsics {
     func setUpMouse() {
 

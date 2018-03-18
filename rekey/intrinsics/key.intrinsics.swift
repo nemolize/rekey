@@ -1,14 +1,16 @@
 extension JsNames {
-    static let emit = "emit"
-    static let onKey = "onKey"
-    static let onFlagsChanged = "onFlagsChanged"
-    static let onSysKey = "onSysKey"
+    enum Key: String {
+        case emit
+        case onKey
+        case onFlagsChanged
+        case onSysKey
+    }
 }
 
 extension Intrinsics {
     func setUpKey() {
         _ = jsContext?.evaluateScript("Key = {}")
-        makeJsObj("Key", JsNames.emit, { name in
+        makeJsObj("Key", JsNames.Key.emit.rawValue, { name in
             jsContext?.setb2(name) { (arg0, arg1) -> Any! in
 
                 guard let cgKeyCode = arg0 as! UInt16? else { return jsContext?.throwError("invalid arguments") }

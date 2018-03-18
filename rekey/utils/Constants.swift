@@ -9,12 +9,27 @@
 import Foundation
 
 struct Constants {
-    static let magicValue: Int64=0xfedcba
+    static let magicValue: Int64 = 0xfedcba
     static let httpServerQueueName = "rekey.app.httpserver"
     static let captureEventQueueName = "rekey.app.capture.eventtap"
     static let processQueueName = "rekey.app.queue.process"
     static let configFilePathUnderHomeDirectory = "/.config/rekey/onstart.js"
     static let flagsJsVarName = "_rekey_internal_flags_"
-    static let emitFlagsChangeJsFunctionName="emitFlagsChange"
-    static let emitFlagsChangeJsFunctionNameInternal="_rekey_internal_emitFlagsChange_"
+    static let emitFlagsChangeJsFunctionName = "emitFlagsChange"
+    static let emitFlagsChangeJsFunctionNameInternal = "_rekey_internal_emitFlagsChange_"
+    static let babelCompileSourceJsVariableName = "babelCompileSourceJsVariableName"
+}
+
+enum JsNames {
+    enum System: String {
+        case BabelCompileSource
+        case BabelCompiledSource
+        case Reload
+    }
+}
+
+extension String {
+    var appJsIntrinsicName: String {
+        get { return "_rekey_internal_\(self)_" }
+    }
 }
