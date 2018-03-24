@@ -40,10 +40,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let compileTargetName = JsNames.System.BabelCompileSource.rawValue.appJsIntrinsicName
         let compiledVarName = JsNames.System.BabelCompiledSource.rawValue.appJsIntrinsicName
         jsContext?.store(compileTargetName, babelSrc)
-        jsContext?.evaluateScript("try { " +
+        _ = jsContext?.evaluateScript("try { " +
                 "\(compiledVarName) = Babel.transform(\(compileTargetName), { presets: ['es2015'] }).code" +
                 " } catch(e) {" +
-                " \(compiledVarName) = undefined; console.log(String(e))" +
+                " \(compiledVarName) = undefined; throw e;" +
                 " }")
         guard let v = jsContext?.fetch(compiledVarName) else{ return nil }
         guard v.isString else { return nil }
