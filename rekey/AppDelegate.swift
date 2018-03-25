@@ -171,26 +171,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             postLog("\(error)")
         }
 
-
         // get the home path directory
-        let confPath = NSHomeDirectory() + Constants.configFilePathUnderHomeDirectory
-
-        if FileManager.default.fileExists(atPath: confPath) {
-            postLog("loading \(confPath)")
-            if let jsSource = try? String(contentsOfFile: confPath) {
-                postLog("compiling \(confPath)")
-                if let bbl=babelToJs(jsSource) {
-                    postLog("evaluating \(confPath)")
-                    jsContext!.evaluateScript(bbl)
-                }else{
-                    postLog(String(format: "failed to load %@", confPath))
-                }
-            } else {
-                postLog(String(format: "failed to load %@", confPath))
+        let tryLoad: (String) -> () = { path in
+            guard FileManager.default.fileExists(atPath: path) else {
+                postLog(String(format: "user config file does not exist. \(path)", path))
+                return
             }
-        } else {
-            postLog(String(format: "user config file does not exist. %@", confPath))
+
+            postLog("loading \(path)")
+            guard let jsSource = try? String(contentsOfFile: path) else {
+                postLog(String(format: "failed to load \(path)"))
+                return
+            }
+            NotificationCenter.default.post(name: .compileAndExecuteJs, object: jsSource)
         }
+        tryLoad(Bundle.main.path(forResource: "core", ofType: "js")!)
+        tryLoad(NSHomeDirectory() + Constants.configFilePathUnderHomeDirectory)
     }
 
     private func createEventTap() {
