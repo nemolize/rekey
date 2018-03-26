@@ -55,7 +55,11 @@ example of remapping Alt + A => B :
   addRemap('A-A','B')
 */
 
-function executeRemapAction(remapped) {
+function executeRemapAction(option,remapped) {
+    if (remapped instanceof InOut){
+        remapped.output(option);
+        return
+    }
     switch (typeof (remapped)) {
         case 'function':
             remapped();
@@ -104,23 +108,34 @@ function acquireRemapAction(options, remapRules) {
         let predictVal = remapRule.predict;
         let remapped = remapRule.remapped;
 
+        console.log(predictVal);
+        if (predictVal instanceof InOut) {
+            if (match(predictVal, options)) {
+                console.log('Matched');
+                executeRemapAction(options,remapped)
+            } else {
+                console.log('UnMatched');
+            }
+            continue;
+        }
+
         // remapRules.forEach((predict, remapped) => {
         switch (typeof (predictVal)) {
             case 'number':
                 if (predictVal === options.keyCode) {
-                    executeRemapAction(remapped);
+                    executeRemapAction(options,remapped);
                     return true
                 }
                 break;
             case 'string':
                 if (predictVal.toLowerCase() === getKeyName(options.keyCode).toLowerCase()) {
-                    executeRemapAction(remapped);
+                    executeRemapAction(options,remapped);
                     return true
                 }
                 break;
             case 'function':
                 if (predictVal(options)) {
-                    executeRemapAction(remapped);
+                    executeRemapAction(options,remapped);
                     return true
                 }
                 break;
@@ -148,12 +163,8 @@ function onKey(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType) {
         keyboardType: keyboardType
     });
 
-    acquireRemapAction(new RemapOption(keyCode,
-        flags,
-        isRepeat,
-        isUp,
-        isSysKey,
-        keyboardType), __rekey_intrinsics__.remapRules)
+    let option = new RemapOption(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType);
+    acquireRemapAction(option, __rekey_intrinsics__.remapRules)
 }
 
 
@@ -284,6 +295,47 @@ const KeyCodeToKeyName = Object.keys(KeyNameToKeyCodes).reduce((acc, key) => {
     return acc;
 }, {});
 
-addRemap('A', () => {
-    console.log('a pressed')
-});
+/**
+ * @param predict {InOut|string}
+ * @param option {RemapOption}
+ */
+function match(predict, option) {
+    if (predict instanceof InOut) {
+        if (!predict.predict(option)) {
+            return
+        }
+        return match(predict.next, option)
+    }
+
+    switch (typeof(predict)) {
+        case 'string':
+            return getKeyName(option.keyCode)===predict.toLowerCase();
+    }
+}
+
+class InOut {
+    /**
+     * @param next {InOut|string}
+     * @param predict {function(RemapOption)}
+     * @param output {function(RemapOption)}
+     */
+    constructor(next, predict, output) {
+        this.next = next;
+        this.predict = predict;
+        this.output = output;
+    }
+}
+
+function Control(key) {
+    return new InOut(
+        key,
+        option => {
+            return (option.flags & Masks.LCONTROL) !== 0;
+        },
+        option => {
+            Key.emitFlagsChange({flags:0,keyboardType:option.keyboardType});
+            Key.emit(getKeyCode('b'))
+        })
+}
+
+addRemap(Control('E'), Control('A'));
