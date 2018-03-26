@@ -62,6 +62,43 @@ function executeRemapAction(remapped) {
     }
 }
 
+const Masks = {
+    LCONTROL: 1<<0,
+    LSHIFT: 1<<1,
+    RSHIFT: 1<<2,
+    LCOMMAND: 1<<3,
+    RCOMMAND: 1<<4,
+    LALT: 1<<5
+};
+
+class RemapOption {
+
+    constructor(keyCode,
+                flags,
+                isRepeat,
+                isUp,
+                isSysKey,
+                keyboardType) {
+        this.keyCode = keyCode;
+        this.flags = flags;
+        this.isRepeat = isRepeat;
+        this.isUp = isUp;
+        this.isSysKey = isSysKey;
+        this.keyboardType = keyboardType;
+
+        console.log(this.isLeftShiftPressed)
+    }
+
+    get isLeftShiftPressed() {
+        return (this.flags & Masks.LSHIFT) !== 0;
+    }
+
+}
+
+
+/**
+ * @param options {RemapOption}
+ */
 function acquireRemapAction(options, remapRules) {
     for (let remapRule of remapRules) {
         let predictVal = remapRule.predict;
@@ -111,14 +148,12 @@ function onKey(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType) {
         keyboardType: keyboardType
     });
 
-    acquireRemapAction({
-        keyCode: keyCode,
-        flags: flags,
-        isRepeat: isRepeat,
-        isUp: isUp,
-        isSysKey: isSysKey,
-        keyboardType: keyboardType
-    }, __rekey_intrinsics__.remapRules)
+    acquireRemapAction(new RemapOption(keyCode,
+        flags,
+        isRepeat,
+        isUp,
+        isSysKey,
+        keyboardType), __rekey_intrinsics__.remapRules)
 }
 
 
