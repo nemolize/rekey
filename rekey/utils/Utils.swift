@@ -15,13 +15,18 @@ extension Notification.Name {
     static let reload = Notification.Name("reload")
 }
 
+struct ExecuteOptions {
+    var source: String
+    var suppressLog: Bool
+}
+
 func postLog(_ msg: String!) {
     NotificationCenter.default.post(name: .appendLog, object: "\(msg ?? "")")
 }
 
 extension NotificationCenter {
-    static func postExecuteJS(_ jsSrc: String) {
-        NotificationCenter.default.post(name: .compileAndExecuteJs, object: jsSrc)
+    static func postExecuteJS(_ jsSrc: String, _ suppressLog: Bool = false) {
+        NotificationCenter.default.post(name: .compileAndExecuteJs, object: ExecuteOptions(source: jsSrc, suppressLog: suppressLog))
     }
 
     static func postReload() {

@@ -52,15 +52,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setUpObservers() {
         NotificationCenter.default.addObserver(forName: .compileAndExecuteJs, object: nil, queue: nil, using: { notification in
-            guard let babelSource = notification.object as? String else {
-                postLog("notification object is nil")
+            guard let options = notification.object as? ExecuteOptions else {
+                postLog("invalid notification object: \(notification.object)")
                 return
             }
-            postLog("[babel expression]: \(babelSource)")
-            guard let jsSource = self.babelToJs(babelSource) else {
+            if (!options.suppressLog) {
+                postLog("[babel expression]: \(options.source)")
+            }
+            guard let jsSource = self.babelToJs(options.source) else {
                 return
             }
-            self.executeBuffer(jsSource: jsSource)
+            self.executeBuffer(jsSource: jsSource, suppressLog: options.suppressLog)
         })
         NotificationCenter.default.addObserver(forName: .reload, object: nil, queue: nil, using: { notification in
             self.reload()
@@ -141,20 +143,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func executeBuffer(jsSource: String) {
+    func executeBuffer(jsSource: String, suppressLog: Bool = false) {
         guard !jsSource.isEmpty else { return }
 
-        postLog("[compiled expression]: \(jsSource)\n")
+        if !suppressLog {
+            postLog("[compiled expression]: \(jsSource)\n")
+        }
 
         executionLock.lock()
         defer{ executionLock.unlock() }
         let result = jsContext!.evaluateScript(jsSource)
-        var expression = "\(result!)"
-        if result?.isString == true {
-            expression = "\"\(expression)\""
-        }
 
-        postLog("=> \(expression)")
+        if !suppressLog {
+            var expression = "\(result!)"
+            if result?.isString == true {
+                expression = "\"\(expression)\""
+            }
+
+            postLog("=> \(expression)")
+        }
     }
 
     private func loadConfig() {
@@ -183,9 +190,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 postLog(String(format: "failed to load \(path)"))
                 return
             }
-            NotificationCenter.default.post(name: .compileAndExecuteJs, object: jsSource)
+            NotificationCenter.postExecuteJS(jsSource, true)
         }
-        tryLoad(Bundle.main.path(forResource: "core", ofType: "js")!)
+        tryLoad(Bundle.main.path(forResource: "core", ofType: "js", inDirectory: "scripts")!)
         tryLoad(NSHomeDirectory() + Constants.configFilePathUnderHomeDirectory)
     }
 

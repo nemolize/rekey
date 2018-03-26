@@ -11,9 +11,8 @@
 		22373520667BE89815DDB854 /* Pods_rekeyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9C9F9CAFBCA997F10CC6829 /* Pods_rekeyUITests.framework */; };
 		6D7B11763751DCBB46A1B10B /* mouse.intrinsics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B113909ABD31ABC60D839 /* mouse.intrinsics.swift */; };
 		6D7B140270DBC95CE53A0799 /* onKeyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B1708D2AEC26A07811924 /* onKeyEvent.swift */; };
-		6D7B18B65A3A4A58CFD0C0D8 /* core.js in Resources */ = {isa = PBXBuildFile; fileRef = 6D7B1F0BAEED8BD80B724CE3 /* core.js */; };
+		6D7B15B7D6BD30AAFD7164FB /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 6D7B16D68DD9F81122050CC9 /* scripts */; };
 		6D7B1990B85013AE0DC71FC9 /* intrinsics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B1B39C4C11505AE67C408 /* intrinsics.swift */; };
-		6D7B1BA2129ED6F3E33683C7 /* core.js in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B1F0BAEED8BD80B724CE3 /* core.js */; };
 		6D7B1C2C675E839583F5DC5A /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B19898D654859245B8433 /* Errors.swift */; };
 		6D7B1D0F4F33D051D952535C /* key.intrinsics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B1E0ADCFF37657EF6E43C /* key.intrinsics.swift */; };
 		9772EFBC1FE543C700D6E9B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */; };
@@ -55,11 +54,11 @@
 		22310C7FD38ED4230143DD7C /* Pods-rekey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekey.release.xcconfig"; path = "Pods/Target Support Files/Pods-rekey/Pods-rekey.release.xcconfig"; sourceTree = "<group>"; };
 		4F02BFB2F062A40BED062280 /* Pods-rekeyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6D7B113909ABD31ABC60D839 /* mouse.intrinsics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mouse.intrinsics.swift; sourceTree = "<group>"; };
+		6D7B16D68DD9F81122050CC9 /* scripts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		6D7B1708D2AEC26A07811924 /* onKeyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = onKeyEvent.swift; sourceTree = "<group>"; };
 		6D7B19898D654859245B8433 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		6D7B1B39C4C11505AE67C408 /* intrinsics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = intrinsics.swift; sourceTree = "<group>"; };
 		6D7B1E0ADCFF37657EF6E43C /* key.intrinsics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = key.intrinsics.swift; sourceTree = "<group>"; };
-		6D7B1F0BAEED8BD80B724CE3 /* core.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = core.js; sourceTree = "<group>"; };
 		8BB800ECA7A59FF11DFD338F /* Pods-rekeyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		9772EFB81FE543C700D6E9B0 /* rekey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rekey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../rekey/AppDelegate.swift; sourceTree = "<group>"; };
@@ -179,7 +178,7 @@
 				9772EFC41FE543C700D6E9B0 /* Info.plist */,
 				6D7B10C5723FB896A5B76D03 /* core */,
 				6D7B19605E93120ACF526FE3 /* intrinsics */,
-				6D7B1F0BAEED8BD80B724CE3 /* core.js */,
+				6D7B16D68DD9F81122050CC9 /* scripts */,
 			);
 			path = rekey;
 			sourceTree = "<group>";
@@ -355,7 +354,7 @@
 				A4E17A61201E1F4F00CBA492 /* www in Resources */,
 				9772EFC01FE543C700D6E9B0 /* Assets.xcassets in Resources */,
 				9772EFC31FE543C700D6E9B0 /* Main.storyboard in Resources */,
-				6D7B18B65A3A4A58CFD0C0D8 /* core.js in Resources */,
+				6D7B15B7D6BD30AAFD7164FB /* scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,7 +541,6 @@
 				6D7B1990B85013AE0DC71FC9 /* intrinsics.swift in Sources */,
 				6D7B1D0F4F33D051D952535C /* key.intrinsics.swift in Sources */,
 				6D7B1C2C675E839583F5DC5A /* Errors.swift in Sources */,
-				6D7B1BA2129ED6F3E33683C7 /* core.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
