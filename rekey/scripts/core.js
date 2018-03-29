@@ -2,11 +2,17 @@ let __rekey_intrinsics__ = {
     remapRules: []
 };
 
+class RemapRule {
+    constructor(predict, remapped) {
+        this.predict = predict;
+        this.remapped = remapped;
+    }
+}
+
 function addRemap(predict, remapped) {
-    __rekey_intrinsics__.remapRules.push({
-        predict: predict,
-        remapped: remapped
-    });
+    __rekey_intrinsics__.remapRules.push(
+        new RemapRule(predict, remapped)
+    );
 }
 
 function getKeyName(keyCode) {
@@ -89,12 +95,14 @@ class RemapOption {
         this.isUp = isUp;
         this.isSysKey = isSysKey;
         this.keyboardType = keyboardType;
-
-        console.log(this.isLeftShiftPressed)
     }
 
     get isLeftShiftPressed() {
         return (this.flags & Masks.LSHIFT) !== 0;
+    }
+
+    get isLeftControlPressed(){
+        return (this.flags & Masks.LCONTROL) !== 0;
     }
 
 }
@@ -102,19 +110,18 @@ class RemapOption {
 
 /**
  * @param options {RemapOption}
+ * @param remapRules {[RemapRule]}
+ * @returns {boolean}
  */
 function acquireRemapAction(options, remapRules) {
     for (let remapRule of remapRules) {
         let predictVal = remapRule.predict;
         let remapped = remapRule.remapped;
 
-        console.log(predictVal);
         if (predictVal instanceof InOut) {
             if (match(predictVal, options)) {
-                console.log('Matched');
-                executeRemapAction(options,remapped)
-            } else {
-                console.log('UnMatched');
+                executeRemapAction(options,remapped);
+                return true;
             }
             continue;
         }
@@ -153,18 +160,19 @@ function acquireRemapAction(options, remapRules) {
                 }
         }
     }
-    console.log(`no hit ${getKeyName(options.keyCode)}`)
 }
 
 // noinspection JSUnusedGlobalSymbols
 function onKey(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType) {
-    Key.emit(keyCode, {
-        isUp: isUp,
-        keyboardType: keyboardType
-    });
-
     let option = new RemapOption(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType);
-    acquireRemapAction(option, __rekey_intrinsics__.remapRules)
+    if (!acquireRemapAction(
+        option,
+        __rekey_intrinsics__.remapRules)) {
+        Key.emit(keyCode, {
+            isUp: isUp,
+            keyboardType: keyboardType
+        });
+    }
 }
 
 
@@ -309,7 +317,9 @@ function match(predict, option) {
 
     switch (typeof(predict)) {
         case 'string':
-            return getKeyName(option.keyCode)===predict.toLowerCase();
+            return predict.toLowerCase() === getKeyName(option.keyCode);
+        case 'number':
+            return predict === option.keyCode;
     }
 }
 
@@ -326,16 +336,28 @@ class InOut {
     }
 }
 
-function Control(key) {
-    return new InOut(
+let Control = key => {
+    const inout = new InOut(
         key,
         option => {
             return (option.flags & Masks.LCONTROL) !== 0;
         },
         option => {
-            Key.emitFlagsChange({flags:0,keyboardType:option.keyboardType});
-            Key.emit(getKeyCode('b'))
-        })
-}
+            if (!option.isLeftControlPressed) {
+                Key.emitFlagsChange({flags: option.flags | Masks.LCONTROL, keyboardType: option.keyboardType});
+            }
+            switch (typeof(inout.next)) {
+                case "string":
+                    Key.emit(getKeyCode(inout.next));
+                    break;
+                case "number":
+                    Key.emit(inout.next);
+                    break;
+                default:
+                    console.log(typeof(inout.next))
+            }
+        });
+    return inout;
+};
 
-addRemap(Control('E'), Control('A'));
+addRemap(Control(KeyNameToKeyCodes.e), Control(KeyNameToKeyCodes.a));
