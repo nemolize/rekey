@@ -9,6 +9,11 @@ class RemapRule {
     }
 }
 
+/**
+ *
+ * @param predict
+ * @param remapped {function(RemapOption)}
+ */
 function addRemap(predict, remapped) {
     __rekey_intrinsics__.remapRules.push(
         new RemapRule(predict, remapped)
@@ -24,7 +29,7 @@ function getKeyName(keyCode) {
 }
 
 function getKeyCode(keyName) {
-    const code = KeyNameToKeyCodes[keyName];
+    const code = KeyCodes[keyName];
     if (code === undefined) {
         console.log(`Unknown KeyName: ${keyName}`);
     }
@@ -61,14 +66,14 @@ example of remapping Alt + A => B :
   addRemap('A-A','B')
 */
 
-function executeRemapAction(option,remapped) {
-    if (remapped instanceof InOut){
+function executeRemapAction(option, remapped) {
+    if (remapped instanceof InOut) {
         remapped.output(option);
         return
     }
     switch (typeof (remapped)) {
         case 'function':
-            remapped();
+            remapped(option);
     }
 }
 
@@ -176,7 +181,7 @@ function onKey(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType) {
 }
 
 
-const KeyNameToKeyCodes = {
+const KeyCodes = {
     Enter: 0x24,
     tab: 0x30,
     space: 0x31,
@@ -298,8 +303,8 @@ const KeyNameToKeyCodes = {
     keypad9: 0x5C
 };
 
-const KeyCodeToKeyName = Object.keys(KeyNameToKeyCodes).reduce((acc, key) => {
-    acc[KeyNameToKeyCodes[key]] = key;
+const KeyCodeToKeyName = Object.keys(KeyCodes).reduce((acc, key) => {
+    acc[KeyCodes[key]] = key;
     return acc;
 }, {});
 
@@ -336,28 +341,41 @@ class InOut {
     }
 }
 
+let emitNext = (option, nextValue) => {
+    if (nextValue instanceof InOut) {
+        nextValue.output(option);
+        return;
+    }
+    switch (typeof(nextValue)) {
+        case "string":
+            Key.emit(getKeyCode(nextValue));
+            break;
+        case "number":
+            Key.emit(nextValue);
+            break;
+        default:
+            console.log(typeof(nextValue))
+    }
+}
+
 let Control = key => {
     const inout = new InOut(
         key,
-        option => {
-            return (option.flags & Masks.LCONTROL) !== 0;
-        },
+        option => option.isLeftControlPressed,
         option => {
             if (!option.isLeftControlPressed) {
                 Key.emitFlagsChange({flags: option.flags | Masks.LCONTROL, keyboardType: option.keyboardType});
             }
-            switch (typeof(inout.next)) {
-                case "string":
-                    Key.emit(getKeyCode(inout.next));
-                    break;
-                case "number":
-                    Key.emit(inout.next);
-                    break;
-                default:
-                    console.log(typeof(inout.next))
-            }
+            emitNext(option, key);
         });
     return inout;
 };
 
-addRemap(Control(KeyNameToKeyCodes.e), Control(KeyNameToKeyCodes.a));
+// addRemap(Control(KeyCodes.e), Control(KeyCodes.a));
+
+Mouse.setAttenuation(11);
+addRemap(Control(KeyCodes.e), option => Mouse.setForce({y: option.isUp ? 0 : -12}));
+addRemap(Control(KeyCodes.d), option => Mouse.setForce({y: option.isUp ? 0 : 12}));
+addRemap(Control(KeyCodes.s), option => Mouse.setForce({x: option.isUp ? 0 : -12}));
+addRemap(Control(KeyCodes.f), option => Mouse.setForce({x: option.isUp ? 0 : 12}));
+addRemap(Control(KeyCodes.g), Control(KeyCodes.a));
