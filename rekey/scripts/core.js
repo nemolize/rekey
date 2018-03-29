@@ -359,7 +359,7 @@ let emitNext = (ctx, nextValue) => {
 }
 
 let Control = next => {
-    const inout = new InOut(
+    return new InOut(
         next,
         ctx => ctx.isLeftControlPressed,
         ctx => {
@@ -368,7 +368,6 @@ let Control = next => {
             }
             emitNext(ctx, next);
         });
-    return inout;
 };
 
 // addRemap(Control(KeyCodes.e), Control(KeyCodes.a));
