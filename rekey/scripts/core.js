@@ -12,7 +12,7 @@ class RemapRule {
 /**
  *
  * @param predict
- * @param remapped {function(RemapOption)}
+ * @param remapped {function(Context)}
  */
 function addRemap(predict, remapped) {
     __rekey_intrinsics__.remapRules.push(
@@ -66,14 +66,14 @@ example of remapping Alt + A => B :
   addRemap('A-A','B')
 */
 
-function executeRemapAction(option, remapped) {
+function executeRemapAction(ctx, remapped) {
     if (remapped instanceof InOut) {
-        remapped.output(option);
+        remapped.output(ctx);
         return
     }
     switch (typeof (remapped)) {
         case 'function':
-            remapped(option);
+            remapped(ctx);
     }
 }
 
@@ -86,7 +86,7 @@ const Masks = {
     LALT: 1<<5
 };
 
-class RemapOption {
+class Context {
 
     constructor(keyCode,
                 flags,
@@ -114,18 +114,18 @@ class RemapOption {
 
 
 /**
- * @param options {RemapOption}
+ * @param ctx {Context}
  * @param remapRules {[RemapRule]}
  * @returns {boolean}
  */
-function acquireRemapAction(options, remapRules) {
+function acquireRemapAction(ctx, remapRules) {
     for (let remapRule of remapRules) {
         let predictVal = remapRule.predict;
         let remapped = remapRule.remapped;
 
         if (predictVal instanceof InOut) {
-            if (match(predictVal, options)) {
-                executeRemapAction(options,remapped);
+            if (match(ctx, predictVal)) {
+                executeRemapAction(ctx, remapped);
                 return true;
             }
             continue;
@@ -134,27 +134,27 @@ function acquireRemapAction(options, remapRules) {
         // remapRules.forEach((predict, remapped) => {
         switch (typeof (predictVal)) {
             case 'number':
-                if (predictVal === options.keyCode) {
-                    executeRemapAction(options,remapped);
+                if (predictVal === ctx.keyCode) {
+                    executeRemapAction(ctx,remapped);
                     return true
                 }
                 break;
             case 'string':
-                if (predictVal.toLowerCase() === getKeyName(options.keyCode).toLowerCase()) {
-                    executeRemapAction(options,remapped);
+                if (predictVal.toLowerCase() === getKeyName(ctx.keyCode).toLowerCase()) {
+                    executeRemapAction(ctx,remapped);
                     return true
                 }
                 break;
             case 'function':
-                if (predictVal(options)) {
-                    executeRemapAction(options,remapped);
+                if (predictVal(ctx)) {
+                    executeRemapAction(ctx,remapped);
                     return true
                 }
                 break;
             default:
                 if (Array.isArray(predictVal)) {
                     for (let pred of predictVal) {
-                        if (acquireRemapAction(options, {
+                        if (acquireRemapAction(ctx, {
                             predict: pred,
                             remapped: remapped
                         })) {
@@ -169,9 +169,9 @@ function acquireRemapAction(options, remapRules) {
 
 // noinspection JSUnusedGlobalSymbols
 function onKey(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType) {
-    let option = new RemapOption(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType);
+    let ctx = new Context(keyCode, flags, isRepeat, isUp, isSysKey, keyboardType);
     if (!acquireRemapAction(
-        option,
+        ctx,
         __rekey_intrinsics__.remapRules)) {
         Key.emit(keyCode, {
             isUp: isUp,
@@ -310,29 +310,29 @@ const KeyCodeToKeyName = Object.keys(KeyCodes).reduce((acc, key) => {
 
 /**
  * @param predict {InOut|string}
- * @param option {RemapOption}
+ * @param ctx {Context}
  */
-function match(predict, option) {
+function match(ctx, predict) {
     if (predict instanceof InOut) {
-        if (!predict.predict(option)) {
+        if (!predict.predict(ctx)) {
             return
         }
-        return match(predict.next, option)
+        return match(ctx, predict.next)
     }
 
     switch (typeof(predict)) {
         case 'string':
-            return predict.toLowerCase() === getKeyName(option.keyCode);
+            return predict.toLowerCase() === getKeyName(ctx.keyCode);
         case 'number':
-            return predict === option.keyCode;
+            return predict === ctx.keyCode;
     }
 }
 
 class InOut {
     /**
      * @param next {InOut|string}
-     * @param predict {function(RemapOption)}
-     * @param output {function(RemapOption)}
+     * @param predict {function(Context)}
+     * @param output {function(Context)}
      */
     constructor(next, predict, output) {
         this.next = next;
@@ -341,9 +341,9 @@ class InOut {
     }
 }
 
-let emitNext = (option, nextValue) => {
+let emitNext = (ctx, nextValue) => {
     if (nextValue instanceof InOut) {
-        nextValue.output(option);
+        nextValue.output(ctx);
         return;
     }
     switch (typeof(nextValue)) {
@@ -358,15 +358,15 @@ let emitNext = (option, nextValue) => {
     }
 }
 
-let Control = key => {
+let Control = next => {
     const inout = new InOut(
-        key,
-        option => option.isLeftControlPressed,
-        option => {
-            if (!option.isLeftControlPressed) {
-                Key.emitFlagsChange({flags: option.flags | Masks.LCONTROL, keyboardType: option.keyboardType});
+        next,
+        ctx => ctx.isLeftControlPressed,
+        ctx => {
+            if (!ctx.isLeftControlPressed) {
+                Key.emitFlagsChange({flags: ctx.flags | Masks.LCONTROL, keyboardType: ctx.keyboardType});
             }
-            emitNext(option, key);
+            emitNext(ctx, next);
         });
     return inout;
 };
@@ -374,8 +374,8 @@ let Control = key => {
 // addRemap(Control(KeyCodes.e), Control(KeyCodes.a));
 
 Mouse.setAttenuation(11);
-addRemap(Control(KeyCodes.e), option => Mouse.setForce({y: option.isUp ? 0 : -12}));
-addRemap(Control(KeyCodes.d), option => Mouse.setForce({y: option.isUp ? 0 : 12}));
-addRemap(Control(KeyCodes.s), option => Mouse.setForce({x: option.isUp ? 0 : -12}));
-addRemap(Control(KeyCodes.f), option => Mouse.setForce({x: option.isUp ? 0 : 12}));
+addRemap(Control(KeyCodes.e), ctx => Mouse.setForce({y: ctx.isUp ? 0 : -12}));
+addRemap(Control(KeyCodes.d), ctx => Mouse.setForce({y: ctx.isUp ? 0 : 12}));
+addRemap(Control(KeyCodes.s), ctx => Mouse.setForce({x: ctx.isUp ? 0 : -12}));
+addRemap(Control(KeyCodes.f), ctx => Mouse.setForce({x: ctx.isUp ? 0 : 12}));
 addRemap(Control(KeyCodes.g), Control(KeyCodes.a));
