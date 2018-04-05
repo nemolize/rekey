@@ -49,6 +49,10 @@ class ViewController: NSViewController, NSTextViewDelegate {
                 })
     }
 
+    override func viewDidAppear() { super.viewDidAppear()
+        NSRunningApplication().activate(options: .activateIgnoringOtherApps)
+    }
+
     var histories: [String] = []
 
     override func keyDown(with event: NSEvent) {
