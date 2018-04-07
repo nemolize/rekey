@@ -37,42 +37,13 @@ class Intrinsics {
         })
     }
 
-
-    private func setUpModifier() {
-        _ = jsContext?.evaluateScript("getModifierFlags = function() { return \(Constants.flagsJsVarName)}")
-        jsContext?.setb1(Constants.emitFlagsChangeJsFunctionNameInternal) { arg1 -> Any! in
-
-            guard let options: NSDictionary = self.getValue(arg1) else {
-                return jsContext?.throwError("argument must be an object")
-            }
-
-            let flags = options["flags"]
-            jsContext?.store(Constants.flagsJsVarName, flags)
-
-            guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.privateState) else {
-                return jsContext?.throwError("failed to create CGEventSource")
-            }
-            evSrc.userData = Constants.magicValue
-
-            if let ev = CGEvent(source: evSrc) {
-                ev.flags = CGEventFlags(rawValue: flags as! UInt64)
-                ev.type = CGEventType.flagsChanged
-                ev.post(tap: CGEventTapLocation.cghidEventTap)
-            }
-            return nil
-        }
-        _ = jsContext?.evaluateScript("Key.\(Constants.emitFlagsChangeJsFunctionName)=\(Constants.emitFlagsChangeJsFunctionNameInternal)")
-        _ = jsContext?.evaluateScript("var \(Constants.flagsJsVarName)=256;")
-    }
-
     func setUpAppIntrinsicJsObjects() {
         setUpConsole()
         setUpSystemFuncs()
         setUpKey()
-        setUpModifier()
         setUpMouse()
 
-        _ = jsContext?.evaluateScript("\(JsNames.Key.onFlagsChanged) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ \(Constants.emitFlagsChangeJsFunctionNameInternal)({ flags: flags, keyboardType: keyboardType}) }")
+        _ = jsContext?.evaluateScript("\(JsNames.Key.onFlagsChanged) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ \(Constants.emitFlagsChangeJsFunctionName.appJsIntrinsicName)({ flags: flags, keyboardType: keyboardType}) }")
         _ = jsContext?.evaluateScript("\(JsNames.Key.onKey) = function(key, flags, isRepeat, isUp, isSysKey, keyboardType){ Key.\(JsNames.Key.emit.rawValue)( key, { isUp: isUp, keyboardType: keyboardType}) }")
     }
 }

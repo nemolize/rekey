@@ -1,7 +1,7 @@
 import Cocoa
 
 func getCurrentModifierFlags() -> CGEventFlags {
-    return CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName).toNumber() as! UInt64)
+    return CGEventFlags(rawValue: jsContext?.fetch(Constants.flagsJsVarName.appJsIntrinsicName).toNumber() as! UInt64)
 }
 
 func onKeyEvent(

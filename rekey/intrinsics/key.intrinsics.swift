@@ -10,6 +10,32 @@ extension JsNames {
 extension Intrinsics {
     func setUpKey() {
         _ = jsContext?.evaluateScript("Key = {}")
+
+        _ = jsContext?.evaluateScript("Key.getModifierFlags = function() { return \(Constants.flagsJsVarName.appJsIntrinsicName)}")
+        jsContext?.setb1(Constants.emitFlagsChangeJsFunctionName.appJsIntrinsicName) { arg1 -> Any! in
+
+            guard let options: NSDictionary = self.getValue(arg1) else {
+                return jsContext?.throwError("argument must be an object")
+            }
+
+            let flags = options["flags"]
+            jsContext?.store(Constants.flagsJsVarName.appJsIntrinsicName, flags)
+
+            guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.privateState) else {
+                return jsContext?.throwError("failed to create CGEventSource")
+            }
+            evSrc.userData = Constants.magicValue
+
+            if let ev = CGEvent(source: evSrc) {
+                ev.flags = CGEventFlags(rawValue: flags as! UInt64)
+                ev.type = CGEventType.flagsChanged
+                ev.post(tap: CGEventTapLocation.cghidEventTap)
+            }
+            return nil
+        }
+        _ = jsContext?.evaluateScript("Key.\(Constants.emitFlagsChangeJsFunctionName)=\(Constants.emitFlagsChangeJsFunctionName.appJsIntrinsicName)")
+        _ = jsContext?.evaluateScript("var \(Constants.flagsJsVarName.appJsIntrinsicName)=256;")
+
         makeJsObj("Key", JsNames.Key.emit.rawValue, { name in
             jsContext?.setb2(name) { (arg0, arg1) -> Any! in
 
