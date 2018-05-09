@@ -246,7 +246,6 @@
 				9772EFB51FE543C700D6E9B0 /* Frameworks */,
 				9772EFB61FE543C700D6E9B0 /* Resources */,
 				C85A514AB810798918687633 /* [CP] Embed Pods Frameworks */,
-				A02EACCA3AAFB29F61AABE1B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -265,8 +264,6 @@
 				9772EFC51FE543C700D6E9B0 /* Sources */,
 				9772EFC61FE543C700D6E9B0 /* Frameworks */,
 				9772EFC71FE543C700D6E9B0 /* Resources */,
-				D14731FA05FC45400F7129D3 /* [CP] Embed Pods Frameworks */,
-				297480DACA54843A71A065F9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -286,8 +283,6 @@
 				9772EFD01FE543C700D6E9B0 /* Sources */,
 				9772EFD11FE543C700D6E9B0 /* Frameworks */,
 				9772EFD21FE543C700D6E9B0 /* Resources */,
-				7F3E9AAA969CCAC57EE5223A /* [CP] Embed Pods Frameworks */,
-				B81ABC91BDA528692AD09C8C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -375,21 +370,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		297480DACA54843A71A065F9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-rekeyTests/Pods-rekeyTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		434A528DD90BD60B6FE6EE28 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -426,51 +406,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7F3E9AAA969CCAC57EE5223A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A02EACCA3AAFB29F61AABE1B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-rekey/Pods-rekey-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B81ABC91BDA528692AD09C8C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C85A514AB810798918687633 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -487,21 +422,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-rekey/Pods-rekey-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D14731FA05FC45400F7129D3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-rekeyTests/Pods-rekeyTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FCD5D223BBA12617A30F6B7E /* [CP] Check Pods Manifest.lock */ = {
