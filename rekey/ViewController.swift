@@ -57,7 +57,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     override func keyDown(with event: NSEvent) {
         if isCommandPressed && event.keyCode == Keycodes.Enter {
-            guard let jsSource = jsTextInput.string?.trimmingCharacters(in: ["\n", "\t", " "]) else { return }
+            let jsSource = jsTextInput.string.trimmingCharacters(in: ["\n", "\t", " "])
             NotificationCenter.postExecuteJS(jsSource)
 
             if 100 < histories.count { histories.removeFirst() }
@@ -76,12 +76,12 @@ class ViewController: NSViewController, NSTextViewDelegate {
     func loadHistory() {
         jsTextInput.string = ""
         if 0 < histories.count {
-            jsTextInput.string = histories.popLast()
+            jsTextInput.string = histories.popLast() ?? ""
         }
     }
 
     override func flagsChanged(with event: NSEvent) {
-        isCommandPressed = event.modifierFlags.contains(NSCommandKeyMask)
+        isCommandPressed = event.modifierFlags.contains(.command)
     }
 
     func log(_ message: String?) {
