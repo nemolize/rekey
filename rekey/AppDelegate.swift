@@ -16,12 +16,7 @@ var jsContext = JSContext()
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func trustThisApplication() {
-        let opts = NSDictionary(
-                object: kCFBooleanTrue,
-                forKey: kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString
-        ) as CFDictionary
-
-        guard AXIsProcessTrustedWithOptions(opts) else {
+        guard AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true] as NSDictionary) else {
             exit(1)
         }
     }
@@ -53,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func setUpObservers() {
         NotificationCenter.default.addObserver(forName: .compileAndExecuteJs, object: nil, queue: nil, using: { notification in
             guard let options = notification.object as? ExecuteOptions else {
-                postLog("invalid notification object: \(notification.object)")
+                postLog("invalid notification object: \(notification.object ?? "")")
                 return
             }
             if (!options.suppressLog) {
