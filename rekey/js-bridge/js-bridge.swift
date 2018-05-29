@@ -11,7 +11,7 @@
 import Foundation
 
 // js value accessor.
-typealias ID = Any!
+typealias ID = Any?
 extension JSContext {
     func fetch(_ key:String)->JSValue {
         return getJSVinJSC(self, key)

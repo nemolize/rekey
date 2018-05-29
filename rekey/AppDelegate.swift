@@ -31,33 +31,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setUpWebServer()
     }
 
-    private func babelToJs(_ babelSrc: String) -> String? {
-        let compileTargetName = JsNames.System.BabelCompileSource.rawValue.appJsIntrinsicName
-        let compiledVarName = JsNames.System.BabelCompiledSource.rawValue.appJsIntrinsicName
-        jsContext?.store(compileTargetName, babelSrc)
-        _ = jsContext?.evaluateScript("try { " +
-                "\(compiledVarName) = Babel.transform(\(compileTargetName), { presets: ['es2015'] }).code" +
-                " } catch(e) {" +
-                " \(compiledVarName) = undefined; throw e;" +
-                " }")
-        guard let v = jsContext?.fetch(compiledVarName) else{ return nil }
-        guard v.isString else { return nil }
-        return v.toString()
-    }
-
     private func setUpObservers() {
-        NotificationCenter.default.addObserver(forName: .compileAndExecuteJs, object: nil, queue: nil, using: { notification in
-            guard let options = notification.object as? ExecuteOptions else {
-                postLog("invalid notification object: \(notification.object ?? "")")
-                return
+        NotificationCenter.default.addObserver(forName: .executeJs, object: nil, queue: nil, using: { notification in
+            guard let object = notification.object as? ExecuteOptions else {
+                return postLog("invalid notification object: \(notification.object ?? "")")
             }
-            if (!options.suppressLog) {
-                postLog("[babel expression]: \(options.source)")
-            }
-            guard let jsSource = self.babelToJs(options.source) else {
-                return
-            }
-            self.executeBuffer(jsSource: jsSource, suppressLog: options.suppressLog)
+            self.executeBuffer(object)
         })
         NotificationCenter.default.addObserver(forName: .reload, object: nil, queue: nil, using: { notification in
             self.reload()
@@ -138,41 +117,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func executeBuffer(jsSource: String, suppressLog: Bool = false) {
-        guard !jsSource.isEmpty else { return }
+    func executeBuffer(_ executeOptions: ExecuteOptions) {
+        guard !executeOptions.source.isEmpty else { return }
 
-        if !suppressLog {
-            postLog("[compiled expression]: \(jsSource)\n")
-        }
+        executeOptions.suppressLog ? nil : postLog(executeOptions.source)
 
+        // TODO use queue.sync
         executionLock.lock()
         defer{ executionLock.unlock() }
-        let result = jsContext!.evaluateScript(jsSource)
 
-        if !suppressLog {
-            var expression = "\(result!)"
-            if result?.isString == true {
-                expression = "\"\(expression)\""
-            }
+        guard let result = jsContext!.evaluateScript(executeOptions.source) else {return}
 
-            postLog("=> \(expression)")
-        }
+        if executeOptions.suppressLog { return }
+
+        let expression = result.isString ? "\"\(result)\"" : "\(result)"
+        postLog("=> \(expression)")
+
     }
 
     private func loadConfig() {
-
-        // load babel module
-        do {
-            postLog("loading babel")
-            guard let babelPath = Bundle.main.path(forResource: "babel.min", ofType: "js", inDirectory: "www/static/vendors") else {
-                throw RekeyErrors.filePathError
-            }
-            guard let jsSource = try? String(contentsOfFile: babelPath) else { throw RekeyErrors.fileLoadError(babelPath) }
-            jsContext!.evaluateScript(jsSource)
-        } catch {
-            postLog("\(error)")
-        }
-
         // get the home path directory
         let tryLoad: (String) -> () = { path in
             guard FileManager.default.fileExists(atPath: path) else {

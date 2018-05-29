@@ -12,7 +12,7 @@ extension Intrinsics {
         _ = jsContext?.evaluateScript("Key = {}")
 
         _ = jsContext?.evaluateScript("Key.getModifierFlags = function() { return \(Constants.flagsJsVarName.appJsIntrinsicName)}")
-        jsContext?.setb1(Constants.emitFlagsChangeJsFunctionName.appJsIntrinsicName) { arg1 -> Any! in
+        jsContext?.setb1(Constants.emitFlagsChangeJsFunctionName.appJsIntrinsicName) { arg1 -> Any? in
 
             guard let options: NSDictionary = self.getValue(arg1) else {
                 return jsContext?.throwError("argument must be an object")
@@ -37,7 +37,7 @@ extension Intrinsics {
         _ = jsContext?.evaluateScript("var \(Constants.flagsJsVarName.appJsIntrinsicName)=256;")
 
         makeJsObj("Key", JsNames.Key.emit.rawValue, { name in
-            jsContext?.setb2(name) { (arg0, arg1) -> Any! in
+            jsContext?.setb2(name) { (arg0, arg1) -> Any? in
 
                 guard let cgKeyCode = arg0 as! UInt16? else { return jsContext?.throwError("invalid arguments") }
 
@@ -49,7 +49,7 @@ extension Intrinsics {
                 let options = arg1 as? NSDictionary
 
                 if let keyboardType = options?.value(forKey: "keyboardType") as? NSNumber {
-                    evSrc.keyboardType = CGEventSourceKeyboardType(keyboardType)
+                    evSrc.keyboardType = CGEventSourceKeyboardType(truncating: keyboardType)
                 }
 
                 guard let ev = CGEvent(keyboardEventSource: evSrc, virtualKey: cgKeyCode, keyDown: true) else {

@@ -21,7 +21,7 @@ class Intrinsics {
     }
 
     private func setUpConsole() {
-        jsContext?.setb1("_consoleLog") { (arg0) -> Any! in
+        jsContext?.setb1("_consoleLog") { (arg0) -> Any? in
             postLog("\(arg0 ?? "undefined")")
             return nil
         }

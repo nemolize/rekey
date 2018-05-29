@@ -16,13 +16,10 @@ struct Constants {
     static let configFilePathUnderHomeDirectory = "/.config/rekey/onstart.js"
     static let flagsJsVarName = "flags"
     static let emitFlagsChangeJsFunctionName = "emitFlagsChange"
-    static let babelCompileSourceJsVariableName = "babelCompileSourceJsVariableName"
 }
 
 enum JsNames {
     enum System: String {
-        case BabelCompileSource
-        case BabelCompiledSource
         case Reload
     }
 }
