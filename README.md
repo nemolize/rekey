@@ -3,7 +3,11 @@ A keyboard remap tool
 
 # How to build
 
-install libraries with the following command.
-```bash
+# Requirements
+- ruby `2.7.1` must be available with rbenv
+
+# Setup
+```console
+bundle install
 pod install
 ```

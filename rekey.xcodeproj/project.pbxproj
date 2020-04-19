@@ -412,7 +412,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-rekey/Pods-rekey-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-rekey/Pods-rekey-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Swifter/Swifter.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -421,7 +421,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-rekey/Pods-rekey-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rekey/Pods-rekey-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FCD5D223BBA12617A30F6B7E /* [CP] Check Pods Manifest.lock */ = {
