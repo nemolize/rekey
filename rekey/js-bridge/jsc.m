@@ -13,7 +13,7 @@ void setJSVinJSC(JSContext *ctx, NSString *key, id val) {
     ctx[key] = val;
 }
 void setB0JSVinJSC(JSContext *ctx, NSString *key,
-                   id (^block)()) {
+                   id (^block)(void)) {
     ctx[key] = block;
 }
 void setB1JSVinJSC(JSContext *ctx, NSString *key,

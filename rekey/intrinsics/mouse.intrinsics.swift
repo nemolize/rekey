@@ -54,7 +54,7 @@ class Mouse {
             var lastSeconds = Date().timeIntervalSince1970
             while true {
                 let currentSeconds = Date().timeIntervalSince1970
-                var deltaSeconds = currentSeconds - lastSeconds
+                let deltaSeconds = currentSeconds - lastSeconds
                 let frameIntervalBasis = 1.0 / 60
 
                 // get frame delay for precision
@@ -136,7 +136,7 @@ extension Intrinsics {
         makeJsObj("Mouse", JsNames.setAttenuation, { name in
             jsContext?.setb1(name, { (arg: Any!) in
                 guard let attenuation: CGFloat = self.getValue(arg) else {
-                    return jsContext?.throwError("arg \(arg) is not a number")
+                    return jsContext?.throwError("arg \(arg!) is not a number")
                 }
                 return mouse.setAttenuation(attenuation)
             })
@@ -145,7 +145,7 @@ extension Intrinsics {
         makeJsObj("Mouse", JsNames.setForce, { name in
             jsContext?.setb1(name, { (arg: Any!) in
                 guard let option: NSDictionary = self.getValue(arg) else {
-                    return jsContext?.throwError("arg \(arg) is not a number")
+                    return jsContext?.throwError("arg \(arg!) is not a number")
                 }
                 return mouse.setAcceleration(
                         self.getValue(option.value(forKey: "x")),
@@ -157,7 +157,7 @@ extension Intrinsics {
         makeJsObj("Mouse", JsNames.setVelocity, { name in
             jsContext?.setb1(name, { (arg: Any!) in
                 guard let option: NSDictionary = self.getValue(arg) else {
-                    return jsContext?.throwError("arg \(arg) is not an object")
+                    return jsContext?.throwError("arg \(arg!) is not an object")
                 }
                 return mouse.setVelocity(
                         self.getValue(option.value(forKey: "x")),
