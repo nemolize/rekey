@@ -21,7 +21,7 @@ extension Intrinsics {
             let flags = options["flags"]
             jsContext?.store(Constants.flagsJsVarName.appJsIntrinsicName, flags)
 
-            guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.privateState) else {
+            guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.hidSystemState) else {
                 return jsContext?.throwError("failed to create CGEventSource")
             }
             evSrc.userData = Constants.magicValue
@@ -41,7 +41,7 @@ extension Intrinsics {
 
                 guard let cgKeyCode = arg0 as! UInt16? else { return jsContext?.throwError("invalid arguments") }
 
-                guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.privateState) else {
+                guard let evSrc = CGEventSource(stateID: CGEventSourceStateID.hidSystemState) else {
                     return jsContext?.throwError("failed to create CGEventSource")
                 }
                 evSrc.userData = Constants.magicValue
