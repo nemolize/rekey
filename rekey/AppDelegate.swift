@@ -16,7 +16,8 @@ var jsContext = JSContext()
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func trustThisApplication() {
-        guard AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true] as NSDictionary) else {
+        let key = kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString
+        guard AXIsProcessTrustedWithOptions([key: true] as NSDictionary) else {
             exit(1)
         }
     }
