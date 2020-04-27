@@ -1,5 +1,5 @@
 //
-//  intrinsics.swift
+//  mouse.swift
 //  rekey
 //
 //  Created by nemoto on 2018/01/03.
@@ -37,7 +37,7 @@ class Mouse {
     private let mouseLock = NSLock()
     private var acceleration = CGVector()
     private var velocity = CGVector()
-    private var attenuation = CGFloat(0.1)
+    private var friction = CGFloat(0.1)
 
     func getPosition() -> CGPoint { return CGEvent(source: nil)!.location }
 
@@ -67,7 +67,7 @@ class Mouse {
                 self.velocity += self.acceleration * deltaTime
 
                 // apply attenuation
-                let attenuationDelta = self.attenuation * deltaTime
+                let attenuationDelta = self.friction * deltaTime
 
                 // apply attenuation to velocity
                 self.velocity.dx = (0 < self.velocity.dx) ?
@@ -107,64 +107,13 @@ class Mouse {
         if let val = dy { acceleration.dy = val }
     }
 
-    func setAttenuation(_ attenuation: CGFloat) {
+    func setFriction(_ attenuation: CGFloat) {
         self.mouseLock.lock()
         defer{ self.mouseLock.unlock() }
-        self.attenuation = attenuation
+        self.friction = attenuation
     }
+
+    static let shared = Mouse()
 }
 
-extension Intrinsics {
-    func setUpMouse() {
-
-        let mouse = Mouse()
-        mouse.start()
-
-        struct JsNames {
-            static let getPosition = "getPosition"
-            static let setAttenuation = "setAttenuation"
-            static let setForce = "setForce"
-            static let setVelocity = "setVelocity"
-        }
-
-        _ = jsContext?.evaluateScript("var Mouse = {}")
-
-        makeJsObj("Mouse", JsNames.getPosition, { name in
-            jsContext?.setb0(name, { return mouse.getPosition() })
-        })
-
-        makeJsObj("Mouse", JsNames.setAttenuation, { name in
-            jsContext?.setb1(name, { (arg: Any!) in
-                guard let attenuation: CGFloat = self.getValue(arg) else {
-                    return jsContext?.throwError("arg \(arg!) is not a number")
-                }
-                return mouse.setAttenuation(attenuation)
-            })
-        })
-
-        makeJsObj("Mouse", JsNames.setForce, { name in
-            jsContext?.setb1(name, { (arg: Any!) in
-                guard let option: NSDictionary = self.getValue(arg) else {
-                    return jsContext?.throwError("arg \(arg!) is not a number")
-                }
-                return mouse.setAcceleration(
-                        self.getValue(option.value(forKey: "x")),
-                        self.getValue(option.value(forKey: "y"))
-                )
-            })
-        })
-
-        makeJsObj("Mouse", JsNames.setVelocity, { name in
-            jsContext?.setb1(name, { (arg: Any!) in
-                guard let option: NSDictionary = self.getValue(arg) else {
-                    return jsContext?.throwError("arg \(arg!) is not an object")
-                }
-                return mouse.setVelocity(
-                        self.getValue(option.value(forKey: "x")),
-                        self.getValue(option.value(forKey: "y"))
-                )
-            })
-        })
-    }
-}
 

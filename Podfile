@@ -4,7 +4,7 @@ platform :osx, '10.13'
 use_frameworks!
 target 'rekey' do
 
-  pod 'Swifter', '~> 1.4.7'
+  pod 'HotKey'
 
   target 'rekeyTests' do
     inherit! :search_paths
