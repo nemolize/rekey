@@ -7,33 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		16764376C184B43F9AF9DA54 /* Pods_rekeyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1700D3F675345FAF5861E564 /* Pods_rekeyTests.framework */; };
-		22373520667BE89815DDB854 /* Pods_rekeyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9C9F9CAFBCA997F10CC6829 /* Pods_rekeyUITests.framework */; };
 		6D7B11763751DCBB46A1B10B /* mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B113909ABD31ABC60D839 /* mouse.swift */; };
+		972CC3382457381F00731F5F /* rekeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972CC3372457381F00731F5F /* rekeyTests.swift */; };
+		972CC3462457385200731F5F /* rekeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972CC3452457385200731F5F /* rekeyUITests.swift */; };
 		9772EFBC1FE543C700D6E9B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */; };
 		9772EFBE1FE543C700D6E9B0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFBD1FE543C700D6E9B0 /* ViewController.swift */; };
 		9772EFC01FE543C700D6E9B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */; };
 		9772EFC31FE543C700D6E9B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9772EFC11FE543C700D6E9B0 /* Main.storyboard */; };
-		9772EFCE1FE543C700D6E9B0 /* rekeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFCD1FE543C700D6E9B0 /* rekeyTests.swift */; };
-		9772EFD91FE543C700D6E9B0 /* rekeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */; };
 		A4647ADC1FFD1A7E008227AA /* Keycodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4647AD91FFD1A7E008227AA /* Keycodes.swift */; };
 		FB19961038EDA8DC42A1ADB9 /* Pods_rekey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B6C240FABA878A53640F2A /* Pods_rekey.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9772EFCA1FE543C700D6E9B0 /* PBXContainerItemProxy */ = {
+		972CC33A2457381F00731F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9772EFB01FE543C700D6E9B0 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9772EFB71FE543C700D6E9B0;
-			remoteInfo = osxkeyremapper;
+			remoteInfo = rekey;
 		};
-		9772EFD51FE543C700D6E9B0 /* PBXContainerItemProxy */ = {
+		972CC3482457385200731F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9772EFB01FE543C700D6E9B0 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9772EFB71FE543C700D6E9B0;
-			remoteInfo = osxkeyremapper;
+			remoteInfo = rekey;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -45,18 +43,18 @@
 		4F02BFB2F062A40BED062280 /* Pods-rekeyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6D7B113909ABD31ABC60D839 /* mouse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mouse.swift; sourceTree = "<group>"; };
 		8BB800ECA7A59FF11DFD338F /* Pods-rekeyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		972CC3352457381F00731F5F /* rekeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		972CC3372457381F00731F5F /* rekeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rekeyTests.swift; sourceTree = "<group>"; };
+		972CC3392457381F00731F5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		972CC3432457385200731F5F /* rekeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		972CC3452457385200731F5F /* rekeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rekeyUITests.swift; sourceTree = "<group>"; };
+		972CC3472457385200731F5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9772EFB81FE543C700D6E9B0 /* rekey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rekey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../rekey/AppDelegate.swift; sourceTree = "<group>"; };
 		9772EFBD1FE543C700D6E9B0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../rekey/ViewController.swift; sourceTree = "<group>"; };
 		9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../rekey/Assets.xcassets; sourceTree = "<group>"; };
 		9772EFC21FE543C700D6E9B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9772EFC41FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../rekey/Info.plist; sourceTree = "<group>"; };
-		9772EFC91FE543C700D6E9B0 /* rekeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9772EFCD1FE543C700D6E9B0 /* rekeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = rekeyTests.swift; path = rekeyTests/rekeyTests.swift; sourceTree = "<group>"; };
-		9772EFCF1FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = rekeyTests/Info.plist; sourceTree = "<group>"; };
-		9772EFD41FE543C700D6E9B0 /* rekeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = rekeyUITests.swift; path = rekeyUITests/rekeyUITests.swift; sourceTree = "<group>"; };
-		9772EFDA1FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = rekeyUITests/Info.plist; sourceTree = "<group>"; };
 		A4647AD91FFD1A7E008227AA /* Keycodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keycodes.swift; sourceTree = "<group>"; };
 		B3010276B3FE4D4612D8D071 /* Pods-rekeyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyTests/Pods-rekeyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B9C9F9CAFBCA997F10CC6829 /* Pods_rekeyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rekeyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,27 +62,25 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		972CC3322457381F00731F5F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		972CC3402457385200731F5F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9772EFB51FE543C700D6E9B0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				FB19961038EDA8DC42A1ADB9 /* Pods_rekey.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9772EFC61FE543C700D6E9B0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				16764376C184B43F9AF9DA54 /* Pods_rekeyTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9772EFD11FE543C700D6E9B0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				22373520667BE89815DDB854 /* Pods_rekeyUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,12 +108,30 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		972CC3362457381F00731F5F /* rekeyTests */ = {
+			isa = PBXGroup;
+			children = (
+				972CC3372457381F00731F5F /* rekeyTests.swift */,
+				972CC3392457381F00731F5F /* Info.plist */,
+			);
+			path = rekeyTests;
+			sourceTree = "<group>";
+		};
+		972CC3442457385200731F5F /* rekeyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				972CC3452457385200731F5F /* rekeyUITests.swift */,
+				972CC3472457385200731F5F /* Info.plist */,
+			);
+			path = rekeyUITests;
+			sourceTree = "<group>";
+		};
 		9772EFAF1FE543C700D6E9B0 = {
 			isa = PBXGroup;
 			children = (
 				9772EFBA1FE543C700D6E9B0 /* rekey */,
-				9772EFCC1FE543C700D6E9B0 /* rekeyTests */,
-				9772EFD71FE543C700D6E9B0 /* rekeyUITests */,
+				972CC3362457381F00731F5F /* rekeyTests */,
+				972CC3442457385200731F5F /* rekeyUITests */,
 				9772EFB91FE543C700D6E9B0 /* Products */,
 				97EF0C1D1FE7EBFF008440E1 /* Frameworks */,
 				8959869CFBFD9FFB107C8800 /* Pods */,
@@ -128,8 +142,8 @@
 			isa = PBXGroup;
 			children = (
 				9772EFB81FE543C700D6E9B0 /* rekey.app */,
-				9772EFC91FE543C700D6E9B0 /* rekeyTests.xctest */,
-				9772EFD41FE543C700D6E9B0 /* rekeyUITests.xctest */,
+				972CC3352457381F00731F5F /* rekeyTests.xctest */,
+				972CC3432457385200731F5F /* rekeyUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -146,26 +160,6 @@
 				6D7B19605E93120ACF526FE3 /* intrinsics */,
 			);
 			path = rekey;
-			sourceTree = "<group>";
-		};
-		9772EFCC1FE543C700D6E9B0 /* rekeyTests */ = {
-			isa = PBXGroup;
-			children = (
-				9772EFCD1FE543C700D6E9B0 /* rekeyTests.swift */,
-				9772EFCF1FE543C700D6E9B0 /* Info.plist */,
-			);
-			name = rekeyTests;
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		9772EFD71FE543C700D6E9B0 /* rekeyUITests */ = {
-			isa = PBXGroup;
-			children = (
-				9772EFD81FE543C700D6E9B0 /* rekeyUITests.swift */,
-				9772EFDA1FE543C700D6E9B0 /* Info.plist */,
-			);
-			name = rekeyUITests;
-			path = UITests;
 			sourceTree = "<group>";
 		};
 		97EF0C1D1FE7EBFF008440E1 /* Frameworks */ = {
@@ -189,6 +183,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		972CC3342457381F00731F5F /* rekeyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 972CC33C2457381F00731F5F /* Build configuration list for PBXNativeTarget "rekeyTests" */;
+			buildPhases = (
+				972CC3312457381F00731F5F /* Sources */,
+				972CC3322457381F00731F5F /* Frameworks */,
+				972CC3332457381F00731F5F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				972CC33B2457381F00731F5F /* PBXTargetDependency */,
+			);
+			name = rekeyTests;
+			productName = rekeyTests;
+			productReference = 972CC3352457381F00731F5F /* rekeyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		972CC3422457385200731F5F /* rekeyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 972CC34A2457385200731F5F /* Build configuration list for PBXNativeTarget "rekeyUITests" */;
+			buildPhases = (
+				972CC33F2457385200731F5F /* Sources */,
+				972CC3402457385200731F5F /* Frameworks */,
+				972CC3412457385200731F5F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				972CC3492457385200731F5F /* PBXTargetDependency */,
+			);
+			name = rekeyUITests;
+			productName = rekeyUITests;
+			productReference = 972CC3432457385200731F5F /* rekeyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		9772EFB71FE543C700D6E9B0 /* rekey */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9772EFDD1FE543C700D6E9B0 /* Build configuration list for PBXNativeTarget "rekey" */;
@@ -208,68 +238,30 @@
 			productReference = 9772EFB81FE543C700D6E9B0 /* rekey.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9772EFC81FE543C700D6E9B0 /* rekeyTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9772EFE01FE543C700D6E9B0 /* Build configuration list for PBXNativeTarget "rekeyTests" */;
-			buildPhases = (
-				FCD5D223BBA12617A30F6B7E /* [CP] Check Pods Manifest.lock */,
-				9772EFC51FE543C700D6E9B0 /* Sources */,
-				9772EFC61FE543C700D6E9B0 /* Frameworks */,
-				9772EFC71FE543C700D6E9B0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9772EFCB1FE543C700D6E9B0 /* PBXTargetDependency */,
-			);
-			name = rekeyTests;
-			productName = osxkeyremapperTests;
-			productReference = 9772EFC91FE543C700D6E9B0 /* rekeyTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		9772EFD31FE543C700D6E9B0 /* rekeyUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9772EFE31FE543C700D6E9B0 /* Build configuration list for PBXNativeTarget "rekeyUITests" */;
-			buildPhases = (
-				434A528DD90BD60B6FE6EE28 /* [CP] Check Pods Manifest.lock */,
-				9772EFD01FE543C700D6E9B0 /* Sources */,
-				9772EFD11FE543C700D6E9B0 /* Frameworks */,
-				9772EFD21FE543C700D6E9B0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9772EFD61FE543C700D6E9B0 /* PBXTargetDependency */,
-			);
-			name = rekeyUITests;
-			productName = osxkeyremapperUITests;
-			productReference = 9772EFD41FE543C700D6E9B0 /* rekeyUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		9772EFB01FE543C700D6E9B0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = nemoto;
 				TargetAttributes = {
+					972CC3342457381F00731F5F = {
+						CreatedOnToolsVersion = 11.4.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 9772EFB71FE543C700D6E9B0;
+					};
+					972CC3422457385200731F5F = {
+						CreatedOnToolsVersion = 11.4.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 9772EFB71FE543C700D6E9B0;
+					};
 					9772EFB71FE543C700D6E9B0 = {
 						CreatedOnToolsVersion = 8.2.1;
 						LastSwiftMigration = 1140;
 						ProvisioningStyle = Automatic;
-					};
-					9772EFC81FE543C700D6E9B0 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 9772EFB71FE543C700D6E9B0;
-					};
-					9772EFD31FE543C700D6E9B0 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 9772EFB71FE543C700D6E9B0;
 					};
 				};
 			};
@@ -287,13 +279,27 @@
 			projectRoot = "";
 			targets = (
 				9772EFB71FE543C700D6E9B0 /* rekey */,
-				9772EFC81FE543C700D6E9B0 /* rekeyTests */,
-				9772EFD31FE543C700D6E9B0 /* rekeyUITests */,
+				972CC3342457381F00731F5F /* rekeyTests */,
+				972CC3422457385200731F5F /* rekeyUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		972CC3332457381F00731F5F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		972CC3412457385200731F5F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9772EFB61FE543C700D6E9B0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -303,41 +309,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9772EFC71FE543C700D6E9B0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9772EFD21FE543C700D6E9B0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		434A528DD90BD60B6FE6EE28 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-rekeyUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		5CB568697EE42B181D313EE5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -374,27 +348,25 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rekey/Pods-rekey-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FCD5D223BBA12617A30F6B7E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-rekeyTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		972CC3312457381F00731F5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				972CC3382457381F00731F5F /* rekeyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		972CC33F2457385200731F5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				972CC3462457385200731F5F /* rekeyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9772EFB41FE543C700D6E9B0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -406,34 +378,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9772EFC51FE543C700D6E9B0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9772EFCE1FE543C700D6E9B0 /* rekeyTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9772EFD01FE543C700D6E9B0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9772EFD91FE543C700D6E9B0 /* rekeyUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9772EFCB1FE543C700D6E9B0 /* PBXTargetDependency */ = {
+		972CC33B2457381F00731F5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9772EFB71FE543C700D6E9B0 /* rekey */;
-			targetProxy = 9772EFCA1FE543C700D6E9B0 /* PBXContainerItemProxy */;
+			targetProxy = 972CC33A2457381F00731F5F /* PBXContainerItemProxy */;
 		};
-		9772EFD61FE543C700D6E9B0 /* PBXTargetDependency */ = {
+		972CC3492457385200731F5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9772EFB71FE543C700D6E9B0 /* rekey */;
-			targetProxy = 9772EFD51FE543C700D6E9B0 /* PBXContainerItemProxy */;
+			targetProxy = 972CC3482457385200731F5F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -449,6 +405,94 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		972CC33D2457381F00731F5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = rekeyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nemolize.rekeyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rekey.app/Contents/MacOS/rekey";
+			};
+			name = Debug;
+		};
+		972CC33E2457381F00731F5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = rekeyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nemolize.rekeyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rekey.app/Contents/MacOS/rekey";
+			};
+			name = Release;
+		};
+		972CC34B2457385200731F5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = rekeyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nemolize.rekeyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = rekey;
+			};
+			name = Debug;
+		};
+		972CC34C2457385200731F5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = rekeyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nemolize.rekeyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = rekey;
+			};
+			name = Release;
+		};
 		9772EFDB1FE543C700D6E9B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -590,71 +634,27 @@
 			};
 			name = Release;
 		};
-		9772EFE11FE543C700D6E9B0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3010276B3FE4D4612D8D071 /* Pods-rekeyTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = rekeyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekeyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rekey.app/Contents/MacOS/rekey";
-			};
-			name = Debug;
-		};
-		9772EFE21FE543C700D6E9B0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 20012783719AC821A4F931FA /* Pods-rekeyTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = rekeyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekeyTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rekey.app/Contents/MacOS/rekey";
-			};
-			name = Release;
-		};
-		9772EFE41FE543C700D6E9B0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BB800ECA7A59FF11DFD338F /* Pods-rekeyUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = rekeyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekeyUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = osxkeyremapper;
-			};
-			name = Debug;
-		};
-		9772EFE51FE543C700D6E9B0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F02BFB2F062A40BED062280 /* Pods-rekeyUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = rekeyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nemoto.rekeyUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = osxkeyremapper;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		972CC33C2457381F00731F5F /* Build configuration list for PBXNativeTarget "rekeyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				972CC33D2457381F00731F5F /* Debug */,
+				972CC33E2457381F00731F5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		972CC34A2457385200731F5F /* Build configuration list for PBXNativeTarget "rekeyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				972CC34B2457385200731F5F /* Debug */,
+				972CC34C2457385200731F5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9772EFB31FE543C700D6E9B0 /* Build configuration list for PBXProject "rekey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -669,24 +669,6 @@
 			buildConfigurations = (
 				9772EFDE1FE543C700D6E9B0 /* Debug */,
 				9772EFDF1FE543C700D6E9B0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9772EFE01FE543C700D6E9B0 /* Build configuration list for PBXNativeTarget "rekeyTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9772EFE11FE543C700D6E9B0 /* Debug */,
-				9772EFE21FE543C700D6E9B0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9772EFE31FE543C700D6E9B0 /* Build configuration list for PBXNativeTarget "rekeyUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9772EFE41FE543C700D6E9B0 /* Debug */,
-				9772EFE51FE543C700D6E9B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

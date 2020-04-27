@@ -1,36 +1,33 @@
 //
-//  osxkeyremapperTests.swift
-//  osxkeyremapperTests
+//  rekeyTests.swift
+//  rekeyTests
 //
-//  Created by nemoto on 2017/12/16.
-//  Copyright © 2017年 nemoto. All rights reserved.
+//  Created by moto on 2020/04/28.
+//  Copyright © 2020 nemoto. All rights reserved.
 //
 
 import XCTest
-@testable import rekey
 
 class rekeyTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
+
+    override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
-    override func tearDown() {
+
+    override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
     }
-    
-    func testExample() {
+
+    func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-    
-    func testPerformanceExample() {
+
+    func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
-    
+
 }
