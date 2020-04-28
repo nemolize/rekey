@@ -12,7 +12,9 @@ import Pods_rekey
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        trustThisApplication()
+        if (!isTrusted()) {
+            NSApplication.shared.terminate(self)
+        }
 
         Mouse.shared.setFriction(10) // TODO: load from config
         Mouse.shared.start()
@@ -22,11 +24,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    private func trustThisApplication() {
+    private func isTrusted() -> Bool {
         let key = kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString
-        guard AXIsProcessTrustedWithOptions([key: true] as NSDictionary) else {
-            exit(1)
-        }
+        return AXIsProcessTrustedWithOptions([key: true] as NSDictionary)
     }
 }
 
