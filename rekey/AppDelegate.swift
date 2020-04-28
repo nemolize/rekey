@@ -11,19 +11,22 @@ import Pods_rekey
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        trustThisApplication()
+
+        Mouse.shared.setFriction(10) // TODO: load from config
+        Mouse.shared.start()
+    }
+
+    func applicationWillTerminate(_ aNotification: Notification) {
+        // Insert code here to tear down your application
+    }
+
     private func trustThisApplication() {
         let key = kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString
         guard AXIsProcessTrustedWithOptions([key: true] as NSDictionary) else {
             exit(1)
         }
-    }
-
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        trustThisApplication()
-    }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
     }
 }
 
