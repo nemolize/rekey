@@ -31,9 +31,6 @@ public func +(left: CGPoint, right: CGVector) -> CGPoint {
 }
 
 class Mouse {
-
-    private let mouseLoopQueueName = "mouseLoopQueueName"
-
     private let mouseLock = NSLock()
     private var acceleration = CGVector()
     private var velocity = CGVector()
@@ -50,7 +47,7 @@ class Mouse {
     }
 
     func start() {
-        DispatchQueue(label: mouseLoopQueueName).async {
+        DispatchQueue(label: "rekey.mouse.loop", qos: .userInteractive).async {
             var lastSeconds = Date().timeIntervalSince1970
             while true {
                 let currentSeconds = Date().timeIntervalSince1970
@@ -60,27 +57,7 @@ class Mouse {
                 // get frame delay for precision
                 let deltaTime = CGFloat(deltaSeconds / frameIntervalBasis)
 
-                self.mouseLock.lock()
-                defer{ self.mouseLock.unlock() }
-
-                // apply Acceleration v=v + at
-                self.velocity += self.acceleration * deltaTime
-
-                // apply attenuation
-                let attenuationDelta = self.friction * deltaTime
-
-                // apply attenuation to velocity
-                self.velocity.dx = (0 < self.velocity.dx) ?
-                        max(self.velocity.dx - attenuationDelta, 0) : min(self.velocity.dx + attenuationDelta, 0)
-                self.velocity.dy = (0 < self.velocity.dy) ?
-                        max(self.velocity.dy - attenuationDelta, 0) : min(self.velocity.dy + attenuationDelta, 0)
-
-                // apply velocity to mouse position if it moved
-                let delayFixedVelocity = self.velocity * deltaTime
-                if (delayFixedVelocity).length() > 0 {
-                    let position = self.getPosition()
-                    self.setPosition(position + delayFixedVelocity)
-                }
+                self.advance(deltaTime)
 
                 // save last second
                 lastSeconds = Date().timeIntervalSince1970
@@ -114,6 +91,30 @@ class Mouse {
     }
 
     static let shared = Mouse()
+
+    private func advance(_ deltaTime: CGFloat) {
+        self.mouseLock.lock()
+        defer{ self.mouseLock.unlock() }
+
+        // apply Acceleration v=v + at
+        self.velocity += self.acceleration * deltaTime
+
+        // apply attenuation
+        let attenuationDelta = self.friction * deltaTime
+
+        // apply attenuation to velocity
+        self.velocity.dx = (0 < self.velocity.dx) ?
+                max(self.velocity.dx - attenuationDelta, 0) : min(self.velocity.dx + attenuationDelta, 0)
+        self.velocity.dy = (0 < self.velocity.dy) ?
+                max(self.velocity.dy - attenuationDelta, 0) : min(self.velocity.dy + attenuationDelta, 0)
+
+        // apply velocity to mouse position if it moved
+        let delayFixedVelocity = self.velocity * deltaTime
+        if (delayFixedVelocity).length() > 0 {
+            let position = self.getPosition()
+            self.setPosition(position + delayFixedVelocity)
+        }
+    }
 }
 
 
