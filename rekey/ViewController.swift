@@ -67,23 +67,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
         var right = false
     }
 
-    var direction = Direction()
-
-    override func keyDown(with event: NSEvent) {
-        super.keyDown(with: event)
-
-        if let key = Key(carbonKeyCode: UInt32(event.keyCode)) {
-            leftHotKey = HotKey(key: key, modifiers: event.modifierFlags,
-                    keyDownHandler: {
-                        self.direction.left = true
-                        self.setForce()
-                    },
-                    keyUpHandler: {
-                        self.direction.left = false
-                        self.setForce()
-                    })
-        }
-    }
+    private var direction = Direction()
 
     func setForce() {
         let acceleration: CGFloat = 11.0
