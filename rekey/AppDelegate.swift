@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         // TODO: load from config
-        AppDelegate.windowMovePhysics.setFriction(10.0)
+        AppDelegate.windowMovePhysics.setFriction(2)
         AppDelegate.windowMovePhysics.start()
     }
 

@@ -71,7 +71,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
 
     private func setForce() {
-        let acceleration: CGFloat = 11.0
+        let acceleration: CGFloat = 2.75
         let x: CGFloat = (direction.left ? -acceleration : 0.0) + (direction.right ? acceleration : 0.0)
         let y: CGFloat = (direction.up ? -acceleration : 0.0) + (direction.down ? acceleration : 0.0)
         AppDelegate.windowMovePhysics.setAcceleration(x, y)
