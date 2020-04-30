@@ -41,45 +41,48 @@ class PointPhysics {
     }
 
     func setAcceleration(_ x: CGFloat, _ y: CGFloat) {
-        self.mouseLock.lock()
-        defer{
-            self.mouseLock.unlock()
+        doThreadSafely {
+            self.acceleration.x = x
+            self.acceleration.y = y
         }
-        acceleration.x = x
-        acceleration.y = y
     }
 
     func setFriction(_ attenuation: CGFloat) {
+        doThreadSafely {
+            self.friction = attenuation
+        }
+    }
+
+    private func doThreadSafely(_ block: @escaping () -> Void) {
         self.mouseLock.lock()
         defer{
             self.mouseLock.unlock()
         }
-        self.friction = attenuation
+        block()
     }
 
     private func advance(_ deltaTime: CGFloat) {
-        self.mouseLock.lock()
-        defer{
-            self.mouseLock.unlock()
-        }
+        doThreadSafely {
+            // apply Acceleration v=v + at
+            self.velocity += self.acceleration * deltaTime
 
-        // apply Acceleration v=v + at
-        self.velocity += self.acceleration * deltaTime
+            // apply attenuation
+            let attenuationDelta = self.friction * deltaTime
 
-        // apply attenuation
-        let attenuationDelta = self.friction * deltaTime
+            // apply attenuation to velocity
+            self.velocity.x = 0 < self.velocity.x
+                    ? max(self.velocity.x - attenuationDelta, 0)
+                    : min(self.velocity.x + attenuationDelta, 0)
+            self.velocity.y = 0 < self.velocity.y
+                    ? max(self.velocity.y - attenuationDelta, 0)
+                    : min(self.velocity.y + attenuationDelta, 0)
 
-        // apply attenuation to velocity
-        self.velocity.x = (0 < self.velocity.x) ?
-                max(self.velocity.x - attenuationDelta, 0) : min(self.velocity.x + attenuationDelta, 0)
-        self.velocity.y = (0 < self.velocity.y) ?
-                max(self.velocity.y - attenuationDelta, 0) : min(self.velocity.y + attenuationDelta, 0)
-
-        // apply velocity to mouse position if it moved
-        let delayFixedVelocity = self.velocity * deltaTime
-        if (delayFixedVelocity).length() > 0 {
-            let position = self.getPosition()
-            self.setPosition(position + delayFixedVelocity)
+            // apply velocity to mouse position if it moved
+            let delayFixedVelocity = self.velocity * deltaTime
+            if delayFixedVelocity.length() > 0 {
+                let position = self.getPosition()
+                self.setPosition(position + delayFixedVelocity)
+            }
         }
     }
 }
