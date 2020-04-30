@@ -11,13 +11,16 @@ import Pods_rekey
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    static let windowMovePhysics = PointPhysics()
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         if (!isTrusted()) {
             NSApplication.shared.terminate(self)
         }
 
-        Mouse.shared.setFriction(10) // TODO: load from config
-        Mouse.shared.start()
+        // TODO: load from config
+        AppDelegate.windowMovePhysics.setFriction(10.0)
+        AppDelegate.windowMovePhysics.start()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

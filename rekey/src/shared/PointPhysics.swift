@@ -1,12 +1,20 @@
 import Foundation
 
-class Mouse {
+class PointPhysics {
+    let queue = DispatchQueue(label: "rekey.physics.loop", qos: .userInteractive)
     private let mouseLock = NSLock()
     private var acceleration = CGPoint()
     private var velocity = CGPoint()
-    private var friction = CGFloat(0.1)
+    private var friction: CGFloat
+    private let frameIntervalBasis = 1.0 / 100
 
-    func getPosition() -> CGPoint { CGEvent(source: nil)!.location }
+    init(friction: CGFloat? = nil) {
+        self.friction = friction ?? 1
+    }
+
+    func getPosition() -> CGPoint {
+        CGEvent(source: nil)!.location
+    }
 
     func setPosition(_ position: CGPoint) {
         if let moveEvent = CGEvent(source: nil) {
@@ -17,23 +25,17 @@ class Mouse {
     }
 
     func start() {
-        DispatchQueue(label: "rekey.mouse.loop", qos: .userInteractive).async {
+        queue.async {
             var lastSeconds = Date().timeIntervalSince1970
             while true {
                 let currentSeconds = Date().timeIntervalSince1970
                 let deltaSeconds = currentSeconds - lastSeconds
-                let frameIntervalBasis = 1.0 / 60
-
-                // get frame delay for precision
-                let deltaTime = CGFloat(deltaSeconds / frameIntervalBasis)
+                let deltaTime = CGFloat(deltaSeconds / self.frameIntervalBasis) // get frame delay for precision
 
                 self.advance(deltaTime)
 
-                // save last second
-                lastSeconds = Date().timeIntervalSince1970
-
-                // wait for the next frame
-                usleep(useconds_t(frameIntervalBasis * 1000 * 1000))
+                lastSeconds = Date().timeIntervalSince1970 // save last second
+                usleep(useconds_t(self.frameIntervalBasis * 1000 * 1000)) // wait for the next frame
             }
         }
     }
@@ -46,21 +48,25 @@ class Mouse {
         if let val = dy { velocity.y = val }
     }
 
-    func setAcceleration(_ dx: CGFloat?, _ dy: CGFloat?) {
+    func setAcceleration(_ x: CGFloat?, _ y: CGFloat?) {
         self.mouseLock.lock()
         defer{ self.mouseLock.unlock() }
 
-        if let val = dx { acceleration.x = val }
-        if let val = dy { acceleration.y = val }
+        if let val = x { acceleration.x = val }
+        if let val = y { acceleration.y = val }
+    }
+
+    func getFriction() -> CGFloat {
+        self.friction
     }
 
     func setFriction(_ attenuation: CGFloat) {
         self.mouseLock.lock()
-        defer{ self.mouseLock.unlock() }
+        defer{
+            self.mouseLock.unlock()
+        }
         self.friction = attenuation
     }
-
-    static let shared = Mouse()
 
     private func advance(_ deltaTime: CGFloat) {
         self.mouseLock.lock()
