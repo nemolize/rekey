@@ -8,11 +8,25 @@ import Cocoa
 import Foundation
 import HotKey
 
+extension HotKey {
+    func setHandler(_ block: @escaping (Bool) -> Void) -> Self {
+        self.keyDownHandler = {
+            block(true)
+        }
+
+        self.keyUpHandler = {
+            block(false)
+        }
+        return self
+    }
+}
+
 class ViewController: NSViewController, NSTextViewDelegate {
-    @IBOutlet weak var leftLabel: NSTextField!
+    @IBOutlet weak var leftSetButton: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
     }
 
     override func viewDidAppear() {
@@ -21,38 +35,29 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
 
     @IBAction func setLeft(_ sender: Any) {
-        captureKey() { event in
-            guard let key = Key(carbonKeyCode: UInt32(event.keyCode)) else {
-                return
-            }
-            self.leftHotKey = HotKey(key: key, modifiers: event.modifierFlags,
-                    keyDownHandler: {
-                        self.direction.left = true
-                        self.setForce()
-                    },
-                    keyUpHandler: {
-                        self.direction.left = false
-                        self.setForce()
-                    })
+        captureKey {
+            self.leftHotKey = $0.setHandler({ self.updateDirection(left: $0) })
+            self.leftSetButton.title = $0.keyCombo.description
         }
     }
 
     private var handlerObject: Any? = nil
 
-    private func captureKey(block: @escaping (NSEvent) -> Void) {
-        if (self.handlerObject != nil) {
-            removeCapture()
-        }
+    private func captureKey(block: @escaping (HotKey) -> Void) {
         self.handlerObject = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
-            block($0)
             self.removeCapture()
+            if let key = Key(carbonKeyCode: UInt32($0.keyCode)) {
+                block(HotKey(key: key, modifiers: $0.modifierFlags))
+            }
             return $0
         }
     }
 
-    private func removeCapture(){
-        NSEvent.removeMonitor(self.handlerObject!)
-        self.handlerObject = nil
+    private func removeCapture() {
+        if let handlerObject = self.handlerObject {
+            NSEvent.removeMonitor(handlerObject)
+            self.handlerObject = nil
+        }
     }
 
     private var up: HotKey?
@@ -60,7 +65,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     private var leftHotKey: HotKey?
     private var right: HotKey?
 
-    struct Direction {
+    private struct Direction {
         var up = false
         var down = false
         var left = false
@@ -69,7 +74,16 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     private var direction = Direction()
 
-    func setForce() {
+    private func updateDirection(up: Bool? = nil, down: Bool? = nil, left: Bool? = nil, right: Bool? = nil) {
+        direction.up = up ?? direction.up
+        direction.down = down ?? direction.down
+        direction.left = left ?? direction.left
+        direction.right = right ?? direction.right
+        setForce()
+    }
+
+
+    private func setForce() {
         let acceleration: CGFloat = 11.0
         let dx: CGFloat = (direction.left ? -acceleration : 0.0) + (direction.right ? acceleration : 0.0)
         let dy: CGFloat = (direction.up ? -acceleration : 0.0) + (direction.down ? acceleration : 0.0)
