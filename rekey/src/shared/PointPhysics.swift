@@ -1,7 +1,7 @@
 import Foundation
 
 class PointPhysics {
-    let queue = DispatchQueue(label: "rekey.physics.loop", qos: .userInteractive)
+    private let queue = DispatchQueue(label: "rekey.physics.loop", qos: .userInteractive)
     private let mouseLock = NSLock()
     private var acceleration = CGPoint()
     private var velocity = CGPoint()
@@ -40,24 +40,13 @@ class PointPhysics {
         }
     }
 
-    func setVelocity(_ dx: CGFloat?, _ dy: CGFloat?) {
+    func setAcceleration(_ x: CGFloat, _ y: CGFloat) {
         self.mouseLock.lock()
-        defer{ self.mouseLock.unlock() }
-
-        if let val = dx { velocity.x = val }
-        if let val = dy { velocity.y = val }
-    }
-
-    func setAcceleration(_ x: CGFloat?, _ y: CGFloat?) {
-        self.mouseLock.lock()
-        defer{ self.mouseLock.unlock() }
-
-        if let val = x { acceleration.x = val }
-        if let val = y { acceleration.y = val }
-    }
-
-    func getFriction() -> CGFloat {
-        self.friction
+        defer{
+            self.mouseLock.unlock()
+        }
+        acceleration.x = x
+        acceleration.y = y
     }
 
     func setFriction(_ attenuation: CGFloat) {
@@ -70,7 +59,9 @@ class PointPhysics {
 
     private func advance(_ deltaTime: CGFloat) {
         self.mouseLock.lock()
-        defer{ self.mouseLock.unlock() }
+        defer{
+            self.mouseLock.unlock()
+        }
 
         // apply Acceleration v=v + at
         self.velocity += self.acceleration * deltaTime
