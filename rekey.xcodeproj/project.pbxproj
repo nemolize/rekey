@@ -15,6 +15,8 @@
 		9772EFC01FE543C700D6E9B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */; };
 		9772EFC31FE543C700D6E9B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9772EFC11FE543C700D6E9B0 /* Main.storyboard */; };
 		A4647ADC1FFD1A7E008227AA /* Keycodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4647AD91FFD1A7E008227AA /* Keycodes.swift */; };
+		C17794A7885D875985D4CEF4 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1779389B46A22E479BBEBE3 /* CGPointExtension.swift */; };
+		C1779563FDBBC38BEBE8806A /* HotKeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17798532B62935B4102616B /* HotKeyExtension.swift */; };
 		FB19961038EDA8DC42A1ADB9 /* Pods_rekey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B6C240FABA878A53640F2A /* Pods_rekey.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +60,8 @@
 		A4647AD91FFD1A7E008227AA /* Keycodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keycodes.swift; sourceTree = "<group>"; };
 		B3010276B3FE4D4612D8D071 /* Pods-rekeyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyTests/Pods-rekeyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B9C9F9CAFBCA997F10CC6829 /* Pods_rekeyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rekeyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1779389B46A22E479BBEBE3 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CGPointExtension.swift; path = src/extensions/CGPointExtension.swift; sourceTree = "<group>"; };
+		C17798532B62935B4102616B /* HotKeyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HotKeyExtension.swift; path = src/extensions/HotKeyExtension.swift; sourceTree = "<group>"; };
 		E6B6C240FABA878A53640F2A /* Pods_rekey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rekey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -158,6 +162,8 @@
 				9772EFC11FE543C700D6E9B0 /* Main.storyboard */,
 				9772EFC41FE543C700D6E9B0 /* Info.plist */,
 				6D7B19605E93120ACF526FE3 /* intrinsics */,
+				C17798532B62935B4102616B /* HotKeyExtension.swift */,
+				C1779389B46A22E479BBEBE3 /* CGPointExtension.swift */,
 			);
 			path = rekey;
 			sourceTree = "<group>";
@@ -375,6 +381,8 @@
 				9772EFBC1FE543C700D6E9B0 /* AppDelegate.swift in Sources */,
 				A4647ADC1FFD1A7E008227AA /* Keycodes.swift in Sources */,
 				6D7B11763751DCBB46A1B10B /* mouse.swift in Sources */,
+				C1779563FDBBC38BEBE8806A /* HotKeyExtension.swift in Sources */,
+				C17794A7885D875985D4CEF4 /* CGPointExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

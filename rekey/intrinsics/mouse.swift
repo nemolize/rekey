@@ -1,42 +1,12 @@
-//
-//  mouse.swift
-//  rekey
-//
-//  Created by nemoto on 2018/01/03.
-//  Copyright © 2018年 nemoto. All rights reserved.
-//
-
 import Foundation
-
-extension CGVector {
-    public func length() -> CGFloat {
-        return sqrt(dx * dx + dy * dy)
-    }
-}
-
-public func *(vector: CGVector, scalar: CGFloat) -> CGVector {
-    return CGVector(dx: vector.dx * CGFloat(scalar), dy: vector.dy * CGFloat(scalar))
-}
-
-public func +(left: CGVector, right: CGVector) -> CGVector {
-    return CGVector(dx: left.dx + right.dx, dy: left.dy + right.dy)
-}
-
-public func +=(left: inout CGVector, right: CGVector) {
-    left = left + right
-}
-
-public func +(left: CGPoint, right: CGVector) -> CGPoint {
-    return CGPoint(x: left.x + right.dx, y: left.y + right.dy)
-}
 
 class Mouse {
     private let mouseLock = NSLock()
-    private var acceleration = CGVector()
-    private var velocity = CGVector()
+    private var acceleration = CGPoint()
+    private var velocity = CGPoint()
     private var friction = CGFloat(0.1)
 
-    func getPosition() -> CGPoint { return CGEvent(source: nil)!.location }
+    func getPosition() -> CGPoint { CGEvent(source: nil)!.location }
 
     func setPosition(_ position: CGPoint) {
         if let moveEvent = CGEvent(source: nil) {
@@ -72,16 +42,16 @@ class Mouse {
         self.mouseLock.lock()
         defer{ self.mouseLock.unlock() }
 
-        if let val = dx { velocity.dx = val }
-        if let val = dy { velocity.dy = val }
+        if let val = dx { velocity.x = val }
+        if let val = dy { velocity.y = val }
     }
 
     func setAcceleration(_ dx: CGFloat?, _ dy: CGFloat?) {
         self.mouseLock.lock()
         defer{ self.mouseLock.unlock() }
 
-        if let val = dx { acceleration.dx = val }
-        if let val = dy { acceleration.dy = val }
+        if let val = dx { acceleration.x = val }
+        if let val = dy { acceleration.y = val }
     }
 
     func setFriction(_ attenuation: CGFloat) {
@@ -103,10 +73,10 @@ class Mouse {
         let attenuationDelta = self.friction * deltaTime
 
         // apply attenuation to velocity
-        self.velocity.dx = (0 < self.velocity.dx) ?
-                max(self.velocity.dx - attenuationDelta, 0) : min(self.velocity.dx + attenuationDelta, 0)
-        self.velocity.dy = (0 < self.velocity.dy) ?
-                max(self.velocity.dy - attenuationDelta, 0) : min(self.velocity.dy + attenuationDelta, 0)
+        self.velocity.x = (0 < self.velocity.x) ?
+                max(self.velocity.x - attenuationDelta, 0) : min(self.velocity.x + attenuationDelta, 0)
+        self.velocity.y = (0 < self.velocity.y) ?
+                max(self.velocity.y - attenuationDelta, 0) : min(self.velocity.y + attenuationDelta, 0)
 
         // apply velocity to mouse position if it moved
         let delayFixedVelocity = self.velocity * deltaTime
