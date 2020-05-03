@@ -11,48 +11,45 @@ import Pods_rekey
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    static let windowMovePhysics = PointPhysics(onSetPosition: { (_, velocity) in
-        guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier else {
-            debugPrint("failed to obtain frontmostApplication")
-            return
-        }
+    static let windowMovePhysics = PointPhysics(onUpdate: { (_, velocity) in
+//        guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier else {
+//            debugPrint("failed to obtain frontmostApplication")
+//            return
+//        }
 
-        let appRef = AXUIElementCreateApplication(pid)
+        do {
+            let appRef = try getFrontmostApplicationElement()
 
-        var windowsRef: CFTypeRef?
-        let windowsResult = AXUIElementCopyAttributeValue(appRef, kAXWindowsAttribute as CFString, &windowsRef)
-        if windowsResult != AXError.success {
-            debugPrint("AXUIElementCopyAttributeValue for windows has failed with code: \(windowsResult.rawValue)")
-            return
-        }
+            var windowsRef: CFTypeRef?
+            try appRef.copyAttributeValue(kAXWindowsAttribute, &windowsRef)
 
-        guard let windowElement: AXUIElement = (windowsRef as? [AXUIElement])?.first else {
-            debugPrint("failed to get window")
-            return
-        }
-
-        var positionRef: CFTypeRef?
-        let getPositionResult = AXUIElementCopyAttributeValue(windowElement, kAXPositionAttribute as CFString, &positionRef);
-        if positionRef == nil || getPositionResult != AXError.success {
-            debugPrint("AXUIElementCopyAttributeValue has failed with code: \(getPositionResult.rawValue)")
-            return
-        }
-
-        var position = CGPoint()
-        if !AXValueGetValue(positionRef as! AXValue, AXValueType.cgPoint, &position) {
-            debugPrint("AXValueGetValue has failed")
-            return
-        }
-
-        position += velocity
-
-        if let pointRef = AXValueCreate(AXValueType.cgPoint, &position) {
-            let ret: AXError = AXUIElementSetAttributeValue(windowElement, kAXPositionAttribute as CFString, pointRef)
-            if ret.rawValue != 0 {
-                debugPrint("AXUIElementSetAttributeValue has failed with code: \(ret.rawValue)")
+            guard let windowElement: AXUIElement = (windowsRef as? [AXUIElement])?.first else {
+                throw AppError.accessibility("failed to get window")
             }
+
+            var positionRef: CFTypeRef?
+            try windowElement.copyAttributeValue(kAXPositionAttribute, &positionRef)
+
+            var position = CGPoint()
+            if !AXValueGetValue(positionRef as! AXValue, AXValueType.cgPoint, &position) {
+                throw AppError.accessibility("AXValueGetValue has failed")
+            }
+
+            position += velocity
+
+            if let positionAxValue = AXValueCreate(AXValueType.cgPoint, &position) {
+                try windowElement.setAttributeValue(kAXPositionAttribute, positionAxValue)
+            }
+
+        } catch AppError.accessibility(let message, let code) {
+            if let code = code {
+                debugPrint(message, code)
+            } else {
+                debugPrint(message)
+            }
+        } catch {
+            debugPrint("Unknown error has occurred.")
         }
-        return
     })
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {

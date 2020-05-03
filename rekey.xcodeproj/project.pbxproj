@@ -17,6 +17,7 @@
 		C17794A7885D875985D4CEF4 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1779389B46A22E479BBEBE3 /* CGPointExtension.swift */; };
 		C1779563FDBBC38BEBE8806A /* HotKeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17798532B62935B4102616B /* HotKeyExtension.swift */; };
 		C177959BFDAFC1DDD49BC044 /* PointPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17799C7BB9F20D528B9F962 /* PointPhysics.swift */; };
+		C1779D94C85F8A5AAA35957D /* AXUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1779ACAD74004F700DDE2C7 /* AXUtils.swift */; };
 		FB19961038EDA8DC42A1ADB9 /* Pods_rekey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B6C240FABA878A53640F2A /* Pods_rekey.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		C1779389B46A22E479BBEBE3 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CGPointExtension.swift; path = src/extensions/CGPointExtension.swift; sourceTree = "<group>"; };
 		C17798532B62935B4102616B /* HotKeyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HotKeyExtension.swift; path = src/extensions/HotKeyExtension.swift; sourceTree = "<group>"; };
 		C17799C7BB9F20D528B9F962 /* PointPhysics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointPhysics.swift; path = src/shared/PointPhysics.swift; sourceTree = "<group>"; };
+		C1779ACAD74004F700DDE2C7 /* AXUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AXUtils.swift; sourceTree = "<group>"; };
 		E6B6C240FABA878A53640F2A /* Pods_rekey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rekey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				A4647AD91FFD1A7E008227AA /* Keycodes.swift */,
+				C1779ACAD74004F700DDE2C7 /* AXUtils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				C1779563FDBBC38BEBE8806A /* HotKeyExtension.swift in Sources */,
 				C17794A7885D875985D4CEF4 /* CGPointExtension.swift in Sources */,
 				C177959BFDAFC1DDD49BC044 /* PointPhysics.swift in Sources */,
+				C1779D94C85F8A5AAA35957D /* AXUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

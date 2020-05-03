@@ -9,9 +9,9 @@ class PointPhysics {
     private let frameIntervalBasis = 1.0 / 100
     private let onUpdate: ((_ position: CGPoint, _ velocity: CGPoint) -> Void)?
 
-    init(friction: CGFloat? = nil, onSetPosition: @escaping (_ position: CGPoint, _ velocity: CGPoint) -> Void) {
+    init(friction: CGFloat? = nil, onUpdate: @escaping (_ position: CGPoint, _ velocity: CGPoint) -> Void) {
         self.friction = friction ?? 1
-        self.onUpdate = onSetPosition
+        self.onUpdate = onUpdate
     }
 
     func getPosition() -> CGPoint {
