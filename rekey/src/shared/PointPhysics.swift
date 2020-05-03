@@ -7,9 +7,11 @@ class PointPhysics {
     private var velocity = CGPoint()
     private var friction: CGFloat
     private let frameIntervalBasis = 1.0 / 100
+    private let onUpdate: ((_ position: CGPoint, _ velocity: CGPoint) -> Void)?
 
-    init(friction: CGFloat? = nil) {
+    init(friction: CGFloat? = nil, onSetPosition: @escaping (_ position: CGPoint, _ velocity: CGPoint) -> Void) {
         self.friction = friction ?? 1
+        self.onUpdate = onSetPosition
     }
 
     func getPosition() -> CGPoint {
@@ -77,11 +79,11 @@ class PointPhysics {
                     ? max(self.velocity.y - attenuationDelta, 0)
                     : min(self.velocity.y + attenuationDelta, 0)
 
-            // apply velocity to mouse position if it moved
+            // apply velocity to position if it moved
             let delayFixedVelocity = self.velocity * deltaTime
             if delayFixedVelocity.length() > 0 {
                 let position = self.getPosition()
-                self.setPosition(position + delayFixedVelocity)
+                self.onUpdate?(position + delayFixedVelocity, delayFixedVelocity)
             }
         }
     }
