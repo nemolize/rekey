@@ -11,7 +11,7 @@ import Pods_rekey
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    static let windowMovePhysics = PointPhysics(onSetPosition: { (pos, velocity) in
+    static let windowMovePhysics = PointPhysics(onSetPosition: { (_, velocity) in
         guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier else {
             debugPrint("failed to obtain frontmostApplication")
             return
