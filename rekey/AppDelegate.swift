@@ -12,11 +12,6 @@ import Pods_rekey
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     static let windowMovePhysics = PointPhysics(onUpdate: { (_, velocity) in
-//        guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier else {
-//            debugPrint("failed to obtain frontmostApplication")
-//            return
-//        }
-
         do {
             let appRef = try getFrontmostApplicationElement()
 
@@ -42,11 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
         } catch AppError.accessibility(let message, let code) {
-            if let code = code {
-                debugPrint(message, code)
-            } else {
-                debugPrint(message)
-            }
+            debugPrint(message, code ?? "none")
         } catch {
             debugPrint("Unknown error has occurred.")
         }

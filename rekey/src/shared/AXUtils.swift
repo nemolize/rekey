@@ -1,9 +1,5 @@
 import Cocoa
 
-enum AppError: Error {
-    case accessibility(_ message: String, _ code: Int32? = nil)
-}
-
 func getFrontmostApplicationElement() throws -> AXUIElement {
     guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier else {
         throw AppError.accessibility("Failed to get process identifier of the frontmost application.")
