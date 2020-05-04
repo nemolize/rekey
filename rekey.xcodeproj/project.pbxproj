@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		972CC3382457381F00731F5F /* rekeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972CC3372457381F00731F5F /* rekeyTests.swift */; };
 		972CC3462457385200731F5F /* rekeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972CC3452457385200731F5F /* rekeyUITests.swift */; };
+		973CFE8C24609573007CCBC1 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 973CFE8B24609573007CCBC1 /* HotKey */; };
 		9772EFBC1FE543C700D6E9B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */; };
 		9772EFBE1FE543C700D6E9B0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFBD1FE543C700D6E9B0 /* ViewController.swift */; };
 		9772EFC01FE543C700D6E9B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */; };
@@ -18,7 +19,6 @@
 		C1779563FDBBC38BEBE8806A /* HotKeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17798532B62935B4102616B /* HotKeyExtension.swift */; };
 		C177959BFDAFC1DDD49BC044 /* PointPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17799C7BB9F20D528B9F962 /* PointPhysics.swift */; };
 		C1779BA202977876046E6C65 /* AXUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17790DC203D316406E2CC45 /* AXUtils.swift */; };
-		FB19961038EDA8DC42A1ADB9 /* Pods_rekey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6B6C240FABA878A53640F2A /* Pods_rekey.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,12 +39,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0FB6530B1BBF98CF032BF5F9 /* Pods-rekey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekey.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rekey/Pods-rekey.debug.xcconfig"; sourceTree = "<group>"; };
-		1700D3F675345FAF5861E564 /* Pods_rekeyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rekeyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		20012783719AC821A4F931FA /* Pods-rekeyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyTests/Pods-rekeyTests.release.xcconfig"; sourceTree = "<group>"; };
-		22310C7FD38ED4230143DD7C /* Pods-rekey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekey.release.xcconfig"; path = "Pods/Target Support Files/Pods-rekey/Pods-rekey.release.xcconfig"; sourceTree = "<group>"; };
-		4F02BFB2F062A40BED062280 /* Pods-rekeyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests.release.xcconfig"; sourceTree = "<group>"; };
-		8BB800ECA7A59FF11DFD338F /* Pods-rekeyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		972CC3352457381F00731F5F /* rekeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		972CC3372457381F00731F5F /* rekeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rekeyTests.swift; sourceTree = "<group>"; };
 		972CC3392457381F00731F5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,14 +51,11 @@
 		9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../rekey/Assets.xcassets; sourceTree = "<group>"; };
 		9772EFC21FE543C700D6E9B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9772EFC41FE543C700D6E9B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../rekey/Info.plist; sourceTree = "<group>"; };
-		B3010276B3FE4D4612D8D071 /* Pods-rekeyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rekeyTests/Pods-rekeyTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B9C9F9CAFBCA997F10CC6829 /* Pods_rekeyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rekeyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17790DC203D316406E2CC45 /* AXUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AXUtils.swift; path = src/shared/AXUtils.swift; sourceTree = "<group>"; };
 		C1779389B46A22E479BBEBE3 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CGPointExtension.swift; path = src/extensions/CGPointExtension.swift; sourceTree = "<group>"; };
 		C17798532B62935B4102616B /* HotKeyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HotKeyExtension.swift; path = src/extensions/HotKeyExtension.swift; sourceTree = "<group>"; };
 		C17799C7BB9F20D528B9F962 /* PointPhysics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointPhysics.swift; path = src/shared/PointPhysics.swift; sourceTree = "<group>"; };
 		C1779FEBFFBA1FAFBE5845C6 /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppError.swift; path = src/shared/AppError.swift; sourceTree = "<group>"; };
-		E6B6C240FABA878A53640F2A /* Pods_rekey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rekey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,26 +77,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB19961038EDA8DC42A1ADB9 /* Pods_rekey.framework in Frameworks */,
+				973CFE8C24609573007CCBC1 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8959869CFBFD9FFB107C8800 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0FB6530B1BBF98CF032BF5F9 /* Pods-rekey.debug.xcconfig */,
-				22310C7FD38ED4230143DD7C /* Pods-rekey.release.xcconfig */,
-				B3010276B3FE4D4612D8D071 /* Pods-rekeyTests.debug.xcconfig */,
-				20012783719AC821A4F931FA /* Pods-rekeyTests.release.xcconfig */,
-				8BB800ECA7A59FF11DFD338F /* Pods-rekeyUITests.debug.xcconfig */,
-				4F02BFB2F062A40BED062280 /* Pods-rekeyUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		972CC3362457381F00731F5F /* rekeyTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,8 +109,6 @@
 				972CC3362457381F00731F5F /* rekeyTests */,
 				972CC3442457385200731F5F /* rekeyUITests */,
 				9772EFB91FE543C700D6E9B0 /* Products */,
-				97EF0C1D1FE7EBFF008440E1 /* Frameworks */,
-				8959869CFBFD9FFB107C8800 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -161,16 +137,6 @@
 				C17790DC203D316406E2CC45 /* AXUtils.swift */,
 			);
 			path = rekey;
-			sourceTree = "<group>";
-		};
-		97EF0C1D1FE7EBFF008440E1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E6B6C240FABA878A53640F2A /* Pods_rekey.framework */,
-				1700D3F675345FAF5861E564 /* Pods_rekeyTests.framework */,
-				B9C9F9CAFBCA997F10CC6829 /* Pods_rekeyUITests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,17 +182,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9772EFDD1FE543C700D6E9B0 /* Build configuration list for PBXNativeTarget "rekey" */;
 			buildPhases = (
-				5CB568697EE42B181D313EE5 /* [CP] Check Pods Manifest.lock */,
 				9772EFB41FE543C700D6E9B0 /* Sources */,
 				9772EFB51FE543C700D6E9B0 /* Frameworks */,
 				9772EFB61FE543C700D6E9B0 /* Resources */,
-				C21F8220D75D681EC62F9FF7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = rekey;
+			packageProductDependencies = (
+				973CFE8B24609573007CCBC1 /* HotKey */,
+			);
 			productName = osxkeyremapper;
 			productReference = 9772EFB81FE543C700D6E9B0 /* rekey.app */;
 			productType = "com.apple.product-type.application";
@@ -267,6 +234,9 @@
 				Base,
 			);
 			mainGroup = 9772EFAF1FE543C700D6E9B0;
+			packageReferences = (
+				973CFE8A24609573007CCBC1 /* XCRemoteSwiftPackageReference "HotKey" */,
+			);
 			productRefGroup = 9772EFB91FE543C700D6E9B0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -303,45 +273,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		5CB568697EE42B181D313EE5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-rekey-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C21F8220D75D681EC62F9FF7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-rekey/Pods-rekey-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HotKey.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rekey/Pods-rekey-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		972CC3312457381F00731F5F /* Sources */ = {
@@ -413,7 +344,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = rekeyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -436,7 +371,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = rekeyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nemolize.rekeyTests;
@@ -457,7 +396,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = rekeyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -479,7 +422,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = rekeyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nemolize.rekeyUITests;
@@ -592,14 +539,14 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		9772EFDE1FE543C700D6E9B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0FB6530B1BBF98CF032BF5F9 /* Pods-rekey.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -607,7 +554,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = rekey/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.nemoto.rekey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -617,7 +567,6 @@
 		};
 		9772EFDF1FE543C700D6E9B0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 22310C7FD38ED4230143DD7C /* Pods-rekey.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -625,7 +574,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = rekey/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.nemoto.rekey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -672,6 +624,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		973CFE8A24609573007CCBC1 /* XCRemoteSwiftPackageReference "HotKey" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/HotKey";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		973CFE8B24609573007CCBC1 /* HotKey */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 973CFE8A24609573007CCBC1 /* XCRemoteSwiftPackageReference "HotKey" */;
+			productName = HotKey;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9772EFB01FE543C700D6E9B0 /* Project object */;
 }

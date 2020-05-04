@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Pods_rekey
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {

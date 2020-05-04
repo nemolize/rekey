@@ -2,12 +2,4 @@
 A keyboard remap tool
 
 # How to build
-
-# Requirements
-- ruby `2.7.1` must be available with rbenv
-
-# Setup
-```console
-bundle install
-pod install
-```
+Open rekey.xcworkspace with Xcode and run
