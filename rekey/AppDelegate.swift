@@ -15,12 +15,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             let appRef = try getFrontmostApplicationElement()
 
-            var windowsRef: CFTypeRef?
-            try appRef.copyAttributeValue(kAXWindowsAttribute, &windowsRef)
-
-            guard let windowElement: AXUIElement = (windowsRef as? [AXUIElement])?.first else {
-                throw AppError.accessibility("failed to get window")
-            }
+            var windowRef: AnyObject?
+            try appRef.copyAttributeValue(kAXFocusedWindowAttribute, &windowRef)
+            let windowElement: AXUIElement = windowRef as! AXUIElement
 
             var positionRef: CFTypeRef?
             try windowElement.copyAttributeValue(kAXPositionAttribute, &positionRef)
