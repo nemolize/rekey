@@ -9,7 +9,10 @@ import Foundation
 import HotKey
 
 class ViewController: NSViewController, NSTextViewDelegate {
+    @IBOutlet weak var upSetButton: NSButton!
+    @IBOutlet weak var downSetButton: NSButton!
     @IBOutlet weak var leftSetButton: NSButton!
+    @IBOutlet weak var rightSetButton: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +24,30 @@ class ViewController: NSViewController, NSTextViewDelegate {
         NSRunningApplication().activate(options: .activateIgnoringOtherApps)
     }
 
-    @IBAction func setLeft(_ sender: Any) {
+    @IBAction func setUp(_ sender: Any) {
         captureKey {
-            self.leftHotKey = $0.setHandler({ self.updateDirection(left: $0) })
-            self.leftSetButton.title = $0.keyCombo.description
+            self.updateHotKey(up: $0.setHandler({ self.updateDirection(up: $0) }))
         }
     }
+
+    @IBAction func setDown(_ sender: Any) {
+        captureKey {
+            self.updateHotKey(down: $0.setHandler({ self.updateDirection(down: $0) }))
+        }
+    }
+
+    @IBAction func setLeft(_ sender: Any) {
+        captureKey {
+            self.updateHotKey(left: $0.setHandler({ self.updateDirection(left: $0) }))
+        }
+    }
+
+    @IBAction func setRight(_ sender: Any) {
+        captureKey {
+            self.updateHotKey(right: $0.setHandler({ self.updateDirection(right: $0) }))
+        }
+    }
+
 
     private var handlerObject: Any? = nil
 
@@ -47,10 +68,12 @@ class ViewController: NSViewController, NSTextViewDelegate {
         }
     }
 
-    private var up: HotKey?
-    private var down: HotKey?
-    private var leftHotKey: HotKey?
-    private var right: HotKey?
+    private struct DirectionHotKey {
+        var up: HotKey? = nil
+        var down: HotKey? = nil
+        var left: HotKey? = nil
+        var right: HotKey? = nil
+    }
 
     private struct Direction {
         var up = false
@@ -59,7 +82,30 @@ class ViewController: NSViewController, NSTextViewDelegate {
         var right = false
     }
 
+    private var hotKey = DirectionHotKey()
     private var direction = Direction()
+
+    private func updateHotKey(up: HotKey? = nil, down: HotKey? = nil, left: HotKey? = nil, right: HotKey? = nil) {
+        if (up != nil) {
+            hotKey.up = up
+            upSetButton.title = up!.keyCombo.description
+        }
+
+        if (down != nil) {
+            hotKey.down = down
+            downSetButton.title = down!.keyCombo.description
+        }
+
+        if (left != nil) {
+            hotKey.left = left
+            leftSetButton.title = left!.keyCombo.description
+        }
+
+        if (right != nil) {
+            hotKey.right = right
+            rightSetButton.title = right!.keyCombo.description
+        }
+    }
 
     private func updateDirection(up: Bool? = nil, down: Bool? = nil, left: Bool? = nil, right: Bool? = nil) {
         direction.up = up ?? direction.up

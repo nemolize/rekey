@@ -668,7 +668,7 @@
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="2537"/>
                         <value key="minSize" type="size" width="240" height="80"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="hvg-ec-QFf"/>
@@ -697,6 +697,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="setRight:" target="XfG-lQ-9wD" id="Tom-un-ANA"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XID-cz-4Pu">
                                 <rect key="frame" x="8" y="216" width="175" height="42"/>
@@ -705,6 +708,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="setUp:" target="XfG-lQ-9wD" id="aHS-SB-TGe"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k6H-E8-bLb">
                                 <rect key="frame" x="8" y="183" width="175" height="42"/>
@@ -713,6 +719,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="setDown:" target="XfG-lQ-9wD" id="UQZ-Sg-fx9"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ANO-WE-odr">
                                 <rect key="frame" x="8" y="150" width="175" height="42"/>
@@ -728,7 +737,10 @@
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="downSetButton" destination="k6H-E8-bLb" id="mii-6F-MwD"/>
                         <outlet property="leftSetButton" destination="ANO-WE-odr" id="dXt-ZK-0dD"/>
+                        <outlet property="rightSetButton" destination="F3n-oZ-2M6" id="0ZB-Zi-yAz"/>
+                        <outlet property="upSetButton" destination="XID-cz-4Pu" id="XoP-Jl-gaO"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
