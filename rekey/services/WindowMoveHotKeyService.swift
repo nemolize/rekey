@@ -9,24 +9,33 @@ struct DirectionHotKey {
     var right: HotKey? = nil
 }
 
-struct Direction {
+struct PressedDirection {
     var up = false
     var down = false
     var left = false
     var right = false
 }
 
+enum Dir {
+    case up
+    case down
+    case left
+    case right
+}
+
 class WindowMoveHotKeyService {
     private var hotKey = DirectionHotKey()
-    private var direction = Direction()
+    private var direction = PressedDirection()
 
     static let shared = WindowMoveHotKeyService()
 
-    private func updateDirection(up: Bool? = nil, down: Bool? = nil, left: Bool? = nil, right: Bool? = nil) {
-        direction.up = up ?? direction.up
-        direction.down = down ?? direction.down
-        direction.left = left ?? direction.left
-        direction.right = right ?? direction.right
+    private func updateDirection(_ targetDirection: Dir, _ value: Bool) {
+        switch targetDirection {
+        case .up: direction.up = value
+        case .down: direction.down = value
+        case .left: direction.left = value
+        case .right: direction.right = value
+        }
         setForce()
     }
 
@@ -37,47 +46,19 @@ class WindowMoveHotKeyService {
         AppService.shared.windowMovePhysics.setAcceleration(x, y)
     }
 
-    func setUp(keyCode: UInt32, modifiers: NSEvent.ModifierFlags) {
-        guard let key = Key(carbonKeyCode: keyCode) else {
-            debugPrint("failed to instantiate Key for keyCode: \(keyCode)")
-            return
-        }
-        hotKey.up = HotKey(key: key, modifiers: modifiers).setHandler({
-            self.direction.up = $0
-            self.setForce()
-        })
-    }
+    func setHotKey(direction: Dir, keyCode: UInt32, modifiers: NSEvent.ModifierFlags) {
+        let newHotKey = HotKey(
+            carbonKeyCode: keyCode,
+            carbonModifiers: modifiers.carbonFlags,
+            keyDownHandler: { self.updateDirection(direction, true) },
+            keyUpHandler: { self.updateDirection(direction, false) }
+        )
 
-    func setDown(keyCode: UInt32, modifiers: NSEvent.ModifierFlags) {
-        guard let key = Key(carbonKeyCode: keyCode) else {
-            debugPrint("failed to instantiate Key for keyCode: \(keyCode)")
-            return
+        switch direction {
+        case .up: hotKey.up = newHotKey
+        case .down: hotKey.down = newHotKey
+        case .left: hotKey.left = newHotKey
+        case .right: hotKey.right = newHotKey
         }
-        hotKey.down = HotKey(key: key, modifiers: modifiers).setHandler({
-            self.direction.down = $0
-            self.setForce()
-        })
-    }
-
-    func setLeft(keyCode: UInt32, modifiers: NSEvent.ModifierFlags) {
-        guard let key = Key(carbonKeyCode: keyCode) else {
-            debugPrint("failed to instantiate Key for keyCode: \(keyCode)")
-            return
-        }
-        hotKey.left = HotKey(key: key, modifiers: modifiers).setHandler({
-            self.direction.left = $0
-            self.setForce()
-        })
-    }
-
-    func setRight(keyCode: UInt32, modifiers: NSEvent.ModifierFlags) {
-        guard let key = Key(carbonKeyCode: keyCode) else {
-            debugPrint("failed to instantiate Key for keyCode: \(keyCode)")
-            return
-        }
-        hotKey.right = HotKey(key: key, modifiers: modifiers).setHandler({
-            self.direction.right = $0
-            self.setForce()
-        })
     }
 }

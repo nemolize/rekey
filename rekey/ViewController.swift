@@ -23,19 +23,19 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
 
     @IBAction func setUp(_ sender: Any) {
-        captureKey({ WindowMoveHotKeyService.shared.setUp(keyCode: $0, modifiers: $1) })
+        captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .up, keyCode: $0, modifiers: $1) })
     }
 
     @IBAction func setDown(_ sender: Any) {
-        captureKey({ WindowMoveHotKeyService.shared.setDown(keyCode: $0, modifiers: $1) })
+        captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .down, keyCode: $0, modifiers: $1) })
     }
 
     @IBAction func setLeft(_ sender: Any) {
-        captureKey({ WindowMoveHotKeyService.shared.setLeft(keyCode: $0, modifiers: $1) })
+        captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .left, keyCode: $0, modifiers: $1) })
     }
 
     @IBAction func setRight(_ sender: Any) {
-        captureKey({ WindowMoveHotKeyService.shared.setRight(keyCode: $0, modifiers: $1) })
+        captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .right, keyCode: $0, modifiers: $1) })
     }
 
 

@@ -17,7 +17,6 @@
 		9772EFC31FE543C700D6E9B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9772EFC11FE543C700D6E9B0 /* Main.storyboard */; };
 		C17790A1AEB3B8A588D949BE /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C177928C520467533E6A7D2A /* AppError.swift */; };
 		C177928693858773D614D754 /* AppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1779549D7CE859F4AFDD37D /* AppService.swift */; };
-		C17792D7BAC7764A52CFE779 /* HotKeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1779B6A09C4B3E68B6FDEE4 /* HotKeyExtension.swift */; };
 		C17798F655AED3299FBA4758 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1779B3D2FD34624D148C001 /* CGPointExtension.swift */; };
 		C1779C46B65F68E53F7A4804 /* WindowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1779D9082A252837C6865B4 /* WindowService.swift */; };
 		C1779DC3DC806BCCF5483574 /* PointPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1779535E2B50E4F0CBE740F /* PointPhysics.swift */; };
@@ -69,7 +68,6 @@
 		C1779535E2B50E4F0CBE740F /* PointPhysics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointPhysics.swift; sourceTree = "<group>"; };
 		C1779549D7CE859F4AFDD37D /* AppService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
 		C1779B3D2FD34624D148C001 /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
-		C1779B6A09C4B3E68B6FDEE4 /* HotKeyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotKeyExtension.swift; sourceTree = "<group>"; };
 		C1779BAB28B51E1527C5837A /* AXUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AXUtils.swift; sourceTree = "<group>"; };
 		C1779D9082A252837C6865B4 /* WindowService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowService.swift; sourceTree = "<group>"; };
 		CFAB03E57BE86245CAA7AC2A /* Pods-rekeyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rekeyUITests.release.xcconfig"; path = "Target Support Files/Pods-rekeyUITests/Pods-rekeyUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 				8360CA0164C1D7A94ADD286B /* Pods-rekeyUITests.debug.xcconfig */,
 				CFAB03E57BE86245CAA7AC2A /* Pods-rekeyUITests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -206,7 +203,6 @@
 			isa = PBXGroup;
 			children = (
 				C1779B3D2FD34624D148C001 /* CGPointExtension.swift */,
-				C1779B6A09C4B3E68B6FDEE4 /* HotKeyExtension.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -458,7 +454,6 @@
 				C17790A1AEB3B8A588D949BE /* AppError.swift in Sources */,
 				C1779FB1DF0477E69D2FCE81 /* AXUtils.swift in Sources */,
 				C17798F655AED3299FBA4758 /* CGPointExtension.swift in Sources */,
-				C17792D7BAC7764A52CFE779 /* HotKeyExtension.swift in Sources */,
 				C177928693858773D614D754 /* AppService.swift in Sources */,
 				C1779C46B65F68E53F7A4804 /* WindowService.swift in Sources */,
 				C1779F64B3156EF4DF26946D /* WindowMoveHotKeyService.swift in Sources */,
