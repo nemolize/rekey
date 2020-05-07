@@ -16,7 +16,7 @@ struct PressedDirection {
     var right = false
 }
 
-enum Dir {
+enum Direction {
     case up
     case down
     case left
@@ -29,7 +29,7 @@ class WindowMoveHotKeyService {
 
     static let shared = WindowMoveHotKeyService()
 
-    private func updateDirection(_ targetDirection: Dir, _ value: Bool) {
+    private func updateDirection(_ targetDirection: Direction, _ value: Bool) {
         switch targetDirection {
         case .up: direction.up = value
         case .down: direction.down = value
@@ -46,7 +46,7 @@ class WindowMoveHotKeyService {
         AppService.shared.windowMovePhysics.setAcceleration(x, y)
     }
 
-    func setHotKey(direction: Dir, keyCode: UInt32, modifiers: NSEvent.ModifierFlags) {
+    func setHotKey(direction: Direction, keyCode: UInt32, modifiers: NSEvent.ModifierFlags) {
         let newHotKey = HotKey(
             carbonKeyCode: keyCode,
             carbonModifiers: modifiers.carbonFlags,
@@ -60,5 +60,18 @@ class WindowMoveHotKeyService {
         case .left: hotKey.left = newHotKey
         case .right: hotKey.right = newHotKey
         }
+    }
+
+    func getHotKey(_ direction: Direction) -> HotKey? {
+        switch direction {
+        case .up: return hotKey.up
+        case .down: return hotKey.down
+        case .left: return hotKey.left
+        case .right: return hotKey.right
+        }
+    }
+
+    func getHotKeyLabel(_ direction: Direction) -> String {
+        getHotKey(direction)?.keyCombo.description ?? "Not set"
     }
 }
