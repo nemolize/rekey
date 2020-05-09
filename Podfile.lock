@@ -1,16 +1,30 @@
 PODS:
   - HotKey (0.1.2)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
 
 DEPENDENCIES:
   - HotKey
+  - RxCocoa (~> 5)
+  - RxSwift (~> 5)
 
 SPEC REPOS:
   trunk:
     - HotKey
+    - RxCocoa
+    - RxRelay
+    - RxSwift
 
 SPEC CHECKSUMS:
   HotKey: ad59450195936c10992438c4210f673de5aee43e
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: f21ad9baecc85210ee70c6633972eb5065bdeaad
+PODFILE CHECKSUM: e82a87443dd586179b38477a0eeff2aeabacab58
 
 COCOAPODS: 1.9.1
