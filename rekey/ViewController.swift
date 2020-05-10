@@ -31,21 +31,17 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
 
     private func subscribeButtons() {
-        upButton.rx.tap.subscribe({ _ in
-            self.captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .up, keyCode: $0, modifiers: $1) })
+        Observable.merge(
+            upButton.rx.tap.map({ Direction.up }),
+            downButton.rx.tap.map({ Direction.down }),
+            leftButton.rx.tap.map({ Direction.left }),
+            rightButton.rx.tap.map({ Direction.right })
+        ).subscribe(onNext: { direction in
+            self.captureKey({
+                WindowMoveHotKeyService.shared.setHotKey(direction: direction, keyCode: $0, modifiers: $1)
+            })
         }).disposed(by: disposeBag)
 
-        downButton.rx.tap.subscribe({ _ in
-            self.captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .down, keyCode: $0, modifiers: $1) })
-        }).disposed(by: disposeBag)
-
-        leftButton.rx.tap.subscribe({ _ in
-            self.captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .left, keyCode: $0, modifiers: $1) })
-        }).disposed(by: disposeBag)
-
-        rightButton.rx.tap.subscribe({ _ in
-            self.captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .right, keyCode: $0, modifiers: $1) })
-        }).disposed(by: disposeBag)
     }
 
     override func viewDidAppear() {
@@ -58,6 +54,15 @@ class ViewController: NSViewController, NSTextViewDelegate {
         self.downButton.title = getHotKeyLabel(.down)
         self.leftButton.title = getHotKeyLabel(.left)
         self.rightButton.title = getHotKeyLabel(.right)
+    }
+
+    private func getButton(_ direction: Direction) -> NSButton {
+        switch direction {
+        case .up: return upButton
+        case .down: return downButton
+        case .left: return leftButton
+        case .right: return rightButton
+        }
     }
 
 
