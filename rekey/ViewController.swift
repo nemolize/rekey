@@ -19,35 +19,33 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        upButton.rx.tap.subscribe({ event in
-            self.captureKey({
-                WindowMoveHotKeyService.shared.setHotKey(direction: .up, keyCode: $0, modifiers: $1)
-                self.updateLabels()
-            })
-        }).disposed(by: disposeBag)
-
-        downButton.rx.tap.subscribe({ event in
-            self.captureKey({
-                WindowMoveHotKeyService.shared.setHotKey(direction: .down, keyCode: $0, modifiers: $1)
-                self.updateLabels()
-            })
-        }).disposed(by: disposeBag)
-
-        leftButton.rx.tap.subscribe({ event in
-            self.captureKey({
-                WindowMoveHotKeyService.shared.setHotKey(direction: .left, keyCode: $0, modifiers: $1)
-                self.updateLabels()
-            })
-        }).disposed(by: disposeBag)
-
-        rightButton.rx.tap.subscribe({ event in
-            self.captureKey({
-                WindowMoveHotKeyService.shared.setHotKey(direction: .right, keyCode: $0, modifiers: $1)
-                self.updateLabels()
-            })
-        }).disposed(by: disposeBag)
-
+        subscribeHotKeys()
+        subscribeButtons()
         updateLabels()
+    }
+
+    private func subscribeHotKeys() {
+        WindowMoveHotKeyService.shared.onChangeHotKey
+            .subscribe({ _ in self.updateLabels() })
+            .disposed(by: disposeBag)
+    }
+
+    private func subscribeButtons() {
+        upButton.rx.tap.subscribe({ _ in
+            self.captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .up, keyCode: $0, modifiers: $1) })
+        }).disposed(by: disposeBag)
+
+        downButton.rx.tap.subscribe({ _ in
+            self.captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .down, keyCode: $0, modifiers: $1) })
+        }).disposed(by: disposeBag)
+
+        leftButton.rx.tap.subscribe({ _ in
+            self.captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .left, keyCode: $0, modifiers: $1) })
+        }).disposed(by: disposeBag)
+
+        rightButton.rx.tap.subscribe({ _ in
+            self.captureKey({ WindowMoveHotKeyService.shared.setHotKey(direction: .right, keyCode: $0, modifiers: $1) })
+        }).disposed(by: disposeBag)
     }
 
     override func viewDidAppear() {
