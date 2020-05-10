@@ -20,7 +20,6 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     override func viewDidAppear() {
         super.viewDidAppear()
-        NSRunningApplication().activate(options: .activateIgnoringOtherApps)
     }
 
     private func updateLabels() {
