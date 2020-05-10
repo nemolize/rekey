@@ -697,9 +697,6 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="setRight:" target="XfG-lQ-9wD" id="Tom-un-ANA"/>
-                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XID-cz-4Pu">
                                 <rect key="frame" x="8" y="216" width="175" height="42"/>
@@ -708,9 +705,6 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="setUp:" target="XfG-lQ-9wD" id="aHS-SB-TGe"/>
-                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k6H-E8-bLb">
                                 <rect key="frame" x="8" y="183" width="175" height="42"/>
@@ -719,9 +713,6 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="setDown:" target="XfG-lQ-9wD" id="UQZ-Sg-fx9"/>
-                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ANO-WE-odr">
                                 <rect key="frame" x="8" y="150" width="175" height="42"/>
@@ -729,18 +720,15 @@
                                 <buttonCell key="cell" type="push" title="left" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Q8j-VG-B3f">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="setLeft:" target="XfG-lQ-9wD" id="xjT-uj-OY4"/>
-                                    </connections>
                                 </buttonCell>
                             </button>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="downSetButton" destination="k6H-E8-bLb" id="mii-6F-MwD"/>
-                        <outlet property="leftSetButton" destination="ANO-WE-odr" id="dXt-ZK-0dD"/>
-                        <outlet property="rightSetButton" destination="F3n-oZ-2M6" id="0ZB-Zi-yAz"/>
-                        <outlet property="upSetButton" destination="XID-cz-4Pu" id="XoP-Jl-gaO"/>
+                        <outlet property="downButton" destination="k6H-E8-bLb" id="mii-6F-MwD"/>
+                        <outlet property="leftButton" destination="ANO-WE-odr" id="dXt-ZK-0dD"/>
+                        <outlet property="rightButton" destination="F3n-oZ-2M6" id="0ZB-Zi-yAz"/>
+                        <outlet property="upButton" destination="XID-cz-4Pu" id="XoP-Jl-gaO"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

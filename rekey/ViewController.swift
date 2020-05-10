@@ -6,15 +6,47 @@
 
 import Cocoa
 import Foundation
+import RxCocoa
+import RxSwift
 
 class ViewController: NSViewController, NSTextViewDelegate {
-    @IBOutlet weak var upSetButton: NSButton!
-    @IBOutlet weak var downSetButton: NSButton!
-    @IBOutlet weak var leftSetButton: NSButton!
-    @IBOutlet weak var rightSetButton: NSButton!
+    @IBOutlet weak var upButton: NSButton!
+    @IBOutlet weak var downButton: NSButton!
+    @IBOutlet weak var leftButton: NSButton!
+    @IBOutlet weak var rightButton: NSButton!
+
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        upButton.rx.tap.subscribe({ event in
+            self.captureKey({
+                WindowMoveHotKeyService.shared.setHotKey(direction: .up, keyCode: $0, modifiers: $1)
+                self.updateLabels()
+            })
+        }).disposed(by: disposeBag)
+
+        downButton.rx.tap.subscribe({ event in
+            self.captureKey({
+                WindowMoveHotKeyService.shared.setHotKey(direction: .down, keyCode: $0, modifiers: $1)
+                self.updateLabels()
+            })
+        }).disposed(by: disposeBag)
+
+        leftButton.rx.tap.subscribe({ event in
+            self.captureKey({
+                WindowMoveHotKeyService.shared.setHotKey(direction: .left, keyCode: $0, modifiers: $1)
+                self.updateLabels()
+            })
+        }).disposed(by: disposeBag)
+
+        rightButton.rx.tap.subscribe({ event in
+            self.captureKey({
+                WindowMoveHotKeyService.shared.setHotKey(direction: .right, keyCode: $0, modifiers: $1)
+                self.updateLabels()
+            })
+        }).disposed(by: disposeBag)
+
         updateLabels()
     }
 
@@ -24,38 +56,10 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     private func updateLabels() {
         let getHotKeyLabel = WindowMoveHotKeyService.shared.getHotKeyLabel
-        self.upSetButton.title = getHotKeyLabel(.up)
-        self.downSetButton.title = getHotKeyLabel(.down)
-        self.leftSetButton.title = getHotKeyLabel(.left)
-        self.rightSetButton.title = getHotKeyLabel(.right)
-    }
-
-    @IBAction func setUp(_ sender: Any) {
-        captureKey({
-            WindowMoveHotKeyService.shared.setHotKey(direction: .up, keyCode: $0, modifiers: $1)
-            self.updateLabels()
-        })
-    }
-
-    @IBAction func setDown(_ sender: Any) {
-        captureKey({
-            WindowMoveHotKeyService.shared.setHotKey(direction: .down, keyCode: $0, modifiers: $1)
-            self.updateLabels()
-        })
-    }
-
-    @IBAction func setLeft(_ sender: Any) {
-        captureKey({
-            WindowMoveHotKeyService.shared.setHotKey(direction: .left, keyCode: $0, modifiers: $1)
-            self.updateLabels()
-        })
-    }
-
-    @IBAction func setRight(_ sender: Any) {
-        captureKey({
-            WindowMoveHotKeyService.shared.setHotKey(direction: .right, keyCode: $0, modifiers: $1)
-            self.updateLabels()
-        })
+        self.upButton.title = getHotKeyLabel(.up)
+        self.downButton.title = getHotKeyLabel(.down)
+        self.leftButton.title = getHotKeyLabel(.left)
+        self.rightButton.title = getHotKeyLabel(.right)
     }
 
 
