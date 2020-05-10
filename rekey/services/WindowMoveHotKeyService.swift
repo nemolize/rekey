@@ -1,6 +1,7 @@
 import Foundation
 import Cocoa
 import HotKey
+import RxRelay
 
 struct DirectionHotKey {
     var up: HotKey? = nil
@@ -9,7 +10,7 @@ struct DirectionHotKey {
     var right: HotKey? = nil
 }
 
-struct PressedDirection {
+struct PressedState {
     var up = false
     var down = false
     var left = false
@@ -25,25 +26,20 @@ enum Direction {
 
 class WindowMoveHotKeyService {
     private var hotKey = DirectionHotKey()
-    private var direction = PressedDirection()
+    private var pressedState = PressedState()
 
     static let shared = WindowMoveHotKeyService()
 
+    let onChangePressedState = PublishRelay<PressedState>()
+
     private func updateDirection(_ targetDirection: Direction, _ value: Bool) {
         switch targetDirection {
-        case .up: direction.up = value
-        case .down: direction.down = value
-        case .left: direction.left = value
-        case .right: direction.right = value
+        case .up: pressedState.up = value
+        case .down: pressedState.down = value
+        case .left: pressedState.left = value
+        case .right: pressedState.right = value
         }
-        setForce()
-    }
-
-    private func setForce() {
-        let acceleration: CGFloat = 2.75
-        let x: CGFloat = (direction.left ? -acceleration : 0.0) + (direction.right ? acceleration : 0.0)
-        let y: CGFloat = (direction.up ? -acceleration : 0.0) + (direction.down ? acceleration : 0.0)
-        AppService.shared.windowMovePhysics.setAcceleration(x, y)
+        onChangePressedState.accept(pressedState)
     }
 
     func setHotKey(direction: Direction, keyCode: UInt32, modifiers: NSEvent.ModifierFlags) {
