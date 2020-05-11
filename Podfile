@@ -4,6 +4,7 @@ platform :osx, '10.13'
 use_frameworks!
 target 'rekey' do
 
+  pod 'SwiftLint'
   pod 'HotKey'
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
