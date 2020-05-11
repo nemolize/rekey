@@ -57,7 +57,7 @@ class PointPhysics {
 
     private func doThreadSafely(_ block: @escaping () -> Void) {
         self.mouseLock.lock()
-        defer{
+        defer {
             self.mouseLock.unlock()
         }
         block()
@@ -88,5 +88,3 @@ class PointPhysics {
         }
     }
 }
-
-

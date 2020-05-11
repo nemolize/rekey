@@ -17,4 +17,3 @@ extension CGPoint {
         CGPoint(x: lhs.x * CGFloat(rhs), y: lhs.y * CGFloat(rhs))
     }
 }
-

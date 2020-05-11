@@ -65,8 +65,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
         }
     }
 
-
-    private var handlerObject: Any? = nil
+    private var handlerObject: Any?
 
     private func captureKey(_ block: @escaping (_ keyCode: UInt32, _ modifiers: NSEvent.ModifierFlags) -> Void) {
         self.handlerObject = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
