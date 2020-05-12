@@ -5,10 +5,10 @@ import RxSwift
 import RxRelay
 
 struct DirectionHotKey {
-    var up: HotKey? = nil
-    var down: HotKey? = nil
-    var left: HotKey? = nil
-    var right: HotKey? = nil
+    var up: HotKey?
+    var down: HotKey?
+    var left: HotKey?
+    var right: HotKey?
 }
 
 struct PressedState {
