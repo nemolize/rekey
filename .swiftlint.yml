@@ -1,2 +1,2 @@
-excluded:
-  - Pods
+included:
+  - rekey
