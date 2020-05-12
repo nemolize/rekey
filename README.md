@@ -11,3 +11,8 @@ A keyboard remap tool
 bundle install
 pod install
 ```
+
+# Lint
+```console
+Pods/SwiftLint/swiftlint
+```
