@@ -1,2 +1,3 @@
 included:
   - rekey
+force_cast: warning
