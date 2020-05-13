@@ -42,10 +42,10 @@ class PointPhysics {
         }
     }
 
-    func setAcceleration(_ x: CGFloat, _ y: CGFloat) {
+    func setAcceleration(_ acceleration: CGPoint) {
         doThreadSafely {
-            self.acceleration.x = x
-            self.acceleration.y = y
+            self.acceleration.x = acceleration.x
+            self.acceleration.y = acceleration.y
         }
     }
 
@@ -57,7 +57,7 @@ class PointPhysics {
 
     private func doThreadSafely(_ block: @escaping () -> Void) {
         self.mouseLock.lock()
-        defer{
+        defer {
             self.mouseLock.unlock()
         }
         block()
@@ -73,11 +73,11 @@ class PointPhysics {
 
             // apply attenuation to velocity
             self.velocity.x = 0 < self.velocity.x
-                    ? max(self.velocity.x - attenuationDelta, 0)
-                    : min(self.velocity.x + attenuationDelta, 0)
+                ? max(self.velocity.x - attenuationDelta, 0)
+                : min(self.velocity.x + attenuationDelta, 0)
             self.velocity.y = 0 < self.velocity.y
-                    ? max(self.velocity.y - attenuationDelta, 0)
-                    : min(self.velocity.y + attenuationDelta, 0)
+                ? max(self.velocity.y - attenuationDelta, 0)
+                : min(self.velocity.y + attenuationDelta, 0)
 
             // apply velocity to position if it moved
             let delayFixedVelocity = self.velocity * deltaTime
@@ -88,5 +88,3 @@ class PointPhysics {
         }
     }
 }
-
-

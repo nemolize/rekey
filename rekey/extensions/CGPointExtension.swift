@@ -6,7 +6,8 @@ extension CGPoint {
     }
 
     static public func +=(lhs: inout CGPoint, rhs: CGPoint) {
-        lhs = lhs + rhs
+        lhs.x += rhs.x
+        lhs.y += rhs.y
     }
 
     static public func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
@@ -17,4 +18,3 @@ extension CGPoint {
         CGPoint(x: lhs.x * CGFloat(rhs), y: lhs.y * CGFloat(rhs))
     }
 }
-

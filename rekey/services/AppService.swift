@@ -7,16 +7,20 @@ class AppService {
         WindowService.shared.moveWindow($1)
     }
 
+    // TODO: load from config
+    private let ACCELERATION: CGFloat = 3
+
     private let disposeBag = DisposeBag()
 
     init() {
         windowMovePhysics.start()
 
         WindowMoveHotKeyService.shared.onChangePressedState.subscribe(onNext: { state in
-            let acceleration: CGFloat = 2.75
-            let x: CGFloat = (state.left ? -acceleration : 0.0) + (state.right ? acceleration : 0.0)
-            let y: CGFloat = (state.up ? -acceleration : 0.0) + (state.down ? acceleration : 0.0)
-            AppService.shared.windowMovePhysics.setAcceleration(x, y)
+            let acceleration = CGPoint(
+                x: (state.left ? -self.ACCELERATION : 0.0) + (state.right ? self.ACCELERATION : 0.0),
+                y: (state.up ? -self.ACCELERATION : 0.0) + (state.down ? self.ACCELERATION : 0.0)
+            )
+            AppService.shared.windowMovePhysics.setAcceleration(acceleration)
         }).disposed(by: disposeBag)
     }
 

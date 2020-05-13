@@ -1,0 +1,6 @@
+included:
+  - rekey
+excluded:
+  - rekeyTests
+  - rekeyUITests
+force_cast: warning

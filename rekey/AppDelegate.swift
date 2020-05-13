@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let appService = AppService()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        if (!appService.hasAccessibilityPermission()) {
+        if !appService.hasAccessibilityPermission() {
             NSApplication.shared.terminate(self)
         }
     }
@@ -22,4 +22,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 }
-
