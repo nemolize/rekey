@@ -4,7 +4,8 @@ A keyboard remap tool
 # How to build
 
 # Requirements
-- ruby `2.7.1` must be available with rbenv
+- Ruby (see [.ruby-version](./.ruby-version) for strict version)
+- Xcode 11
 
 # Setup
 ```console
@@ -16,3 +17,6 @@ pod install
 ```console
 Pods/SwiftLint/swiftlint
 ```
+
+# Run
+Open `rekey.xcworkspace` with Xcode and run.
