@@ -18,5 +18,10 @@ pod install
 Pods/SwiftLint/swiftlint
 ```
 
+# Format
+```console
+Pods/SwiftFormat/CommandLineTool/swiftformat .
+```
+
 # Run
 Open `rekey.xcworkspace` with Xcode and run.
