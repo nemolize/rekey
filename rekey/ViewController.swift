@@ -9,7 +9,10 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-let configPathRelativeToHome = ".config/rekey/config.json"
+struct RekeyPath {
+    static let configDirectoryRelativeToHome = ".config/rekey/"
+    static let configFileName = "config.json"
+}
 
 class ViewController: NSViewController, NSTextViewDelegate {
     @IBOutlet weak var upButton: NSButton!
@@ -21,9 +24,9 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadConfig()
         subscribeHotKeys()
         subscribeButtons()
-        loadConfig()
         updateLabels()
     }
 
@@ -63,8 +66,13 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
 
     private func loadConfig() {
+        if !FileManager.default.fileExists(atPath: configFilePath.path) {
+            debugPrint("config file does not exist at \(configFilePath)")
+            return
+        }
         do {
-            let data = try Data(contentsOf: configPath, options: .mappedIfSafe)
+            let data = try Data(contentsOf: configFilePath, options: .mappedIfSafe)
+            debugPrint("read from \(configFilePath)")
             guard let json = try JSONSerialization.jsonObject(
                 with: data, options: .mutableLeaves) as? [String: Any] else {
                 debugPrint("content of config is empty")
@@ -84,7 +92,6 @@ class ViewController: NSViewController, NSTextViewDelegate {
                     WindowMoveHotKeyService.shared.setHotKey(direction: .right, dictionary: right)
                 }
             }
-
         } catch {
             debugPrint(error)
         }
@@ -101,18 +108,24 @@ class ViewController: NSViewController, NSTextViewDelegate {
         ]
 
         do {
-            let data = try JSONSerialization.data(
-                withJSONObject: dict, options: [.prettyPrinted, .sortedKeys]
-            )
-            try data.write(to: configPath)
+            try FileManager.default.createDirectory(atPath: configDirectory.path, withIntermediateDirectories: true)
+            let configFilePath = configDirectory.appendingPathComponent(RekeyPath.configFileName)
+            let data = try JSONSerialization.data(withJSONObject: dict, options: [.prettyPrinted, .sortedKeys])
+            try data.write(to: configFilePath)
+            debugPrint("wrote to \(configFilePath)")
         } catch {
             debugPrint(error)
         }
     }
 
-    var configPath: URL {
-        let homeDir = FileManager.default.homeDirectoryForCurrentUser
-        return homeDir.appendingPathComponent(".config/rekey/config.json", isDirectory: false)
+    private var configDirectory: URL {
+        FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(
+            RekeyPath.configDirectoryRelativeToHome, isDirectory: true
+        )
+    }
+
+    private var configFilePath: URL {
+        configDirectory.appendingPathComponent(RekeyPath.configFileName)
     }
 
     private func getButton(_ direction: Direction) -> NSButton {
