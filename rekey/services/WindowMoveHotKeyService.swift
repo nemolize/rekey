@@ -34,9 +34,7 @@ class WindowMoveHotKeyService {
     let onChangePressedState = PublishRelay<PressedState>()
     private let onChangeHotKeySubject = PublishRelay<DirectionHotKey>()
     var onChangeHotKey: Observable<DirectionHotKey> {
-        get {
-            self.onChangeHotKeySubject.asObservable()
-        }
+        self.onChangeHotKeySubject.asObservable()
     }
 
     private func updateDirection(_ targetDirection: Direction, _ value: Bool) {
@@ -53,6 +51,26 @@ class WindowMoveHotKeyService {
         let newHotKey = HotKey(
             carbonKeyCode: keyCode,
             carbonModifiers: modifiers.carbonFlags,
+            keyDownHandler: { self.updateDirection(direction, true) },
+            keyUpHandler: { self.updateDirection(direction, false) }
+        )
+
+        switch direction {
+        case .up: hotKey.up = newHotKey
+        case .down: hotKey.down = newHotKey
+        case .left: hotKey.left = newHotKey
+        case .right: hotKey.right = newHotKey
+        }
+        onChangeHotKeySubject.accept(hotKey)
+    }
+
+    func setHotKey(direction: Direction, dictionary: [String: Any]) {
+        guard let keyCombo = KeyCombo(dictionary: dictionary) else {
+            debugPrint("failed to instantiate keyCombo for \(dictionary)")
+            return
+        }
+        let newHotKey = HotKey(
+            keyCombo: keyCombo,
             keyDownHandler: { self.updateDirection(direction, true) },
             keyUpHandler: { self.updateDirection(direction, false) }
         )
