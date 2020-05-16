@@ -72,7 +72,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
         }
         do {
             let data = try Data(contentsOf: configFilePath, options: .mappedIfSafe)
-            debugPrint("read from \(configFilePath)")
+            debugPrint("read from \(configFilePath.path)")
             guard let json = try JSONSerialization.jsonObject(
                 with: data, options: .mutableLeaves) as? [String: Any] else {
                 debugPrint("content of config is empty")
@@ -112,7 +112,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
             let configFilePath = configDirectory.appendingPathComponent(RekeyPath.configFileName)
             let data = try JSONSerialization.data(withJSONObject: dict, options: [.prettyPrinted, .sortedKeys])
             try data.write(to: configFilePath)
-            debugPrint("wrote to \(configFilePath)")
+            debugPrint("wrote to \(configFilePath.path)")
         } catch {
             debugPrint(error)
         }
