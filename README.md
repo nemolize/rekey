@@ -22,6 +22,7 @@ Pods/SwiftLint/swiftlint
 ```console
 Pods/SwiftFormat/CommandLineTool/swiftformat .
 ```
+I recommend you to set auto formatter on your Editor
 
 # Run
 Open `rekey.xcworkspace` with Xcode and run.
