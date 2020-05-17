@@ -56,7 +56,7 @@ class PointPhysics {
     }
 
     private func doThreadSafely(_ block: @escaping () -> Void) {
-        self.mouseLock.lock()
+        mouseLock.lock()
         defer {
             self.mouseLock.unlock()
         }
@@ -72,10 +72,10 @@ class PointPhysics {
             let attenuationDelta = self.friction * deltaTime
 
             // apply attenuation to velocity
-            self.velocity.x = 0 < self.velocity.x
+            self.velocity.x = self.velocity.x > 0
                 ? max(self.velocity.x - attenuationDelta, 0)
                 : min(self.velocity.x + attenuationDelta, 0)
-            self.velocity.y = 0 < self.velocity.y
+            self.velocity.y = self.velocity.y > 0
                 ? max(self.velocity.y - attenuationDelta, 0)
                 : min(self.velocity.y + attenuationDelta, 0)
 
