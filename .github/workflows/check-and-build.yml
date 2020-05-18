@@ -2,7 +2,7 @@ name: check and build
 on: pull_request
 
 jobs:
-  build:
+  check-and-build:
     runs-on: macos-latest
 
     steps:
