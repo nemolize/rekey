@@ -1,4 +1,4 @@
-name: check and build
+name: lint and build
 on: pull_request
 
 jobs:
