@@ -13,5 +13,7 @@ jobs:
       - name: Install Dependencies
         run: pod install --repo-update
         shell: bash
+      - name: Check Format
+        run: Pods/SwiftFormat/CommandLineTool/swiftformat --lint .
       - name: SwiftLint
         run: Pods/SwiftLint/swiftlint
