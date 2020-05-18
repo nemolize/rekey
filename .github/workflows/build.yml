@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: rekey.app
-          path: Build/rekey.xcarchive/Products/Applications/rekey.app
+          path: Build/rekey.xcarchive/Products/Applications
