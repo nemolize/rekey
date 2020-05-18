@@ -1,3 +1,4 @@
+# other configurations: https://realm.github.io/SwiftLint/rule-directory.html
 included:
   - rekey
 excluded:
@@ -6,3 +7,5 @@ excluded:
 force_cast: warning
 identifier_name:
   min_length: 1
+trailing_comma:
+  mandatory_comma: true

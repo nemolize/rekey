@@ -8,6 +8,7 @@ target 'rekey' do
   pod 'HotKey'
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
+  pod 'SwiftFormat/CLI'
 
   target 'rekeyTests' do
     inherit! :search_paths

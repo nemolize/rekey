@@ -16,7 +16,7 @@ extension AXUIElement {
         }
     }
 
-    func setAttributeValue(_ attribute: String, _ value: AXValue) throws {
+    func setAttributeValue(_: String, _ value: AXValue) throws {
         let result = AXUIElementSetAttributeValue(self, kAXPositionAttribute as CFString, value)
         if result != AXError.success {
             throw AppError.accessibility("AXUIElementSetAttributeValue has failed", result.rawValue)

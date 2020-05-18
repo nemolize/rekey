@@ -23,7 +23,7 @@ class WindowService {
                 try windowElement.setAttributeValue(kAXPositionAttribute, positionAxValue)
             }
 
-        } catch AppError.accessibility(let message, let code) {
+        } catch let AppError.accessibility(message, code) {
             debugPrint(message, code ?? "none")
         } catch {
             debugPrint("Unknown error has occurred.")

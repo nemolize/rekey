@@ -15,10 +15,10 @@ struct RekeyPath {
 }
 
 class ViewController: NSViewController, NSTextViewDelegate {
-    @IBOutlet weak var upButton: NSButton!
-    @IBOutlet weak var downButton: NSButton!
-    @IBOutlet weak var leftButton: NSButton!
-    @IBOutlet weak var rightButton: NSButton!
+    @IBOutlet var upButton: NSButton!
+    @IBOutlet var downButton: NSButton!
+    @IBOutlet var leftButton: NSButton!
+    @IBOutlet var rightButton: NSButton!
 
     private let disposeBag = DisposeBag()
 
@@ -32,25 +32,24 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     private func subscribeHotKeys() {
         WindowMoveHotKeyService.shared.onChangeHotKey
-            .subscribe({ _ in
+            .subscribe { _ in
                 self.updateLabels()
                 self.saveConfig()
-            })
+            }
             .disposed(by: disposeBag)
     }
 
     private func subscribeButtons() {
         Observable.merge(
-            upButton.rx.tap.map({ Direction.up }),
-            downButton.rx.tap.map({ Direction.down }),
-            leftButton.rx.tap.map({ Direction.left }),
-            rightButton.rx.tap.map({ Direction.right })
+            upButton.rx.tap.map { Direction.up },
+            downButton.rx.tap.map { Direction.down },
+            leftButton.rx.tap.map { Direction.left },
+            rightButton.rx.tap.map { Direction.right }
         ).subscribe(onNext: { direction in
-            self.captureKey({
+            self.captureKey {
                 WindowMoveHotKeyService.shared.setHotKey(direction: direction, keyCode: $0, modifiers: $1)
-            })
+            }
         }).disposed(by: disposeBag)
-
     }
 
     override func viewDidAppear() {
@@ -59,10 +58,10 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     private func updateLabels() {
         let getHotKeyLabel = WindowMoveHotKeyService.shared.getHotKeyLabel
-        self.upButton.title = getHotKeyLabel(.up)
-        self.downButton.title = getHotKeyLabel(.down)
-        self.leftButton.title = getHotKeyLabel(.left)
-        self.rightButton.title = getHotKeyLabel(.right)
+        upButton.title = getHotKeyLabel(.up)
+        downButton.title = getHotKeyLabel(.down)
+        leftButton.title = getHotKeyLabel(.left)
+        rightButton.title = getHotKeyLabel(.right)
     }
 
     private func loadConfig() {
@@ -74,7 +73,8 @@ class ViewController: NSViewController, NSTextViewDelegate {
             let data = try Data(contentsOf: configFilePath, options: .mappedIfSafe)
             debugPrint("read from \(configFilePath.path)")
             guard let json = try JSONSerialization.jsonObject(
-                with: data, options: .mutableLeaves) as? [String: Any] else {
+                with: data, options: .mutableLeaves
+            ) as? [String: Any] else {
                 debugPrint("content of config is empty")
                 return
             }
@@ -103,8 +103,8 @@ class ViewController: NSViewController, NSTextViewDelegate {
                 "up": WindowMoveHotKeyService.shared.getHotKey(.up)?.keyCombo.dictionary,
                 "down": WindowMoveHotKeyService.shared.getHotKey(.down)?.keyCombo.dictionary,
                 "left": WindowMoveHotKeyService.shared.getHotKey(.left)?.keyCombo.dictionary,
-                "right": WindowMoveHotKeyService.shared.getHotKey(.right)?.keyCombo.dictionary
-            ]
+                "right": WindowMoveHotKeyService.shared.getHotKey(.right)?.keyCombo.dictionary,
+            ],
         ]
 
         do {
@@ -140,7 +140,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     private var handlerObject: Any?
 
     private func captureKey(_ block: @escaping (_ keyCode: UInt32, _ modifiers: NSEvent.ModifierFlags) -> Void) {
-        self.handlerObject = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+        handlerObject = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
             self.removeCapture()
             block(UInt32($0.keyCode), $0.modifierFlags)
             return $0

@@ -1,0 +1,3 @@
+# other configurations: https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md
+--maxwidth 120
+--exclude Pods

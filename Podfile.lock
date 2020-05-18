@@ -6,12 +6,14 @@ PODS:
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
+  - SwiftFormat/CLI (0.44.10)
   - SwiftLint (0.39.2)
 
 DEPENDENCIES:
   - HotKey
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
+  - SwiftFormat/CLI
   - SwiftLint
 
 SPEC REPOS:
@@ -20,6 +22,7 @@ SPEC REPOS:
     - RxCocoa
     - RxRelay
     - RxSwift
+    - SwiftFormat
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -27,8 +30,9 @@ SPEC CHECKSUMS:
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+  SwiftFormat: b72e592ea0979aeee53f6052abff291181364933
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: 0d437ec8dc5deae1fa6cfcd030ff7b7e5c243010
+PODFILE CHECKSUM: 12c76efb917e031c8fa5aa4b513d9819f1dcaa19
 
 COCOAPODS: 1.9.1

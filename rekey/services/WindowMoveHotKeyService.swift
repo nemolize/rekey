@@ -1,8 +1,8 @@
-import Foundation
 import Cocoa
+import Foundation
 import HotKey
-import RxSwift
 import RxRelay
+import RxSwift
 
 struct DirectionHotKey {
     var up: HotKey?
@@ -34,7 +34,7 @@ class WindowMoveHotKeyService {
     let onChangePressedState = PublishRelay<PressedState>()
     private let onChangeHotKeySubject = PublishRelay<DirectionHotKey>()
     var onChangeHotKey: Observable<DirectionHotKey> {
-        self.onChangeHotKeySubject.asObservable()
+        onChangeHotKeySubject.asObservable()
     }
 
     private func updateDirection(_ targetDirection: Direction, _ value: Bool) {
