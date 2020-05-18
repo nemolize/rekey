@@ -41,4 +41,3 @@ jobs:
         with:
           name: rekey.app
           path: Build/rekey.xcarchive/Products/Applications
-
