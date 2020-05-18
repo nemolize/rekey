@@ -20,4 +20,11 @@ jobs:
         run: Pods/SwiftLint/swiftlint
 
       - name: Debug Build
-        run: xcodebuild -workspace rekey.xcworkspace -scheme rekey -configuration Debug
+        run: |
+          xcodebuild -workspace rekey.xcworkspace -scheme rekey -configuration Debug archive -archivePath Build/rekey
+
+      - name: Archive product
+        uses: actions/upload-artifact@v1
+        with:
+          name: rekey.app
+          path: Build/rekey.xcarchive/Products/Applications/rekey.app
