@@ -32,12 +32,15 @@ jobs:
         run: pod install --repo-update
         shell: bash
 
-      - name: Debug Build
+      - name: Build
         run: |
-          xcodebuild -workspace rekey.xcworkspace -scheme rekey -configuration Debug archive -archivePath Build/rekey
+          xcodebuild -workspace rekey.xcworkspace \
+            -scheme rekey -configuration Debug \
+            archive -archivePath Build/rekey
 
-      - name: Archive product
-        uses: actions/upload-artifact@v1
-        with:
-          name: rekey.app
-          path: Build/rekey.xcarchive/Products/Applications
+      - name: Export archive
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath Build/rekey.xcarchive \
+            -exportPath build/rekey.app \
+            -exportOptionsPlist ExportOptions/Debug.plist
