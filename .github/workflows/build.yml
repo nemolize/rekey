@@ -11,7 +11,7 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_11.app
 
       - uses: actions/cache@v1
-        id: cache-cocoapods
+        id: cache-pods
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -19,7 +19,7 @@ jobs:
             ${{ runner.os }}-pods-
 
       - name: Install Dependencies
-        if: steps.cache-cocoapods.outputs.cache-hit != 'true'
+        if: steps.cache-pods.outputs.cache-hit != 'true'
         run: pod install
 
       - name: Check Format
@@ -37,7 +37,7 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_11.app
 
       - uses: actions/cache@v1
-        id: cache-cocoapods
+        id: cache-pods
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-pods-
 
       - name: Install Dependencies
-        if: steps.cache-cocoapods.outputs.cache-hit != 'true'
+        if: steps.cache-pods.outputs.cache-hit != 'true'
         run: pod install
 
       - name: Build archive
