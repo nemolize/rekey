@@ -19,7 +19,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
-        run: pod install --repo-update
+        run: pod install
         shell: bash
 
       - name: Check Format
@@ -45,7 +45,7 @@ jobs:
 
       - name: Install Dependencies
         if: steps.cache-cocoapods.outputs.cache-hit != 'true'
-        run: pod install --repo-update
+        run: pod install
         shell: bash
 
       - name: Build archive
