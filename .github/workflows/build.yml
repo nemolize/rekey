@@ -11,6 +11,7 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_11.app
 
       - uses: actions/cache@v1
+        id: cache-cocoapods
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -36,6 +37,7 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_11.app
 
       - uses: actions/cache@v1
+        id: cache-cocoapods
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
