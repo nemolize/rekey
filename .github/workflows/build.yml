@@ -44,7 +44,7 @@ jobs:
 
       - name: Create dmg
         run: |
-          pushd build && ln -s /Applications && popd
+          pushd build/dist && ln -s /Applications && popd
           hdiutil create rekey.dmg -volname "rekey" -srcfolder build/dist
 
       - name: Save dmg as artifact
