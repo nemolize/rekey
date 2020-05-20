@@ -47,12 +47,8 @@ jobs:
           pushd build && ln -s /Applications && popd
           hdiutil create rekey.dmg -volname "rekey" -srcfolder build/dist
 
-      - name: Archive product
+      - name: Save dmg as artifact
         uses: actions/upload-artifact@v1
         with:
           name: rekey.dmg
           path: rekey.dmg
-
-
-
-
