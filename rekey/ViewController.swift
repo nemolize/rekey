@@ -20,8 +20,6 @@ class ViewController: NSViewController, NSTextViewDelegate {
     @IBOutlet var leftButton: NSButton!
     @IBOutlet var rightButton: NSButton!
 
-    private let disposeBag = DisposeBag()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         loadConfig()
@@ -29,6 +27,12 @@ class ViewController: NSViewController, NSTextViewDelegate {
         subscribeButtons()
         updateLabels()
     }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+    }
+
+    private let disposeBag = DisposeBag()
 
     private func subscribeHotKeys() {
         WindowMoveHotKeyService.shared.onChangeHotKey
@@ -50,10 +54,6 @@ class ViewController: NSViewController, NSTextViewDelegate {
                 WindowMoveHotKeyService.shared.setHotKey(direction: direction, keyCode: $0, modifiers: $1)
             }
         }).disposed(by: disposeBag)
-    }
-
-    override func viewDidAppear() {
-        super.viewDidAppear()
     }
 
     private func updateLabels() {
