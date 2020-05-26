@@ -29,14 +29,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    func constructMenu() {
+    @objc private func showWindow() {
+        NSApp.windows.last?.setIsVisible(true)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    private func constructMenu() {
         let menu = NSMenu()
 
         menu.addItem(
             NSMenuItem(
                 title: "Preferences",
-                // TODO: add preferences action
-                action: nil,
+                action: #selector(showWindow),
                 keyEquivalent: "P"
             )
         )

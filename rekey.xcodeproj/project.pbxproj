@@ -11,6 +11,7 @@
 		677D0B61788974F35519AE0B /* Pods_rekey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FCEA94F0A58CFB9F902D65F /* Pods_rekey.framework */; };
 		972CC3382457381F00731F5F /* rekeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972CC3372457381F00731F5F /* rekeyTests.swift */; };
 		972CC3462457385200731F5F /* rekeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972CC3452457385200731F5F /* rekeyUITests.swift */; };
+		973D96EC247C38E800558181 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973D96EB247C38E800558181 /* MainWindowController.swift */; };
 		9772EFBC1FE543C700D6E9B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */; };
 		9772EFBE1FE543C700D6E9B0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9772EFBD1FE543C700D6E9B0 /* ViewController.swift */; };
 		9772EFC01FE543C700D6E9B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9772EFBF1FE543C700D6E9B0 /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 		972CC3432457385200731F5F /* rekeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rekeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		972CC3452457385200731F5F /* rekeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rekeyUITests.swift; sourceTree = "<group>"; };
 		972CC3472457385200731F5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		973D96EB247C38E800558181 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		9772EFB81FE543C700D6E9B0 /* rekey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rekey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9772EFBB1FE543C700D6E9B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../rekey/AppDelegate.swift; sourceTree = "<group>"; };
 		9772EFBD1FE543C700D6E9B0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../rekey/ViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				C177997573BA0D2E8E9EB913 /* shared */,
 				C1779AC1D06CF35DF267E0DA /* extensions */,
 				C177910F48E32FE488FD593B /* services */,
+				973D96EB247C38E800558181 /* MainWindowController.swift */,
 			);
 			path = rekey;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				973D96EC247C38E800558181 /* MainWindowController.swift in Sources */,
 				9772EFBE1FE543C700D6E9B0 /* ViewController.swift in Sources */,
 				9772EFBC1FE543C700D6E9B0 /* AppDelegate.swift in Sources */,
 				C1779DC3DC806BCCF5483574 /* PointPhysics.swift in Sources */,
