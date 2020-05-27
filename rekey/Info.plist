@@ -28,9 +28,6 @@
 	<string>Copyright © 2017年 nemoto. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
-  <!-- NOTE: Don't show app in Dock/App Switcher -->
-	<key>LSUIElement</key>
-	<true/>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

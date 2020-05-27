@@ -30,6 +30,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
 
     override func viewDidAppear() {
         super.viewDidAppear()
+        setBackgroundProcessMode(false)
     }
 
     private let disposeBag = DisposeBag()
