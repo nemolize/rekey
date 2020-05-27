@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func showWindow() {
-        NSApp.windows.last?.setIsVisible(true)
+        NSApp.windows.last?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
 

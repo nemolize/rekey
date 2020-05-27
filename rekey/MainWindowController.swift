@@ -2,8 +2,8 @@ import Cocoa
 import Foundation
 
 class MainWindowController: NSWindowController, NSWindowDelegate {
-    func windowShouldClose(_: NSWindow) -> Bool {
-        NSApp.hide(nil)
+    func windowShouldClose(window: NSWindow) -> Bool {
+        window.orderOut(nil)
         return false
     }
 }
