@@ -13,9 +13,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
+    func applicationWillFinishLaunching(_: Notification) {
+        let sameApps = NSWorkspace.shared.runningApplications
+            .filter { $0.bundleIdentifier == Bundle.main.bundleIdentifier }
+        if sameApps.count > 1 { NSApp.terminate(self) }
+    }
+
     func applicationDidFinishLaunching(_: Notification) {
         if !appService.hasAccessibilityPermission() {
-            NSApplication.shared.terminate(self)
+            NSApp.terminate(self)
         }
 
         let icon = NSImage(named: NSImage.Name("MenuBarIcon"))
@@ -48,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(
             NSMenuItem(
                 title: "Quit Rekey",
-                action: #selector(NSApplication.shared.terminate(_:)),
+                action: #selector(NSApp.terminate),
                 keyEquivalent: "q"
             )
         )
