@@ -141,6 +141,7 @@ class ViewController: NSViewController, NSTextViewDelegate {
     private var handlerObject: Any?
 
     private func captureKey(_ block: @escaping (_ keyCode: UInt32, _ modifiers: NSEvent.ModifierFlags) -> Void) {
+        removeCapture()
         handlerObject = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
             self.removeCapture()
             block(UInt32($0.keyCode), $0.modifierFlags)
