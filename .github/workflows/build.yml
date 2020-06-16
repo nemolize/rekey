@@ -19,7 +19,6 @@ jobs:
             ${{ runner.os }}-pods-
 
       - name: Install Dependencies
-        if: steps.cache-pods.outputs.cache-hit != 'true'
         run: pod install
 
       - name: Check Format
@@ -44,7 +43,6 @@ jobs:
           restore-keys: ${{ runner.os }}-pods-
 
       - name: Install Dependencies
-        if: steps.cache-pods.outputs.cache-hit != 'true'
         run: pod install
 
       - name: Build archive

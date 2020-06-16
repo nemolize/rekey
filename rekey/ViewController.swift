@@ -1,9 +1,4 @@
-//
-//  ViewController.swift
-//
-//  Created by mnemoto on 2017/12/16.
-//  Copyright © 2017年 nemoto. All rights reserved.
-
+import Carbon
 import Cocoa
 import Foundation
 import RxCocoa
@@ -51,9 +46,24 @@ class ViewController: NSViewController, NSTextViewDelegate {
             leftButton.rx.tap.map { Direction.left },
             rightButton.rx.tap.map { Direction.right }
         ).subscribe(onNext: { direction in
-            self.captureKey {
+            let button = self.getButton(direction)
+            let hotKey = WindowMoveHotKeyService.shared.getHotKey(direction)
+            hotKey?.isPaused = true
+
+            self.captureKey({
                 WindowMoveHotKeyService.shared.setHotKey(direction: direction, keyCode: $0, modifiers: $1)
-            }
+            }, {
+                hotKey?.isPaused = false
+                button.title = hotKey?.keyCombo.description ?? "Not set"
+            })
+
+            button.attributedTitle = NSAttributedString(
+                string: "Press key to bind",
+                attributes: [
+                    NSAttributedString.Key.foregroundColor: NSColor.systemRed,
+                    NSAttributedString.Key.strokeWidth: 10,
+                ]
+            )
         }).disposed(by: disposeBag)
     }
 
@@ -139,11 +149,25 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
 
     private var handlerObject: Any?
+    private var onCancelHandler: (() -> Void)?
 
-    private func captureKey(_ block: @escaping (_ keyCode: UInt32, _ modifiers: NSEvent.ModifierFlags) -> Void) {
+    private func captureKey(
+        _ onCapture: @escaping (_ keyCode: UInt32, _ modifiers: NSEvent.ModifierFlags) -> Void,
+        _ onCancel: @escaping () -> Void
+    ) {
+        if handlerObject != nil {
+            removeCapture()
+            onCancelHandler?()
+        }
+
+        onCancelHandler = { onCancel() }
         handlerObject = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
             self.removeCapture()
-            block(UInt32($0.keyCode), $0.modifierFlags)
+            if $0.keyCode == kVK_Escape {
+                self.onCancelHandler?()
+            } else {
+                onCapture(UInt32($0.keyCode), $0.modifierFlags)
+            }
             return $0
         }
     }
