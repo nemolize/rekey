@@ -47,15 +47,6 @@ class ViewController: NSViewController, NSTextViewDelegate {
             rightButton.rx.tap.map { Direction.right }
         ).subscribe(onNext: { direction in
             let button = self.getButton(direction)
-
-            button.attributedTitle = NSAttributedString(
-                string: "Press key to bind",
-                attributes: [
-                    NSAttributedString.Key.foregroundColor: NSColor.systemRed,
-                    NSAttributedString.Key.strokeWidth: 10,
-                ]
-            )
-
             let hotKey = WindowMoveHotKeyService.shared.getHotKey(direction)
             hotKey?.isPaused = true
 
@@ -65,6 +56,14 @@ class ViewController: NSViewController, NSTextViewDelegate {
                 hotKey?.isPaused = false
                 button.title = hotKey?.keyCombo.description ?? "Not set"
             })
+
+            button.attributedTitle = NSAttributedString(
+                string: "Press key to bind",
+                attributes: [
+                    NSAttributedString.Key.foregroundColor: NSColor.systemRed,
+                    NSAttributedString.Key.strokeWidth: 10,
+                ]
+            )
         }).disposed(by: disposeBag)
     }
 
@@ -150,16 +149,22 @@ class ViewController: NSViewController, NSTextViewDelegate {
     }
 
     private var handlerObject: Any?
+    private var onCancelHandler: (() -> Void)?
 
     private func captureKey(
         _ onCapture: @escaping (_ keyCode: UInt32, _ modifiers: NSEvent.ModifierFlags) -> Void,
         _ onCancel: @escaping () -> Void
     ) {
-        removeCapture()
+        if handlerObject != nil {
+            removeCapture()
+            onCancelHandler?()
+        }
+
+        onCancelHandler = { onCancel() }
         handlerObject = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
             self.removeCapture()
             if $0.keyCode == kVK_Escape {
-                onCancel()
+                self.onCancelHandler?()
             } else {
                 onCapture(UInt32($0.keyCode), $0.modifierFlags)
             }
