@@ -1,11 +1,21 @@
 import Cocoa
 
+private var pidAppRefCache: (pid: pid_t, appRef: AXUIElement)?
+
 func getFrontmostApplicationElement() throws -> AXUIElement {
     guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier else {
         throw AppError.accessibility("Failed to get process identifier of the frontmost application.")
     }
 
-    return AXUIElementCreateApplication(pid)
+    // NOTE: use last appRef if pid is not changed
+    if let pidAppRefCache = pidAppRefCache, pidAppRefCache.pid == pid {
+        return pidAppRefCache.appRef
+    }
+
+    let appRef = AXUIElementCreateApplication(pid)
+    pidAppRefCache = (pid, appRef) // NOTE: update cache
+
+    return appRef
 }
 
 extension AXUIElement {
