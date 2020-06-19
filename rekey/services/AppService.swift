@@ -2,11 +2,11 @@ import Cocoa
 import RxSwift
 
 class AppService {
-    let windowMovePhysics = PointPhysics(friction: 2) {
+    let windowMovePhysics = PointPhysics(friction: 10000) {
         WindowService.shared.moveWindow($1)
     }
 
-    private let ACCELERATION: CGFloat = 3
+    private let ACCELERATION: CGFloat = 15000
 
     private let disposeBag = DisposeBag()
 

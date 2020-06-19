@@ -6,7 +6,7 @@ class PointPhysics {
     private var acceleration = CGPoint()
     private var velocity = CGPoint()
     private var friction: CGFloat
-    private let frameIntervalBasis = 1.0 / 100
+    private let frameInterval = 1.0 / 60.0
     private let onUpdate: ((_ position: CGPoint, _ velocity: CGPoint) -> Void)?
 
     init(friction: CGFloat? = nil, onUpdate: @escaping (_ position: CGPoint, _ velocity: CGPoint) -> Void) {
@@ -26,19 +26,20 @@ class PointPhysics {
         }
     }
 
+    private var running = false
+
     func start() {
         queue.async {
-            var lastSeconds = Date().timeIntervalSince1970
-            while true {
-                let currentSeconds = Date().timeIntervalSince1970
-                let deltaSeconds = currentSeconds - lastSeconds
-                let deltaTime = CGFloat(deltaSeconds / self.frameIntervalBasis) // get frame delay for precision
-
-                self.advance(deltaTime)
-
-                lastSeconds = Date().timeIntervalSince1970 // save last second
-                usleep(useconds_t(self.frameIntervalBasis * 1000 * 1000)) // wait for the next frame
-            }
+            self.running = true
+            defer { self.running = false }
+            var lastDate: Date
+            repeat {
+                lastDate = Date()
+                if -lastDate.timeIntervalSinceNow < self.frameInterval {
+                    let diffSeconds = self.frameInterval + lastDate.timeIntervalSinceNow
+                    usleep(useconds_t(diffSeconds * 1000 * 1000))
+                }
+            } while self.advance(CGFloat(-lastDate.timeIntervalSinceNow))
         }
     }
 
@@ -47,23 +48,23 @@ class PointPhysics {
             self.acceleration.x = acceleration.x
             self.acceleration.y = acceleration.y
         }
+        if !running { start() }
     }
 
     func setFriction(_ attenuation: CGFloat) {
         doThreadSafely {
             self.friction = attenuation
         }
+        if !running { start() }
     }
 
-    private func doThreadSafely(_ block: @escaping () -> Void) {
+    private func doThreadSafely<T>(_ block: () -> T) -> T {
         mouseLock.lock()
-        defer {
-            self.mouseLock.unlock()
-        }
-        block()
+        defer { self.mouseLock.unlock() }
+        return block()
     }
 
-    private func advance(_ deltaTime: CGFloat) {
+    private func advance(_ deltaTime: CGFloat) -> Bool {
         doThreadSafely {
             // apply Acceleration v=v + at
             self.velocity += self.acceleration * deltaTime
@@ -81,10 +82,14 @@ class PointPhysics {
 
             // apply velocity to position if it moved
             let delayFixedVelocity = self.velocity * deltaTime
-            if delayFixedVelocity.length() > 0 {
-                let position = self.getPosition()
-                self.onUpdate?(position + delayFixedVelocity, delayFixedVelocity)
+
+            if delayFixedVelocity.length == 0, self.acceleration.length == 0 {
+                return false
             }
+
+            let position = self.getPosition()
+            self.onUpdate?(position + delayFixedVelocity, delayFixedVelocity)
+            return true
         }
     }
 }
