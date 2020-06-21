@@ -3,27 +3,26 @@ import Foundation
 class PointPhysics {
     private let queue = DispatchQueue(label: "rekey.physics.loop", qos: .userInteractive)
     private let mouseLock = NSLock()
-    private var acceleration = CGPoint()
+    private var force = CGPoint()
     private var velocity = CGPoint()
     private var friction: CGFloat
-    private let frameInterval = 1.0 / 60.0
-    private let onUpdate: ((_ position: CGPoint, _ velocity: CGPoint) -> Void)?
+    private let frameInterval: Double
+    private let gravity: CGFloat
+    private let mass: CGFloat
+    private let onUpdate: ((_ velocity: CGPoint) -> Void)?
 
-    init(friction: CGFloat? = nil, onUpdate: @escaping (_ position: CGPoint, _ velocity: CGPoint) -> Void) {
-        self.friction = friction ?? 1
+    init(
+        friction: CGFloat = 1,
+        gravity: CGFloat = 9.8,
+        mass: CGFloat = 1,
+        frameRate: Double = 60,
+        onUpdate: @escaping (_ velocity: CGPoint) -> Void
+    ) {
+        self.friction = friction
+        self.gravity = gravity
+        self.mass = mass
+        frameInterval = 1.0 / frameRate
         self.onUpdate = onUpdate
-    }
-
-    func getPosition() -> CGPoint {
-        CGEvent(source: nil)!.location
-    }
-
-    func setPosition(_ position: CGPoint) {
-        if let moveEvent = CGEvent(source: nil) {
-            moveEvent.type = .mouseMoved
-            moveEvent.location = position
-            moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
-        }
     }
 
     private var running = false
@@ -43,17 +42,10 @@ class PointPhysics {
         }
     }
 
-    func setAcceleration(_ acceleration: CGPoint) {
+    func setForce(_ force: CGPoint) {
         doThreadSafely {
-            self.acceleration.x = acceleration.x
-            self.acceleration.y = acceleration.y
-        }
-        if !running { start() }
-    }
-
-    func setFriction(_ attenuation: CGFloat) {
-        doThreadSafely {
-            self.friction = attenuation
+            self.force.x = force.x
+            self.force.y = force.y
         }
         if !running { start() }
     }
@@ -66,30 +58,27 @@ class PointPhysics {
 
     private func advance(_ deltaTime: CGFloat) -> Bool {
         doThreadSafely {
-            // apply Acceleration v=v + at
-            self.velocity += self.acceleration * deltaTime
+            // a = F/m
+            let acceleration = force / mass
 
-            // apply attenuation
-            let attenuationDelta = self.friction * deltaTime
+            // update velocity: v = v + at
+            velocity += acceleration * deltaTime
+            // apply frictional attenuation of velocity: F = μN, where N = m * g
+            // TODO: integrate in acceleration
+            let velocityAttenuation = friction * gravity * mass * deltaTime
 
             // apply attenuation to velocity
-            self.velocity.x = self.velocity.x > 0
-                ? max(self.velocity.x - attenuationDelta, 0)
-                : min(self.velocity.x + attenuationDelta, 0)
-            self.velocity.y = self.velocity.y > 0
-                ? max(self.velocity.y - attenuationDelta, 0)
-                : min(self.velocity.y + attenuationDelta, 0)
+            velocity.x = velocity.x > 0
+                ? max(velocity.x - velocityAttenuation, 0)
+                : min(velocity.x + velocityAttenuation, 0)
+            velocity.y = velocity.y > 0
+                ? max(velocity.y - velocityAttenuation, 0)
+                : min(velocity.y + velocityAttenuation, 0)
 
-            // apply velocity to position if it moved
-            let delayFixedVelocity = self.velocity * deltaTime
+            let willSuspend = velocity.length == 0 && force.length == 0
+            onUpdate?(velocity)
 
-            if delayFixedVelocity.length == 0, self.acceleration.length == 0 {
-                return false
-            }
-
-            let position = self.getPosition()
-            self.onUpdate?(position + delayFixedVelocity, delayFixedVelocity)
-            return true
+            return !willSuspend
         }
     }
 }
