@@ -2,8 +2,8 @@ import Cocoa
 import RxSwift
 
 class AppService {
-    private let FORCE: CGFloat = 412
-    private let FRICTION: CGFloat = 33
+    private let FORCE: CGFloat = 20000
+    private let FRICTION: CGFloat = 1600
     private let FRAMERATE: Double = 144
     private let windowMovePhysics: PointPhysics
     private let disposeBag = DisposeBag()
@@ -15,9 +15,10 @@ class AppService {
         windowMovePhysics = PointPhysics(friction: FRICTION, frameRate: FRAMERATE) {
             // NOTE: Adds decimal part of previous velocity for precision complement.
             let precisionComplementedVelocity = $0 + decimalPartOfPreviousVelocity
-            // NOTE: Only integer part is applied to window position.
-            WindowService.shared.moveWindow(precisionComplementedVelocity)
-
+            DispatchQueue.main.sync {
+                // NOTE: Only integer part is applied to window position.
+                WindowService.shared.moveWindow(precisionComplementedVelocity)
+            }
             // NOTE: Save only decimal part of final velocity to use in the next update unless velocity is not zero
             decimalPartOfPreviousVelocity = CGPoint(
                 // TODO: detect stopping correctly not only with velocity but with acceleration as well

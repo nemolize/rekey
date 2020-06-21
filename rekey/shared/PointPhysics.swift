@@ -2,7 +2,6 @@ import Foundation
 
 class PointPhysics {
     private let queue = DispatchQueue(label: "rekey.physics.loop", qos: .userInteractive)
-    private let mouseLock = NSLock()
     private var force = CGPoint()
     private var velocity = CGPoint()
     private var friction: CGFloat
@@ -28,57 +27,51 @@ class PointPhysics {
     private var running = false
 
     func start() {
+        running = true
         queue.async {
-            self.running = true
             defer { self.running = false }
-            var lastDate: Date
+
+            var lastDate = Date()
+            var deltaTime: CGFloat = 0
             repeat {
-                lastDate = Date()
+                // NOTE: wait 1ms at least to make time to accept update by user input
+                usleep(useconds_t(1000))
+
                 if -lastDate.timeIntervalSinceNow < self.frameInterval {
                     let diffSeconds = self.frameInterval + lastDate.timeIntervalSinceNow
                     usleep(useconds_t(diffSeconds * 1000 * 1000))
                 }
-            } while self.advance(CGFloat(-lastDate.timeIntervalSinceNow))
+
+                deltaTime = CGFloat(-lastDate.timeIntervalSinceNow)
+                lastDate = Date()
+            } while self.advance(deltaTime)
         }
     }
 
     func setForce(_ force: CGPoint) {
-        doThreadSafely {
-            self.force.x = force.x
-            self.force.y = force.y
-        }
+        self.force = force
         if !running { start() }
     }
 
-    private func doThreadSafely<T>(_ block: () -> T) -> T {
-        mouseLock.lock()
-        defer { self.mouseLock.unlock() }
-        return block()
-    }
-
     private func advance(_ deltaTime: CGFloat) -> Bool {
-        doThreadSafely {
-            // a = F/m
-            let acceleration = force / mass
+        // a = F/m
+        let acceleration = force / mass
+        // update velocity: v = v + at
+        velocity += acceleration * deltaTime
+        // apply frictional attenuation of velocity: F = μN, where N = m * g
+        let frictionForce = friction * mass * gravity
 
-            // update velocity: v = v + at
-            velocity += acceleration * deltaTime
-            // apply frictional attenuation of velocity: F = μN, where N = m * g
-            // TODO: integrate in acceleration
-            let velocityAttenuation = friction * gravity * mass * deltaTime
+        // apply attenuation to velocity
+        let velocityAttenuation = frictionForce / mass * deltaTime
+        velocity.x = velocity.x > 0
+            ? max(velocity.x - velocityAttenuation, 0)
+            : min(velocity.x + velocityAttenuation, 0)
+        velocity.y = velocity.y > 0
+            ? max(velocity.y - velocityAttenuation, 0)
+            : min(velocity.y + velocityAttenuation, 0)
 
-            // apply attenuation to velocity
-            velocity.x = velocity.x > 0
-                ? max(velocity.x - velocityAttenuation, 0)
-                : min(velocity.x + velocityAttenuation, 0)
-            velocity.y = velocity.y > 0
-                ? max(velocity.y - velocityAttenuation, 0)
-                : min(velocity.y + velocityAttenuation, 0)
+        onUpdate?(velocity * deltaTime)
 
-            let willSuspend = velocity.length == 0 && force.length == 0
-            onUpdate?(velocity)
-
-            return !willSuspend
-        }
+        return velocity.length != 0 || force.length != 0 // NOTE: suspend when no movements
     }
 }
