@@ -2,89 +2,76 @@ import Foundation
 
 class PointPhysics {
     private let queue = DispatchQueue(label: "rekey.physics.loop", qos: .userInteractive)
-    private let mouseLock = NSLock()
-    private var acceleration = CGPoint()
+    private var force = CGPoint()
     private var velocity = CGPoint()
     private var friction: CGFloat
-    private let frameIntervalBasis = 1.0 / 100
-    private let onUpdate: ((_ position: CGPoint, _ velocity: CGPoint) -> Void)?
+    private let frameInterval: Double
+    private let gravity: CGFloat
+    private let mass: CGFloat
+    private let onUpdate: ((_ velocity: CGPoint) -> Void)?
 
-    init(friction: CGFloat? = nil, onUpdate: @escaping (_ position: CGPoint, _ velocity: CGPoint) -> Void) {
-        self.friction = friction ?? 1
+    init(
+        friction: CGFloat = 1,
+        gravity: CGFloat = 9.8,
+        mass: CGFloat = 1,
+        frameRate: Double = 60,
+        onUpdate: @escaping (_ velocity: CGPoint) -> Void
+    ) {
+        self.friction = friction
+        self.gravity = gravity
+        self.mass = mass
+        frameInterval = 1.0 / frameRate
         self.onUpdate = onUpdate
     }
 
-    func getPosition() -> CGPoint {
-        CGEvent(source: nil)!.location
-    }
-
-    func setPosition(_ position: CGPoint) {
-        if let moveEvent = CGEvent(source: nil) {
-            moveEvent.type = .mouseMoved
-            moveEvent.location = position
-            moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
-        }
-    }
+    private var running = false
 
     func start() {
+        running = true
         queue.async {
-            var lastSeconds = Date().timeIntervalSince1970
-            while true {
-                let currentSeconds = Date().timeIntervalSince1970
-                let deltaSeconds = currentSeconds - lastSeconds
-                let deltaTime = CGFloat(deltaSeconds / self.frameIntervalBasis) // get frame delay for precision
+            defer { self.running = false }
 
-                self.advance(deltaTime)
+            var lastDate = Date()
+            var deltaTime: CGFloat = 0
+            repeat {
+                // NOTE: wait 1ms at least to make time to accept update by user input
+                usleep(useconds_t(1000))
 
-                lastSeconds = Date().timeIntervalSince1970 // save last second
-                usleep(useconds_t(self.frameIntervalBasis * 1000 * 1000)) // wait for the next frame
-            }
+                if -lastDate.timeIntervalSinceNow < self.frameInterval {
+                    let diffSeconds = self.frameInterval + lastDate.timeIntervalSinceNow
+                    usleep(useconds_t(diffSeconds * 1000 * 1000))
+                }
+
+                deltaTime = CGFloat(-lastDate.timeIntervalSinceNow)
+                lastDate = Date()
+            } while self.advance(deltaTime)
         }
     }
 
-    func setAcceleration(_ acceleration: CGPoint) {
-        doThreadSafely {
-            self.acceleration.x = acceleration.x
-            self.acceleration.y = acceleration.y
-        }
+    func setForce(_ force: CGPoint) {
+        self.force = force
+        if !running { start() }
     }
 
-    func setFriction(_ attenuation: CGFloat) {
-        doThreadSafely {
-            self.friction = attenuation
-        }
-    }
+    private func advance(_ deltaTime: CGFloat) -> Bool {
+        // a = F/m
+        let acceleration = force / mass
+        // update velocity: v = v + at
+        velocity += acceleration * deltaTime
+        // apply frictional attenuation of velocity: F = μN, where N = m * g
+        let frictionForce = friction * mass * gravity
 
-    private func doThreadSafely(_ block: @escaping () -> Void) {
-        mouseLock.lock()
-        defer {
-            self.mouseLock.unlock()
-        }
-        block()
-    }
+        // apply attenuation to velocity
+        let velocityAttenuation = frictionForce / mass * deltaTime
+        velocity.x = velocity.x > 0
+            ? max(velocity.x - velocityAttenuation, 0)
+            : min(velocity.x + velocityAttenuation, 0)
+        velocity.y = velocity.y > 0
+            ? max(velocity.y - velocityAttenuation, 0)
+            : min(velocity.y + velocityAttenuation, 0)
 
-    private func advance(_ deltaTime: CGFloat) {
-        doThreadSafely {
-            // apply Acceleration v=v + at
-            self.velocity += self.acceleration * deltaTime
+        onUpdate?(velocity * deltaTime)
 
-            // apply attenuation
-            let attenuationDelta = self.friction * deltaTime
-
-            // apply attenuation to velocity
-            self.velocity.x = self.velocity.x > 0
-                ? max(self.velocity.x - attenuationDelta, 0)
-                : min(self.velocity.x + attenuationDelta, 0)
-            self.velocity.y = self.velocity.y > 0
-                ? max(self.velocity.y - attenuationDelta, 0)
-                : min(self.velocity.y + attenuationDelta, 0)
-
-            // apply velocity to position if it moved
-            let delayFixedVelocity = self.velocity * deltaTime
-            if delayFixedVelocity.length() > 0 {
-                let position = self.getPosition()
-                self.onUpdate?(position + delayFixedVelocity, delayFixedVelocity)
-            }
-        }
+        return velocity.length != 0 || force.length != 0 // NOTE: suspend when no movements
     }
 }
