@@ -62,6 +62,7 @@ class WindowMoveHotKeyService {
         case .right: hotKey.right = newHotKey
         }
         onChangeHotKeySubject.accept(hotKey)
+        ConfigService.shared.saveConfig()
     }
 
     func setHotKey(direction: Direction, dictionary: [String: Any]) {

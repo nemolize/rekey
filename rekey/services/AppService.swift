@@ -2,13 +2,14 @@ import Cocoa
 import RxSwift
 
 class AppService {
-    private let FORCE: CGFloat = 20000
-    private let FRICTION: CGFloat = 1600
+    private let FORCE: CGFloat = 25000
+    private let FRICTION: CGFloat = 1800
     private let FRAMERATE: Double = 144
     private let windowMovePhysics: PointPhysics
     private let disposeBag = DisposeBag()
 
     init() {
+        ConfigService.shared.loadConfig()
         // NOTE: Stores after decimal point part of velocity to prevent precision error.
         var decimalPartOfPreviousVelocity = CGPoint()
         // TODO: load from config
@@ -32,7 +33,7 @@ class AppService {
                 x: (state.left ? -self.FORCE : 0.0) + (state.right ? self.FORCE : 0.0),
                 y: (state.up ? -self.FORCE : 0.0) + (state.down ? self.FORCE : 0.0)
             )
-            AppService.shared.windowMovePhysics.setForce(force)
+            self.windowMovePhysics.setForce(force)
         }).disposed(by: disposeBag)
     }
 
@@ -40,6 +41,4 @@ class AppService {
         let key = kAXTrustedCheckOptionPrompt.takeRetainedValue()
         return AXIsProcessTrustedWithOptions([key: true] as CFDictionary)
     }
-
-    static let shared = AppService()
 }
