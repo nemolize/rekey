@@ -97,4 +97,15 @@ class WindowMoveHotKeyService {
     func getHotKeyLabel(_ direction: Direction) -> String {
         getHotKey(direction)?.keyCombo.description ?? "Not set"
     }
+
+    func applyConfig(_ root: [String: Any]) {
+        let applyIfValueExists: (String, Direction) -> Void = {
+            guard let dict = root[$0] as? [String: Any] else { return }
+            self.setHotKey(direction: $1, dictionary: dict)
+        }
+        applyIfValueExists("up", .up)
+        applyIfValueExists("down", .down)
+        applyIfValueExists("left", .left)
+        applyIfValueExists("right", .right)
+    }
 }

@@ -30,10 +30,10 @@ class ConfigService: NSObject, NSFilePresenter {
 
     var presentedItemURL: URL? { ConfigPath.shared.configFilePath }
 
-    func loadConfig() {
+    func loadConfig() -> [String: Any]? {
         if !FileManager.default.fileExists(atPath: ConfigPath.shared.configFilePath.path) {
             debugPrint("config file does not exist at \(ConfigPath.shared.configFilePath)")
-            return
+            return nil
         }
         do {
             let data = try Data(contentsOf: ConfigPath.shared.configFilePath, options: .mappedIfSafe)
@@ -42,24 +42,12 @@ class ConfigService: NSObject, NSFilePresenter {
                 with: data, options: .mutableLeaves
             ) as? [String: Any] else {
                 debugPrint("content of config is empty")
-                return
+                return nil
             }
-            if let windowMove = json["windowMove"] as? [String: Any] {
-                if let up = windowMove["up"] as? [String: Any] {
-                    WindowMoveHotKeyService.shared.setHotKey(direction: .up, dictionary: up)
-                }
-                if let down = windowMove["down"] as? [String: Any] {
-                    WindowMoveHotKeyService.shared.setHotKey(direction: .down, dictionary: down)
-                }
-                if let left = windowMove["left"] as? [String: Any] {
-                    WindowMoveHotKeyService.shared.setHotKey(direction: .left, dictionary: left)
-                }
-                if let right = windowMove["right"] as? [String: Any] {
-                    WindowMoveHotKeyService.shared.setHotKey(direction: .right, dictionary: right)
-                }
-            }
+            return json
         } catch {
             debugPrint(error)
+            return nil
         }
     }
 

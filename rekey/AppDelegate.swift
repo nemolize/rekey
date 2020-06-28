@@ -9,8 +9,6 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    let appService = AppService()
-
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
     func applicationWillFinishLaunching(_: Notification) {
@@ -20,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_: Notification) {
-        if !appService.hasAccessibilityPermission() {
+        if !AppService.shared.hasAccessibilityPermission() {
             NSApp.terminate(self)
         }
 
