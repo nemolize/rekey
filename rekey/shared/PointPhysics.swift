@@ -5,9 +5,9 @@ class PointPhysics {
     private var force = CGPoint()
     private var velocity = CGPoint()
     private var friction: CGFloat
-    private let frameInterval: Double
-    private let gravity: CGFloat
-    private let mass: CGFloat
+    private var frameInterval: Double
+    private var gravity: CGFloat
+    private var mass: CGFloat
     private let onUpdate: ((_ velocity: CGPoint) -> Void)?
 
     init(
@@ -73,5 +73,14 @@ class PointPhysics {
         onUpdate?(velocity * deltaTime)
 
         return velocity.length != 0 || force.length != 0 // NOTE: suspend when no movements
+    }
+
+    func applyConfig(_ root: [String: Any]) {
+        if let value = root["friction"] as? CGFloat { friction = value }
+        if let value = root["gravity"] as? CGFloat { gravity = value }
+        if let value = root["mass"] as? CGFloat { mass = value }
+        if let value = root["framerate"] as? Double {
+            if value > 0 { frameInterval = 1 / value }
+        }
     }
 }
