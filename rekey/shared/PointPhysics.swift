@@ -8,14 +8,14 @@ class PointPhysics {
     private var frameInterval: Double
     private var gravity: CGFloat
     private var mass: CGFloat
-    private let onUpdate: ((_ velocity: CGPoint) -> Void)?
+    private let onUpdate: ((_ velocity: CGPoint, _ willSuspend: Bool) -> Void)?
 
     init(
         friction: CGFloat = 1,
         gravity: CGFloat = 9.8,
         mass: CGFloat = 1,
         frameRate: Double = 60,
-        onUpdate: @escaping (_ velocity: CGPoint) -> Void
+        onUpdate: @escaping (_ velocity: CGPoint, _ willSuspend: Bool) -> Void
     ) {
         self.friction = friction
         self.gravity = gravity
@@ -70,9 +70,11 @@ class PointPhysics {
             ? max(velocity.y - velocityAttenuation, 0)
             : min(velocity.y + velocityAttenuation, 0)
 
-        onUpdate?(velocity * deltaTime)
+        let willSuspend = velocity.length != 0 || force.length != 0 // NOTE: suspend when no movements
 
-        return velocity.length != 0 || force.length != 0 // NOTE: suspend when no movements
+        onUpdate?(velocity * deltaTime, willSuspend)
+
+        return willSuspend
     }
 
     func applyConfig(_ root: [String: Any]) {

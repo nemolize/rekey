@@ -20,9 +20,8 @@ class AppService {
             }
             // NOTE: Save only decimal part of final velocity to use in the next update unless velocity is not zero
             decimalPartOfPreviousVelocity = CGPoint(
-                // TODO: detect stopping correctly not only with velocity but with acceleration as well
-                x: $0.x == 0 ? 0 : precisionComplementedVelocity.x.truncatingRemainder(dividingBy: 1),
-                y: $0.y == 0 ? 0 : precisionComplementedVelocity.y.truncatingRemainder(dividingBy: 1)
+                x: $1 ? 0 : precisionComplementedVelocity.x.truncatingRemainder(dividingBy: 1),
+                y: $1 ? 0 : precisionComplementedVelocity.y.truncatingRemainder(dividingBy: 1)
             )
         }
 
