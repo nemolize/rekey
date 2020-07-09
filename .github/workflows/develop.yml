@@ -11,7 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set XCode Version
+
+      - name: Set Xcode version
         run: sudo xcode-select -s /Applications/Xcode_11.app
 
       - uses: actions/cache@v1
@@ -22,7 +23,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: pod install
 
       - name: Check Format
@@ -36,7 +37,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set Xcode Version
+      - name: Set xcode version
         run: sudo xcode-select -s /Applications/Xcode_11.app
 
       - uses: actions/cache@v2
@@ -46,7 +47,7 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: ${{ runner.os }}-pods-
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: pod install
 
       - name: Build archive
@@ -64,7 +65,7 @@ jobs:
           pushd build/dist && ln -s /Applications && popd
           hdiutil create rekey.dmg -volname "rekey" -srcfolder build/dist
 
-      - name: Save dmg as artifact
+      - name: Save dmg as an artifact
         uses: actions/upload-artifact@v1
         with:
           name: rekey.dmg
