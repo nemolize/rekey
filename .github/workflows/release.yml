@@ -31,11 +31,11 @@ jobs:
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
       - name: Update CFBundleShortVersionString
-          run: |
-            agvtool next-version
-            agvtool new-marketing-version $SOURCE_TAG
-          env:
-            SOURCE_TAG: ${{ steps.branch_name.outputs.SOURCE_TAG }}
+        run: |
+          agvtool next-version
+          agvtool new-marketing-version $SOURCE_TAG
+        env:
+          SOURCE_TAG: ${{ steps.branch_name.outputs.SOURCE_TAG }}
 
       - name: Build archive
         run: |
