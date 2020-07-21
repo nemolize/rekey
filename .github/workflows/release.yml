@@ -31,7 +31,7 @@ jobs:
 
       - name: Update version string
         run: |
-          agvtool next-version
+          agvtool new-version $GITHUB_RUN_NUMBER
           agvtool new-marketing-version $SOURCE_TAG
         env:
           SOURCE_TAG: ${{ steps.get_tag.outputs.SOURCE_TAG }}
