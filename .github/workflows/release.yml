@@ -26,15 +26,10 @@ jobs:
       - name: Install dependencies
         run: pod install
 
-      - id: get_tag
-        run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
-
       - name: Update version string
         run: |
           agvtool next-version
-          agvtool new-marketing-version $SOURCE_TAG
-        env:
-          SOURCE_TAG: ${{ steps.get_tag.outputs.SOURCE_TAG }}
+          agvtool new-marketing-version ${{ github.event.release.tag_name }}
 
       - name: Build archive
         run: |
