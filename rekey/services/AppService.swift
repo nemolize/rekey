@@ -1,7 +1,7 @@
 import Cocoa
 import RxSwift
 
-let defaultForce: CGFloat = 10
+let defaultForce: CGFloat = 12500
 
 class AppService {
     private var force: CGFloat = defaultForce

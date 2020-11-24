@@ -11,7 +11,7 @@ class PointPhysics {
     private let onUpdate: ((_ velocity: CGPoint, _ willSuspend: Bool) -> Void)?
 
     init(
-        friction: CGFloat = 1,
+        friction: CGFloat = 1000,
         gravity: CGFloat = 9.8,
         mass: CGFloat = 1,
         frameRate: Double = 60,
